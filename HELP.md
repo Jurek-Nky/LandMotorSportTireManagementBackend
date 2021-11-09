@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name '.com.test' is invalid and this project uses 'com.test' instead.
+* The original package name '.com.dev' is invalid and this project uses 'com.dev' instead.
 
 # Getting Started
 
