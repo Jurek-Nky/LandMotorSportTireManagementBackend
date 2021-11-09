@@ -1,10 +1,10 @@
-package com.test;
+package com.dev;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TireManagementApiApplicationTests {
+class TireManagementApiTests {
 
 	@Test
 	void contextLoads() {
