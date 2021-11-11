@@ -1,8 +1,9 @@
 package com.dev.reifen;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ReifenRepository extends CrudRepository<SecurityProperties.User, Integer> {
+@Repository
+public interface ReifenRepository extends CrudRepository<Reifen, Integer> {
 
 }
