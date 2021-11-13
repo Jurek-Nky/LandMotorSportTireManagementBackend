@@ -9,6 +9,7 @@ import java.sql.Time;
 import java.util.List;
 
 @Configuration
+// ReifenConfig is just used to configure the database. At the moment it fills the database with some example entries.
 public class ReifenConfig {
 
     @Bean
