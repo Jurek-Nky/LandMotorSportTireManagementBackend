@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication
 public class TireManagementApi {
-    ReifenController rc = new ReifenController(new ReifenService());
+    //ReifenController rc = new ReifenController(new ReifenService());
 
     public static void main(String[] args) {
         SpringApplication.run(TireManagementApi.class, args);

@@ -6,6 +6,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "reifen")
+// Reifen is an entity that can be stored in a database.
 public class Reifen {
     @Id
     @SequenceGenerator(
