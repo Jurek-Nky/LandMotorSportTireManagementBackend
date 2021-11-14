@@ -1,10 +1,9 @@
 package com.dev.reifen;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -15,16 +14,29 @@ public class ReifenController {
     private final ReifenService reifenService;
 
     @Autowired
-    public ReifenController(ReifenService reifenService){
+    public ReifenController(ReifenService reifenService) {
         this.reifenService = reifenService;
     }
 
     @GetMapping
-    public List<Reifen> getSpecReifen(@RequestAttribute(value = "name") String name){
-        return reifenService.getSpecificReifen(name);
-    }
-    public List<Reifen> getReifen() {
-        return reifenService.getReifen();
+    public List<Reifen> getReifenByBez(@RequestAttribute(value = "bezeichnung") String bezeichnung){
+        return reifenService.findReifenByBezeichnung(bezeichnung);
     }
 
+
+    @PostMapping
+    public void registerNewReifen(@RequestBody Reifen reifen) {
+        reifenService.addNewReifen(reifen);
+    }
+
+    @DeleteMapping(path = "{reifenId}")
+    public void deleteReifen(@PathVariable("reifenId") int reifenId){
+         reifenService.deleteReifen(reifenId);
+    }
+
+    @PutMapping(path = "{reifenId}")
+    public void updateReifen(@PathVariable("reifenId") int reifenId, @RequestParam(required = false) String bezeichnung,@RequestParam(required = false) Date datum){
+        reifenService.updateReifen(reifenId,bezeichnung,datum);
+
+    }
 }
