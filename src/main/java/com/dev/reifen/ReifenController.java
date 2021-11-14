@@ -19,7 +19,7 @@ public class ReifenController {
     }
 
     @GetMapping
-    public List<Reifen> getReifenByBez(@RequestAttribute(value = "bezeichnung") String bezeichnung){
+    public List<Reifen> getReifenByBez(@RequestAttribute(value = "bezeichnung") String bezeichnung) {
         return reifenService.findReifenByBezeichnung(bezeichnung);
     }
 
@@ -30,13 +30,15 @@ public class ReifenController {
     }
 
     @DeleteMapping(path = "{reifenId}")
-    public void deleteReifen(@PathVariable("reifenId") int reifenId){
-         reifenService.deleteReifen(reifenId);
+    public void deleteReifen(@PathVariable("reifenId") int reifenId) {
+        reifenService.deleteReifen(reifenId);
     }
 
     @PutMapping(path = "{reifenId}")
-    public void updateReifen(@PathVariable("reifenId") int reifenId, @RequestParam(required = false) String bezeichnung,@RequestParam(required = false) Date datum){
-        reifenService.updateReifen(reifenId,bezeichnung,datum);
+    public void updateReifen(@PathVariable("reifenId") int reifenId,
+                             @RequestParam(required = false) String bezeichnung,
+                             @RequestParam(required = false) Date datum) {
+        reifenService.updateReifen(reifenId, bezeichnung, datum);
 
     }
 }

@@ -50,12 +50,13 @@ public class ReifenService {
 
     @Transactional
     public void updateReifen(int reifenId, String bezeichnung, Date datum) {
-        Reifen reifen = reifenRepository.findById(reifenId).orElseThrow(() -> new IllegalStateException("reifen mit der ID " + reifenId + " does not exist."));
-        if (bezeichnung != null && bezeichnung.length() > 0 && !reifen.bezeichnung.equals(bezeichnung)){
+        Reifen reifen = reifenRepository.findById(reifenId).orElseThrow(() ->
+                new IllegalStateException("reifen mit der ID " + reifenId + " does not exist."));
+        if (bezeichnung != null && bezeichnung.length() > 0 && !reifen.bezeichnung.equals(bezeichnung)) {
             reifen.setBezeichnung(bezeichnung);
         }
 
-        if (datum != null && reifen.getDatum() != datum){
+        if (datum != null && reifen.getDatum() != datum) {
             reifen.setDatum(datum);
         }
     }
