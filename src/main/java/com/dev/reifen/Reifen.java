@@ -18,6 +18,7 @@ public class Reifen {
             strategy = GenerationType.SEQUENCE,
             generator = "reifen_sequence"
     )
+
     int id;
     String bezeichnung;
     Date datum;
@@ -31,16 +32,13 @@ public class Reifen {
     Time heating_start;
     Time heating_stop;
 
-    public Reifen(int id, String bezeichnung, Date datum, Time uhrzeit, String spez,
-                  String session, double[] kaltdruck, int kaltdruck_temp, int heating_temp,
-                  int heating_time_minutes, Time heating_start, Time heating_stop) {
+    public Reifen(int id, String bezeichnung, Date datum, Time uhrzeit, String spez, String session, int kaltdruck_temp, int heating_temp, int heating_time_minutes, Time heating_start, Time heating_stop) {
         this.id = id;
         this.bezeichnung = bezeichnung;
         this.datum = datum;
         this.uhrzeit = uhrzeit;
         this.spez = spez;
         this.session = session;
-        //this.kaltdruck = kaltdruck;
         this.kaltdruck_temp = kaltdruck_temp;
         this.heating_temp = heating_temp;
         this.heating_time_minutes = heating_time_minutes;
@@ -48,15 +46,12 @@ public class Reifen {
         this.heating_stop = heating_stop;
     }
 
-    public Reifen(String bezeichnung, Date datum, Time uhrzeit, String spez, String session,
-                  double[] kaltdruck, int kaltdruck_temp, int heating_temp, int heating_time_minutes,
-                  Time heating_start, Time heating_stop) {
+    public Reifen(String bezeichnung, Date datum, Time uhrzeit, String spez, String session, int kaltdruck_temp, int heating_temp, int heating_time_minutes, Time heating_start, Time heating_stop) {
         this.bezeichnung = bezeichnung;
         this.datum = datum;
         this.uhrzeit = uhrzeit;
         this.spez = spez;
         this.session = session;
-        //this.kaltdruck = kaltdruck;
         this.kaltdruck_temp = kaltdruck_temp;
         this.heating_temp = heating_temp;
         this.heating_time_minutes = heating_time_minutes;
