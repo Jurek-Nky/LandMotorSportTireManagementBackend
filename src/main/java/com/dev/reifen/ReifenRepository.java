@@ -13,5 +13,7 @@ public interface ReifenRepository extends CrudRepository<Reifen, Integer> {
 
     List<Reifen> findReifensByBezeichnung(String bezeichnung);
 
-    Optional<Reifen> findReifenById(int id);
+    Optional<Reifen> findReifenByReifenid(int id);
+
+    Optional<Reifen> findReifensBySpez(String spez);
 }

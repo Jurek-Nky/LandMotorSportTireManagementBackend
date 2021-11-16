@@ -1,7 +1,6 @@
 package com.dev.reifen;
 
 import com.dev.rennen.Rennen;
-import org.springframework.data.annotation.Persistent;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -21,10 +20,12 @@ public class Reifen {
             strategy = GenerationType.TABLE,
             generator = "reifen_sequence"
     )
-    Long id;
+    Long reifenid;
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "RennID")
+    @JoinColumn(name = "rennID")
     Rennen rennen;
+    @Column(unique = true, nullable = false)
+    String serialNumber;
     @Column(nullable = false)
     String bezeichnung;
     @Column(nullable = false)
@@ -53,24 +54,32 @@ public class Reifen {
     Time heatingStart;
     @Column(nullable = false)
     Time heatingStop;
-    @Column(nullable = false)
+    @Column(nullable = true)
     double bleed_in_blanket;
+    @Column(nullable = true)
     double TP_hot1;
+    @Column(nullable = true)
     double TP_hot2;
+    @Column(nullable = true)
     double TP_hot3;
+    @Column(nullable = true)
     double TP_hot4;
+    @Column(nullable = true)
     double target;
+    @Column(nullable = true)
     double bleed_hot1;
+    @Column(nullable = true)
     double bleed_hot2;
+    @Column(nullable = true)
     double bleed_hot3;
+    @Column(nullable = true)
     double bleed_hot4;
+    @Column(nullable = true)
     String abgegben_fuer;
-    @Column(unique = true, nullable = false)
-    String serialNumber;
 
-
-    public Reifen(Long id, String bezeichnung, Date datum, Time uhrzeit, String spez, String session, double kaltdruck1, double kaltdruck2, double kaltdruck3, double kaltdruck4, int kaltdruckTemp, int heatingTemp, int heatingTime, Time heatingStart, Time heatingStop, double bleed_in_blanket, double TP_hot1, double TP_hot2, double TP_hot3, double TP_hot4, double target, double bleed_hot1, double bleed_hot2, double bleed_hot3, double bleed_hot4, String abgegben_fuer, String serialNumber) {
-        this.id = id;
+    public Reifen(Rennen rennen, String serialNumber, String bezeichnung, Date datum, Time uhrzeit, String spez, String session, double kaltdruck1, double kaltdruck2, double kaltdruck3, double kaltdruck4, int kaltdruckTemp, int heatingTemp, int heatingTime, Time heatingStart, Time heatingStop) {
+        this.rennen = rennen;
+        this.serialNumber = serialNumber;
         this.bezeichnung = bezeichnung;
         this.datum = datum;
         this.uhrzeit = uhrzeit;
@@ -85,76 +94,18 @@ public class Reifen {
         this.heatingTime = heatingTime;
         this.heatingStart = heatingStart;
         this.heatingStop = heatingStop;
-        this.bleed_in_blanket = bleed_in_blanket;
-        this.TP_hot1 = TP_hot1;
-        this.TP_hot2 = TP_hot2;
-        this.TP_hot3 = TP_hot3;
-        this.TP_hot4 = TP_hot4;
-        this.target = target;
-        this.bleed_hot1 = bleed_hot1;
-        this.bleed_hot2 = bleed_hot2;
-        this.bleed_hot3 = bleed_hot3;
-        this.bleed_hot4 = bleed_hot4;
-        this.abgegben_fuer = abgegben_fuer;
-        this.serialNumber = serialNumber;
-    }
-
-    public Reifen(String bezeichnung, Date datum, Time uhrzeit, String spez, String session, double kaltdruck1, double kaltdruck2, double kaltdruck3, double kaltdruck4, int kaltdruckTemp, int heatingTemp, int heatingTime, Time heatingStart, Time heatingStop, double bleed_in_blanket, double TP_hot1, double TP_hot2, double TP_hot3, double TP_hot4, double target, double bleed_hot1, double bleed_hot2, double bleed_hot3, double bleed_hot4, String abgegben_fuer, String serialNumber) {
-        this.bezeichnung = bezeichnung;
-        this.datum = datum;
-        this.uhrzeit = uhrzeit;
-        this.spez = spez;
-        this.session = session;
-        this.kaltdruck1 = kaltdruck1;
-        this.kaltdruck2 = kaltdruck2;
-        this.kaltdruck3 = kaltdruck3;
-        this.kaltdruck4 = kaltdruck4;
-        this.kaltdruckTemp = kaltdruckTemp;
-        this.heatingTemp = heatingTemp;
-        this.heatingTime = heatingTime;
-        this.heatingStart = heatingStart;
-        this.heatingStop = heatingStop;
-        this.bleed_in_blanket = bleed_in_blanket;
-        this.TP_hot1 = TP_hot1;
-        this.TP_hot2 = TP_hot2;
-        this.TP_hot3 = TP_hot3;
-        this.TP_hot4 = TP_hot4;
-        this.target = target;
-        this.bleed_hot1 = bleed_hot1;
-        this.bleed_hot2 = bleed_hot2;
-        this.bleed_hot3 = bleed_hot3;
-        this.bleed_hot4 = bleed_hot4;
-        this.abgegben_fuer = abgegben_fuer;
-        this.serialNumber = serialNumber;
     }
 
     public Reifen() {
 
     }
 
-    public Reifen(String bezeichnung, Date datum, Time uhrzeit, String spez, String session, double kaltdruck1, double kaltdruck2, double kaltdruck3, double kaltdruck4, int kaltdruckTemp, int heatingTemp, int heatingTime, Time heatingStart, Time heatingStop) {
-        this.bezeichnung = bezeichnung;
-        this.datum = datum;
-        this.uhrzeit = uhrzeit;
-        this.spez = spez;
-        this.session = session;
-        this.kaltdruck1 = kaltdruck1;
-        this.kaltdruck2 = kaltdruck2;
-        this.kaltdruck3 = kaltdruck3;
-        this.kaltdruck4 = kaltdruck4;
-        this.kaltdruckTemp = kaltdruckTemp;
-        this.heatingTemp = heatingTemp;
-        this.heatingTime = heatingTime;
-        this.heatingStart = heatingStart;
-        this.heatingStop = heatingStop;
+    public Long getReifenid() {
+        return reifenid;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setReifenid(Long id) {
+        this.reifenid = id;
     }
 
     public String getBezeichnung() {

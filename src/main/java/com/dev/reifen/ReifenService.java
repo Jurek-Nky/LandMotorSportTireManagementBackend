@@ -23,7 +23,6 @@ public class ReifenService {
 
 
     public List<Reifen> getReifen() {
-        System.out.println("getReifen");
         return (List<Reifen>) reifenRepository.findAll();
     }
 
@@ -37,7 +36,7 @@ public class ReifenService {
     }
 
     public Optional<Reifen> findReifenById(int id) {
-        return reifenRepository.findReifenById(id);
+        return reifenRepository.findReifenByReifenid(id);
     }
 
     public void deleteReifen(int reifenId) {

@@ -19,8 +19,8 @@ public class ReifenController {
     }
 
     @GetMapping
-    public List<Reifen> getReifenByBez(@RequestAttribute(value = "bezeichnung") String bezeichnung) {
-        return reifenService.findReifenByBezeichnung(bezeichnung);
+    public List<Reifen> getAllReifen() {
+        return reifenService.getReifen();
     }
 
 
