@@ -11,19 +11,27 @@ import java.util.List;
 @Table(name = "Rennen")
 public class Rennen {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long RennID;
+    @SequenceGenerator(
+            name = "rennen_sequence",
+            sequenceName = "rennen_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.TABLE,
+            generator = "rennen_sequence"
+    )
+    Long rennid;
     @Column(nullable = false)
     Date datum;
-    @Column
+    @Column(nullable = false)
     String ort;
     @OneToMany(mappedBy = "rennen")
-    List<Reifen> reifen;
+    List<Reifen> ReifenProRennen;
     @OneToMany(mappedBy = "rennen")
     List<Wetter> WetterDaten;
 
-    public Rennen(Long rennID, Date datum, String ort) {
-        RennID = rennID;
+    public Rennen(Long rennid, Date datum, String ort) {
+        rennid = rennid;
         this.datum = datum;
         this.ort = ort;
     }
@@ -36,12 +44,12 @@ public class Rennen {
 
     }
 
-    public Long getRennID() {
-        return RennID;
+    public Long getRennid() {
+        return rennid;
     }
 
-    public void setRennID(Long rennID) {
-        RennID = rennID;
+    public void setRennid(Long rennid) {
+        this.rennid = rennid;
     }
 
     public Date getDatum() {
@@ -60,5 +68,19 @@ public class Rennen {
         this.ort = ort;
     }
 
+    public List<Reifen> getReifenProRennen() {
+        return ReifenProRennen;
+    }
 
+    public void setReifenProRennen(List<Reifen> reifenProRennen) {
+        ReifenProRennen = reifenProRennen;
+    }
+
+    public List<Wetter> getWetterDaten() {
+        return WetterDaten;
+    }
+
+    public void setWetterDaten(List<Wetter> wetterDaten) {
+        WetterDaten = wetterDaten;
+    }
 }
