@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/reifen")
@@ -18,10 +19,28 @@ public class ReifenController {
         this.reifenService = reifenService;
     }
 
-    @GetMapping
-    public List<Reifen> getAllReifen() {
+    @GetMapping("/id")
+    public Optional<Reifen> getReifenById(@RequestParam(name = "id") Long reifenId) {
+        return reifenService.findReifenById(reifenId);
+    }
+    @GetMapping("/bez")
+    public List<Reifen> getReifenByBez(@RequestParam(name = "bez") String reifenBezeichnung) {
+        return reifenService.findReifensByBezeichnung(reifenBezeichnung);
+    }
+    @GetMapping("/serial")
+    public Optional<Reifen> getReifenBySerial(@RequestParam(name = "serial") String serialnumber) {
+        return reifenService.findReifenBySerialnumber(serialnumber);
+    }
+
+    @GetMapping("/all")
+    public List<Reifen> getReifenById() {
         return reifenService.getReifen();
     }
+    @GetMapping("/rennen")
+    public List<Reifen> getReifensByRennen(@RequestParam(name = "rennid") Long rennid){
+        return reifenService.findReifensByRennId(rennid);
+    }
+
 
 
     @PostMapping
