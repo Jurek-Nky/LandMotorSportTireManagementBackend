@@ -11,15 +11,7 @@ import java.sql.Date;
 // Reifen is an entity that can be stored in a database.
 public class Reifen {
     @Id
-    @SequenceGenerator(
-            name = "reifen_sequence",
-            sequenceName = "reifen_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.TABLE,
-            generator = "reifen_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long reifenid;
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "rennID")

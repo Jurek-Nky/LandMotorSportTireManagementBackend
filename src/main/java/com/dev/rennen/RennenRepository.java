@@ -5,9 +5,12 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RennenRepository extends CrudRepository<Rennen, Integer> {
 
-    public List<Rennen> findAllByDatum(Date date);
+    public Optional<Rennen> findRennenByRennid(Long id);
+
+    List<Rennen> findAllByDatum(Date date);
 }
