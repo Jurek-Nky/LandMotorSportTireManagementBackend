@@ -19,6 +19,4 @@ public interface ReifenRepository extends CrudRepository<Reifen, Integer> {
 
     List<Reifen> findReifenByRennen_Rennid(Long rennid);
 
-    void deleteByReifenid(Long reifenid);
-
 }
