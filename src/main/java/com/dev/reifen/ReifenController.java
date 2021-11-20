@@ -1,6 +1,5 @@
 package com.dev.reifen;
 
-import com.dev.rennen.Rennen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
