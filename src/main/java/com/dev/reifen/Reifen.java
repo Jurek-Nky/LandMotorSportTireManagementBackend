@@ -49,13 +49,13 @@ public class Reifen {
     @Column(nullable = true)
     double bleed_in_blanket;
     @Column(nullable = true)
-    double TP_hot1;
+    double tp_hot1;
     @Column(nullable = true)
-    double TP_hot2;
+    double tp_hot2;
     @Column(nullable = true)
-    double TP_hot3;
+    double tp_hot3;
     @Column(nullable = true)
-    double TP_hot4;
+    double tp_hot4;
     @Column(nullable = true)
     double target;
     @Column(nullable = true)
@@ -67,7 +67,7 @@ public class Reifen {
     @Column(nullable = true)
     double bleed_hot4;
     @Column(nullable = true)
-    String abgegben_fuer;
+    String abgegeben_fuer;
 
     public Reifen(Rennen rennen, String serialNumber, String bezeichnung, Date datum, Time uhrzeit, String spez, String session, double kaltdruck1, double kaltdruck2, double kaltdruck3, double kaltdruck4, int kaltdruckTemp, int heatingTemp, int heatingTime, Time heatingStart, Time heatingStop) {
         this.rennen = rennen;
@@ -220,36 +220,36 @@ public class Reifen {
         this.bleed_in_blanket = bleed_in_blanket;
     }
 
-    public double getTP_hot1() {
-        return TP_hot1;
+    public double getTp_hot1() {
+        return tp_hot1;
     }
 
-    public void setTP_hot1(double TP_hot1) {
-        this.TP_hot1 = TP_hot1;
+    public void setTp_hot1(double tp_hot1) {
+        this.tp_hot1 = tp_hot1;
     }
 
-    public double getTP_hot2() {
-        return TP_hot2;
+    public double getTp_hot2() {
+        return tp_hot2;
     }
 
-    public void setTP_hot2(double TP_hot2) {
-        this.TP_hot2 = TP_hot2;
+    public void setTp_hot2(double tp_hot2) {
+        this.tp_hot2 = tp_hot2;
     }
 
-    public double getTP_hot3() {
-        return TP_hot3;
+    public double getTp_hot3() {
+        return tp_hot3;
     }
 
-    public void setTP_hot3(double TP_hot3) {
-        this.TP_hot3 = TP_hot3;
+    public void setTp_hot3(double tp_hot3) {
+        this.tp_hot3 = tp_hot3;
     }
 
-    public double getTP_hot4() {
-        return TP_hot4;
+    public double getTp_hot4() {
+        return tp_hot4;
     }
 
-    public void setTP_hot4(double TP_hot4) {
-        this.TP_hot4 = TP_hot4;
+    public void setTp_hot4(double tp_hot4) {
+        this.tp_hot4 = tp_hot4;
     }
 
     public double getTarget() {
@@ -292,12 +292,12 @@ public class Reifen {
         this.bleed_hot4 = bleed_hot4;
     }
 
-    public String getAbgegben_fuer() {
-        return abgegben_fuer;
+    public String getAbgegeben_fuer() {
+        return abgegeben_fuer;
     }
 
-    public void setAbgegben_fuer(String abgegben_fuer) {
-        this.abgegben_fuer = abgegben_fuer;
+    public void setAbgegeben_fuer(String abgegben_fuer) {
+        this.abgegeben_fuer = abgegben_fuer;
     }
 
     public String getSerialNumber() {
@@ -306,5 +306,13 @@ public class Reifen {
 
     public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
+    }
+
+    public Rennen getRennen() {
+        return rennen;
+    }
+
+    public void setRennen(Rennen rennen) {
+        this.rennen = rennen;
     }
 }
