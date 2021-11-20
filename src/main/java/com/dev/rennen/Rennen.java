@@ -2,6 +2,9 @@ package com.dev.rennen;
 
 import com.dev.reifen.Reifen;
 import com.dev.wetter.Wetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -35,6 +38,7 @@ public class Rennen {
         this.datum = datum;
         this.ort = ort;
     }
+
     public Rennen(Date datum, String ort) {
         this.datum = datum;
         this.ort = ort;

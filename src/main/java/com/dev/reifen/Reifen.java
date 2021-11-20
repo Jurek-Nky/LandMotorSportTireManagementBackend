@@ -1,6 +1,7 @@
 package com.dev.reifen;
 
 import com.dev.rennen.Rennen;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -15,6 +16,7 @@ public class Reifen {
     Long reifenid;
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "rennID")
+    @JsonIgnore // prevents infinite recursion in GET request
     Rennen rennen;
     @Column(unique = true, nullable = false)
     String serialNumber;
