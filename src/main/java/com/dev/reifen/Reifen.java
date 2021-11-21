@@ -95,6 +95,37 @@ public class Reifen {
         this.heatingStop = heatingStop;
     }
 
+    public Reifen(Long reifenid, Rennen rennen, String serialNumber, String bezeichnung, LocalDate datum, Time uhrzeit, String spez, String session, double kaltdruck1, double kaltdruck2, double kaltdruck3, double kaltdruck4, int kaltdruckTemp, int heatingTemp, int heatingTime, Time heatingStart, Time heatingStop, double bleed_in_blanket, double tp_hot1, double tp_hot2, double tp_hot3, double tp_hot4, double target, double bleed_hot1, double bleed_hot2, double bleed_hot3, double bleed_hot4, String abgegeben_fuer) {
+        this.reifenid = reifenid;
+        this.rennen = rennen;
+        this.serialNumber = serialNumber;
+        this.bezeichnung = bezeichnung;
+        this.datum = datum;
+        this.uhrzeit = uhrzeit;
+        this.spez = spez;
+        this.session = session;
+        this.kaltdruck1 = kaltdruck1;
+        this.kaltdruck2 = kaltdruck2;
+        this.kaltdruck3 = kaltdruck3;
+        this.kaltdruck4 = kaltdruck4;
+        this.kaltdruckTemp = kaltdruckTemp;
+        this.heatingTemp = heatingTemp;
+        this.heatingTime = heatingTime;
+        this.heatingStart = heatingStart;
+        this.heatingStop = heatingStop;
+        this.bleed_in_blanket = bleed_in_blanket;
+        this.tp_hot1 = tp_hot1;
+        this.tp_hot2 = tp_hot2;
+        this.tp_hot3 = tp_hot3;
+        this.tp_hot4 = tp_hot4;
+        this.target = target;
+        this.bleed_hot1 = bleed_hot1;
+        this.bleed_hot2 = bleed_hot2;
+        this.bleed_hot3 = bleed_hot3;
+        this.bleed_hot4 = bleed_hot4;
+        this.abgegeben_fuer = abgegeben_fuer;
+    }
+
     public Reifen() {
 
     }
