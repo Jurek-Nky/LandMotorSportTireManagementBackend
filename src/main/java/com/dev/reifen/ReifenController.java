@@ -3,8 +3,8 @@ package com.dev.reifen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +36,7 @@ public class ReifenController {
     }
 
     @GetMapping("/all")
-    public List<Reifen> getReifenById() {
+    public List<Reifen> getAllReifens() {
         return reifenService.getReifen();
     }
 
@@ -52,14 +52,14 @@ public class ReifenController {
     }
 
     @DeleteMapping(path = "{reifenId}")
-    public void deleteReifen(@PathVariable("reifenId") int reifenId) {
+    public void deleteReifen(@PathVariable("reifenId") Long reifenId) {
         reifenService.deleteReifen(reifenId);
     }
 
     @PutMapping(path = "{reifenId}") // request can look someting like this: PUT http://localhost:8080/api/v1/reifen/id/1?tp_hot1=5.7&spez=foo&datum=2021-11-20
     public void updateReifen(@PathVariable("reifenId") Long reifenId,
                              @RequestParam(required = false, name = "bezeichnung") String bezeichnung,
-                             @RequestParam(required = false, name = "datum") Date datum,
+                             @RequestParam(required = false, name = "datum") LocalDate datum,
                              @RequestParam(required = false, name = "tp_hot1") Optional<Double> tp_hot1,
                              @RequestParam(required = false, name = "tp_hot2") Optional<Double> tp_hot2,
                              @RequestParam(required = false, name = "tp_hot3") Optional<Double> tp_hot3,

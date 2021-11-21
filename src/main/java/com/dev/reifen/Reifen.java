@@ -1,11 +1,11 @@
 package com.dev.reifen;
 
 import com.dev.rennen.Rennen;
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Time;
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Reifen")
@@ -23,7 +23,7 @@ public class Reifen {
     @Column(nullable = false)
     String bezeichnung;
     @Column(nullable = false)
-    Date datum;
+    LocalDate datum;
     @Column(nullable = false)
     Time uhrzeit;
     @Column(nullable = false)
@@ -71,7 +71,12 @@ public class Reifen {
     @Column(nullable = true)
     String abgegeben_fuer;
 
-    public Reifen(Rennen rennen, String serialNumber, String bezeichnung, Date datum, Time uhrzeit, String spez, String session, double kaltdruck1, double kaltdruck2, double kaltdruck3, double kaltdruck4, int kaltdruckTemp, int heatingTemp, int heatingTime, Time heatingStart, Time heatingStop) {
+    public Reifen(Rennen rennen, String serialNumber, String bezeichnung,
+                  LocalDate datum, Time uhrzeit, String spez,
+                  String session, double kaltdruck1, double kaltdruck2,
+                  double kaltdruck3, double kaltdruck4, int kaltdruckTemp,
+                  int heatingTemp, int heatingTime, Time heatingStart,
+                  Time heatingStop) {
         this.rennen = rennen;
         this.serialNumber = serialNumber;
         this.bezeichnung = bezeichnung;
@@ -110,11 +115,11 @@ public class Reifen {
         this.bezeichnung = bezeichnung;
     }
 
-    public Date getDatum() {
+    public LocalDate getDatum() {
         return datum;
     }
 
-    public void setDatum(Date datum) {
+    public void setDatum(LocalDate datum) {
         this.datum = datum;
     }
 
@@ -316,5 +321,39 @@ public class Reifen {
 
     public void setRennen(Rennen rennen) {
         this.rennen = rennen;
+    }
+
+    @Override
+    public String toString() {
+        return "Reifen{" +
+                "reifenid=" + reifenid +
+                ", rennid= " + rennen.getRennid() +
+                ", serialNumber='" + serialNumber + '\'' +
+                ", bezeichnung='" + bezeichnung + '\'' +
+                ", datum=" + datum +
+                ", uhrzeit=" + uhrzeit +
+                ", spez='" + spez + '\'' +
+                ", session='" + session + '\'' +
+                ", kaltdruck1=" + kaltdruck1 +
+                ", kaltdruck2=" + kaltdruck2 +
+                ", kaltdruck3=" + kaltdruck3 +
+                ", kaltdruck4=" + kaltdruck4 +
+                ", kaltdruckTemp=" + kaltdruckTemp +
+                ", heatingTemp=" + heatingTemp +
+                ", heatingTime=" + heatingTime +
+                ", heatingStart=" + heatingStart +
+                ", heatingStop=" + heatingStop +
+                ", bleed_in_blanket=" + bleed_in_blanket +
+                ", tp_hot1=" + tp_hot1 +
+                ", tp_hot2=" + tp_hot2 +
+                ", tp_hot3=" + tp_hot3 +
+                ", tp_hot4=" + tp_hot4 +
+                ", target=" + target +
+                ", bleed_hot1=" + bleed_hot1 +
+                ", bleed_hot2=" + bleed_hot2 +
+                ", bleed_hot3=" + bleed_hot3 +
+                ", bleed_hot4=" + bleed_hot4 +
+                ", abgegeben_fuer='" + abgegeben_fuer + '\'' +
+                '}';
     }
 }
