@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -29,7 +30,7 @@ public class ReifenService {
     public List<Reifen> getReifen() {
         List<Reifen> reifens = (List<Reifen>) reifenRepository.findAll();
         if (reifens.isEmpty()) {
-            throw new IllegalStateException("No Reifen were found.");
+            throw new IllegalStateException("No tires were found.");
         }
         return reifens;
     }
@@ -78,7 +79,7 @@ public class ReifenService {
      */
     public void deleteReifen(Long reifenId) {
         if (!reifenRepository.existsById(reifenId)) {
-            throw new IllegalStateException("reifen with id " + reifenId + " does not exist.");
+            throw new IllegalStateException(String.format("reifen with id %s does not exist.", reifenId));
         } else {
             reifenRepository.deleteById(reifenId);
         }
@@ -100,7 +101,7 @@ public class ReifenService {
         if (bezeichnung != null && bezeichnung.length() > 0 && !reifen.bezeichnung.equals(bezeichnung)) {
             reifen.setBezeichnung(bezeichnung);
         }
-        if (abgegeben_fuer != null && abgegeben_fuer.length() > 0 && !reifen.abgegeben_fuer.equals(abgegeben_fuer)) {
+        if (abgegeben_fuer != null && abgegeben_fuer.length() > 0 && !Objects.equals(reifen.abgegeben_fuer, abgegeben_fuer)) {
             reifen.setAbgegeben_fuer(abgegeben_fuer);
         }
         if (serialnumber != null && serialnumber.length() > 0 && !reifen.serialNumber.equals(serialnumber)) {
