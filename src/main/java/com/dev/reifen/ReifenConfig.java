@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.Random;
 
 @Configuration
@@ -18,10 +19,16 @@ public class ReifenConfig {
         return args -> {
             Random rnd = new Random();
             String serialnumber = "abx" + rnd.nextInt(10000);
-            Reifen r1 = new Reifen(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", new Date(2021, 6, 2),
+            Reifen r1 = new Reifen(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021,06,03),
                     new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                     new Time(18, 30, 0), new Time(20, 0, 0));
+
+            // reifenRepository.deleteAll();
+            // reifenRepository.save(r1);
+
+
             reifenRepository.save(r1);
+            System.out.println(reifenRepository.findAll());
         };
     }
 }

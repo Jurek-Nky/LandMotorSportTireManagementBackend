@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Repository
 // ReifenRepository is the lowest layer of the Java backend and is used to interact with the database
-public interface ReifenRepository extends CrudRepository<Reifen, Integer> {
+public interface ReifenRepository extends CrudRepository<Reifen, Long> {
     // Repostitory automatically implements SQL-Querys for the following functions
 
     List<Reifen> findReifensByBezeichnung(String bezeichnung);
@@ -17,6 +17,6 @@ public interface ReifenRepository extends CrudRepository<Reifen, Integer> {
 
     Optional<Reifen> findReifenBySerialNumber(String serialnumber);
 
-    List<Reifen> findReifenByRennen_Rennid(Long rennid);
+    List<Reifen> findReifensByRennen_Rennid(Long rennid);
 
 }

@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +29,7 @@ public class ReifenService {
     public List<Reifen> getReifen() {
         List<Reifen> reifens = (List<Reifen>) reifenRepository.findAll();
         if (reifens.isEmpty()) {
-            throw new IllegalStateException("No Tires were found.");
+            throw new IllegalStateException("No Reifen were found.");
         }
         return reifens;
     }
@@ -59,7 +59,7 @@ public class ReifenService {
     }
 
     public List<Reifen> findReifensByRennId(Long rennid) {
-        List<Reifen> reifens = reifenRepository.findReifenByRennen_Rennid(rennid);
+        List<Reifen> reifens = reifenRepository.findReifensByRennen_Rennid(rennid);
         if (reifens.isEmpty()) {
             throw new IllegalStateException(String.format("No tires were found with RennID: %s", rennid));
         }
@@ -76,7 +76,7 @@ public class ReifenService {
     /*##########################################################################################################
      *  methodes for DELETE requests
      */
-    public void deleteReifen(int reifenId) {
+    public void deleteReifen(Long reifenId) {
         if (!reifenRepository.existsById(reifenId)) {
             throw new IllegalStateException("reifen with id " + reifenId + " does not exist.");
         } else {
@@ -90,7 +90,7 @@ public class ReifenService {
 
     @Transactional
     // This methode checks every given argument for existence and equality to the reifen field and replaces the reifen field if necessary
-    public void updateReifen(Long reifenId, String bezeichnung, Date datum, Optional<Double> tp_hot1, Optional<Double> tp_hot2, Optional<Double> tp_hot3,
+    public void updateReifen(Long reifenId, String bezeichnung, LocalDate datum, Optional<Double> tp_hot1, Optional<Double> tp_hot2, Optional<Double> tp_hot3,
                              Optional<Double> tp_hot4, Optional<Double> bleed_hot1, Optional<Double> bleed_hot2, Optional<Double> bleed_hot3, Optional<Double> bleed_hot4,
                              Optional<Double> bleed_in_blanket, String abgegeben_fuer, Time heatingStart, Time heatingStop, Optional<Integer> heatingTemp,
                              Optional<Integer> heatingTime, Optional<Double> kaltdruck1, Optional<Double> kaltdruck2, Optional<Double> kaltdruck3, Optional<Double> kaltdruck4,
