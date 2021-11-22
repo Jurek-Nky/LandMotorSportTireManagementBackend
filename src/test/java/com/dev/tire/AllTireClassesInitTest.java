@@ -1,6 +1,6 @@
-package com.dev.reifen;
+package com.dev.tire;
 
-import com.dev.rennen.RennenRepository;
+import com.dev.race.RaceRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,26 +10,26 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
 public class AllTireClassesInitTest {
     @Autowired
-    private ReifenRepository reifenRepository;
+    private TireRepository tireRepository;
     @Autowired
-    private RennenRepository rennenRepository;
+    private RaceRepository raceRepository;
     @Autowired
-    private ReifenService reifenService = new ReifenService(reifenRepository, rennenRepository);
+    private TireService tireService = new TireService(tireRepository, raceRepository);
     @Autowired
-    private ReifenController reifenController = new ReifenController(reifenService);
+    private TireController tireController = new TireController(tireService);
 
     @Test
     void repositoryIsNotNull() {
-        assertThat(reifenRepository).isNotNull();
+        assertThat(tireRepository).isNotNull();
     }
 
     @Test
     void serviceIsNotNull() {
-        assertThat(reifenService).isNotNull();
+        assertThat(tireService).isNotNull();
     }
 
     @Test
     void controllerIsNotNull() {
-        assertThat(reifenController).isNotNull();
+        assertThat(tireController).isNotNull();
     }
 }

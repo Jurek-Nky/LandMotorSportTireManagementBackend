@@ -1,7 +1,7 @@
-package com.dev.reifen;
+package com.dev.tire;
 
-import com.dev.rennen.Rennen;
-import com.dev.rennen.RennenRepository;
+import com.dev.race.Race;
+import com.dev.race.RaceRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,15 +25,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class TireServiceTest {
 
     @Autowired
-    private ReifenRepository reifenRepository;
+    private TireRepository tireRepository;
     @Autowired
-    private RennenRepository rennenRepository;
+    private RaceRepository raceRepository;
     @Autowired
-    private ReifenService reifenService = new ReifenService(reifenRepository, rennenRepository);
+    private TireService tireService = new TireService(tireRepository, raceRepository);
 
     @BeforeEach
     void beforeEach() {
-        reifenRepository.deleteAll();
+        tireRepository.deleteAll();
     }
 
     @AfterEach
@@ -41,24 +41,24 @@ class TireServiceTest {
     }
 
     @Test
-    void getReifensWithoutElements() {
-        Exception exception = assertThrows(RuntimeException.class, () -> reifenService.getReifen());
+    void getTiresWithoutElements() {
+        Exception exception = assertThrows(RuntimeException.class, () -> tireService.getTires());
         String expected_message = "No tires were found.";
         assertThat(exception.getMessage()).isEqualTo(expected_message);
     }
 
     @Test
-    void getReifensWithElements() {
+    void getTiresWithElements() {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
-        reifenRepository.save(r1);
+        tireRepository.save(r1);
         // when
-        List<Tire> reifens_Serv = reifenService.getReifen();
-        List<Tire> reifens_Repo = (List<Tire>) reifenRepository.findAll();
+        List<Tire> reifens_Serv = tireService.getTires();
+        List<Tire> reifens_Repo = (List<Tire>) tireRepository.findAll();
         // then
         for (int i = 0; i < reifens_Serv.size(); i++) {
             assertThat(reifens_Serv.get(i).toString()).isEqualTo(reifens_Repo.get(i).toString());
@@ -66,111 +66,111 @@ class TireServiceTest {
     }
 
     @Test
-    void testFindReifensByBezeichnungWithElement() {
+    void testFindTiresByBezeichnungWithElement() {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
-        reifenRepository.save(r1);
+        tireRepository.save(r1);
         // when
-        List<Tire> tires = reifenService.findReifensByBezeichnung(r1.bezeichnung);
+        List<Tire> tires = tireService.findTiresByBezeichnung(r1.bezeichnung);
         // then
         assertThat(tires).asList().isNotEmpty();
     }
 
     @Test
-    void testFindReifensByBezeichnungWithoutElement() {
+    void testFindTiresByBezeichnungWithoutElement() {
         String bez = "lalala";
-        Exception exception = assertThrows(RuntimeException.class, () -> reifenService.findReifensByBezeichnung(bez));
+        Exception exception = assertThrows(RuntimeException.class, () -> tireService.findTiresByBezeichnung(bez));
         String expected_message = String.format("No tires were found with Bezeichnung: %s", bez);
         assertThat(exception.getMessage()).isEqualTo(expected_message);
     }
 
     @Test
-    void testFindReifenByIdWithElement() {
+    void testFindTireByIdWithElement() {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
-        reifenRepository.save(r1);
+        tireRepository.save(r1);
         // when
-        Optional<Tire> reifens = reifenService.findReifenById(r1.reifenid);
+        Optional<Tire> reifens = tireService.findTireById(r1.tireID);
         // then
         assertThat(reifens).isPresent();
     }
 
     @Test
-    void testFindReifenByIdWithoutElement() {
+    void testFindTireByIdWithoutElement() {
         Long id = 316426946l;
-        Exception exception = assertThrows(RuntimeException.class, () -> reifenService.findReifenById(id));
-        String expected_message = String.format("No tires were found with ReifenID: %s", id);
+        Exception exception = assertThrows(RuntimeException.class, () -> tireService.findTireById(id));
+        String expected_message = String.format("No tires were found with TireID: %s", id);
         assertThat(exception.getMessage()).isEqualTo(expected_message);
     }
 
     @Test
-    void testFindReifenBySerialnumberWithElement() {
+    void testFindTireBySerialnumberWithElement() {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
-        reifenRepository.save(r1);
+        tireRepository.save(r1);
         // when
-        Optional<Tire> reifens = reifenService.findReifenBySerialnumber(r1.serialNumber);
+        Optional<Tire> reifens = tireService.findTireBySerialnumber(r1.serialNumber);
         // then
         assertThat(reifens).isPresent();
     }
 
     @Test
-    void testFindReifenBySerialnumberWithoutElement() {
+    void testFindTireBySerialnumberWithoutElement() {
         String serial = "lalala";
-        Exception exception = assertThrows(RuntimeException.class, () -> reifenService.findReifenBySerialnumber(serial));
+        Exception exception = assertThrows(RuntimeException.class, () -> tireService.findTireBySerialnumber(serial));
         String expected_message = String.format("No tires were found with Serialnumber: %s", serial);
         assertThat(exception.getMessage()).isEqualTo(expected_message);
     }
 
     @Test
-    void testFindReifensByRennIdWithElement() {
+    void testFindTiresByRennIdWithElement() {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
-        reifenRepository.save(r1);
+        tireRepository.save(r1);
         // when
-        List<Tire> tires = reifenService.findReifensByRennId(r1.rennen.getRennid());
+        List<Tire> tires = tireService.findTiresByRennId(r1.race.getRaceID());
         // then
         assertThat(tires).asList().isNotEmpty();
     }
 
     @Test
-    void testFindReifensByRennIdWithoutElement() {
+    void testFindTiresByRennIdWithoutElement() {
         Long rennid = 631452l;
-        Exception exception = assertThrows(RuntimeException.class, () -> reifenService.findReifensByRennId(rennid));
+        Exception exception = assertThrows(RuntimeException.class, () -> tireService.findTiresByRennId(rennid));
         String expected_message = String.format("No tires were found with RennID: %s", rennid);
         assertThat(exception.getMessage()).isEqualTo(expected_message);
     }
 
     @Test
-    void addNewReifen() throws ParseException {
+    void addNewTire() throws ParseException {
         // given
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY/MM/dd");
         LocalDate ld = LocalDate.of(2021, 06, 03);
 
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Rennen(new Date(2021, 06, 02), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         // when
-        reifenService.addNewReifen(r1);
-        Iterable<Tire> reifens = reifenRepository.findAll();
+        tireService.addNewTire(r1);
+        Iterable<Tire> reifens = tireRepository.findAll();
         ArrayList<String> reifen_strigs = new ArrayList<>();
         for (Tire r : reifens) {
             reifen_strigs.add(r.toString());
@@ -183,56 +183,56 @@ class TireServiceTest {
     }
 
     @Test
-    void testDeleteReifenWithElement() {
+    void testDeleteTireWithElement() {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
-        reifenRepository.save(r1);
+        tireRepository.save(r1);
         // when
-        reifenService.deleteReifen(r1.reifenid);
+        tireService.deleteTire(r1.tireID);
         // then
-        assertThat(reifenRepository.findById(r1.reifenid)).isNotPresent();
+        assertThat(tireRepository.findById(r1.tireID)).isNotPresent();
     }
 
     @Test
-    void testDeleteReifenWithoutElement() {
+    void testDeleteTireWithoutElement() {
         Long id = 63649l;
-        Exception exception = assertThrows(RuntimeException.class, () -> reifenService.deleteReifen(id));
-        String expected_message = String.format("reifen with id %s does not exist.", id);
+        Exception exception = assertThrows(RuntimeException.class, () -> tireService.deleteTire(id));
+        String expected_message = String.format("tire with id %s does not exist.", id);
         assertThat(exception.getMessage()).isEqualTo(expected_message);
     }
 
     @Test
-    void testUpdateReifenForExceptionNoReifenFound() {
+    void testUpdateTireForExceptionNoTireFound() {
         //given
         // when
         Exception exception = assertThrows(RuntimeException.class,
-                () -> reifenService.updateReifen(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
-        String expected_message = String.format("Reifen with id %s could not be found.", null);
+                () -> tireService.updateTire(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+        String expected_message = String.format("Tire with id %s could not be found.", null);
         //then
         assertThat(exception.getMessage()).isEqualTo(expected_message);
     }
 
     @Test
-    void testUpdateReifenForExceptionNoRennenFound() {
+    void testUpdateTireForExceptionNoRennenFound() {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"),
                 serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
-        reifenRepository.save(r1);
+        tireRepository.save(r1);
         // when
         Long wrongRennId = 142l;
-        Tire r2 = new Tire(r1.reifenid, r1.rennen, "serial", "bezeich", LocalDate.of(2011, 11, 11),
+        Tire r2 = new Tire(r1.tireID, r1.race, "serial", "bezeich", LocalDate.of(2011, 11, 11),
                 new Time(11, 11, 11), "spezifi", "session", 1.1, 1.2, 1.3, 1.4, 1, 2, 3, new Time(12, 12, 12),
                 new Time(13, 13, 13), 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2, 3.3, 3.4, "abgeb");
         Exception exception = assertThrows(RuntimeException.class,
-                () -> reifenService.updateReifen(r2.reifenid, r2.bezeichnung, r2.datum, Optional.of(r2.tp_hot1),
+                () -> tireService.updateTire(r2.tireID, r2.bezeichnung, r2.datum, Optional.of(r2.tp_hot1),
                 Optional.of(r2.tp_hot2), Optional.of(r2.tp_hot3), Optional.of(r2.tp_hot4), Optional.of(r2.bleed_hot1),
                 Optional.of(r2.bleed_hot2), Optional.of(r2.bleed_hot3), Optional.of(r2.bleed_hot4),
                 Optional.of(r2.bleed_in_blanket), r2.abgegeben_fuer, r2.heatingStart, r2.heatingStop,
@@ -247,32 +247,32 @@ class TireServiceTest {
     }
 
     @Test
-    void testUpdateReifen() {
+    void testUpdateTire() {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"),
                 serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
-        reifenRepository.save(r1);
+        tireRepository.save(r1);
         // when
-        Tire r2 = new Tire(r1.reifenid, r1.rennen, "serial", "bezeich", LocalDate.of(2011, 11, 11),
+        Tire r2 = new Tire(r1.tireID, r1.race, "serial", "bezeich", LocalDate.of(2011, 11, 11),
                 new Time(11, 11, 11), "spezifi", "session", 1.1, 1.2, 1.3, 1.4, 1, 2, 3, new Time(12, 12, 12),
                 new Time(13, 13, 13), 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2, 3.3, 3.4, "abgeb");
 
-        reifenService.updateReifen(r2.reifenid, r2.bezeichnung, r2.datum, Optional.of(r2.tp_hot1),
+        tireService.updateTire(r2.tireID, r2.bezeichnung, r2.datum, Optional.of(r2.tp_hot1),
                 Optional.of(r2.tp_hot2), Optional.of(r2.tp_hot3), Optional.of(r2.tp_hot4), Optional.of(r2.bleed_hot1),
                 Optional.of(r2.bleed_hot2), Optional.of(r2.bleed_hot3), Optional.of(r2.bleed_hot4),
                 Optional.of(r2.bleed_in_blanket), r2.abgegeben_fuer, r2.heatingStart, r2.heatingStop,
                 Optional.of(r2.heatingTemp), Optional.of(r2.heatingTime), Optional.of(r2.kaltdruck1),
                 Optional.of(r2.kaltdruck2), Optional.of(r2.kaltdruck3), Optional.of(r2.kaltdruck4),
                 Optional.of(r2.kaltdruckTemp), r2.serialNumber, r2.spez, Optional.of(r2.target), r2.uhrzeit,
-                r2.rennen.getRennid());
+                r2.race.getRaceID());
         // then
-        String expected = "Reifen{" +
-                "reifenid=" + r2.reifenid +
-                ", rennid= " + r2.rennen.getRennid() +
+        String expected = "Tire{" +
+                "reifenid=" + r2.tireID +
+                ", rennid= " + r2.race.getRaceID() +
                 ", serialNumber='" + r2.serialNumber + '\'' +
                 ", bezeichnung='" + r2.bezeichnung + '\'' +
                 ", datum=" + r2.datum +
@@ -300,6 +300,6 @@ class TireServiceTest {
                 ", bleed_hot4=" + r2.bleed_hot4 +
                 ", abgegeben_fuer='" + r2.abgegeben_fuer + '\'' +
                 '}';
-        assertThat(reifenRepository.findById(13131313l)).toString().equals(r2.toString());
+        assertThat(tireRepository.findById(13131313l)).toString().equals(r2.toString());
     }
 }
