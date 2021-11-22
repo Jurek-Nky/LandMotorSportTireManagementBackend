@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,7 +18,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class TireServiceTest {
@@ -33,6 +32,7 @@ class TireServiceTest {
 
     @BeforeEach
     void beforeEach() {
+
         tireRepository.deleteAll();
     }
 
@@ -52,7 +52,7 @@ class TireServiceTest {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021, 06, 03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         tireRepository.save(r1);
@@ -70,7 +70,7 @@ class TireServiceTest {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021, 06, 03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         tireRepository.save(r1);
@@ -93,7 +93,7 @@ class TireServiceTest {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021, 06, 03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         tireRepository.save(r1);
@@ -116,7 +116,7 @@ class TireServiceTest {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021, 06, 03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         tireRepository.save(r1);
@@ -139,7 +139,7 @@ class TireServiceTest {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021, 06, 03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         tireRepository.save(r1);
@@ -165,7 +165,7 @@ class TireServiceTest {
 
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021, 06, 03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         // when
@@ -187,7 +187,7 @@ class TireServiceTest {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021, 06, 03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         tireRepository.save(r1);
@@ -221,7 +221,7 @@ class TireServiceTest {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021, 06, 03), "eifel"),
                 serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
@@ -233,13 +233,13 @@ class TireServiceTest {
                 new Time(13, 13, 13), 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2, 3.3, 3.4, "abgeb");
         Exception exception = assertThrows(RuntimeException.class,
                 () -> tireService.updateTire(r2.tireID, r2.bezeichnung, r2.datum, Optional.of(r2.tp_hot1),
-                Optional.of(r2.tp_hot2), Optional.of(r2.tp_hot3), Optional.of(r2.tp_hot4), Optional.of(r2.bleed_hot1),
-                Optional.of(r2.bleed_hot2), Optional.of(r2.bleed_hot3), Optional.of(r2.bleed_hot4),
-                Optional.of(r2.bleed_in_blanket), r2.abgegeben_fuer, r2.heatingStart, r2.heatingStop,
-                Optional.of(r2.heatingTemp), Optional.of(r2.heatingTime), Optional.of(r2.kaltdruck1),
-                Optional.of(r2.kaltdruck2), Optional.of(r2.kaltdruck3), Optional.of(r2.kaltdruck4),
-                Optional.of(r2.kaltdruckTemp), r2.serialNumber, r2.spez, Optional.of(r2.target), r2.uhrzeit,
-                wrongRennId));
+                        Optional.of(r2.tp_hot2), Optional.of(r2.tp_hot3), Optional.of(r2.tp_hot4), Optional.of(r2.bleed_hot1),
+                        Optional.of(r2.bleed_hot2), Optional.of(r2.bleed_hot3), Optional.of(r2.bleed_hot4),
+                        Optional.of(r2.bleed_in_blanket), r2.abgegeben_fuer, r2.heatingStart, r2.heatingStop,
+                        Optional.of(r2.heatingTemp), Optional.of(r2.heatingTime), Optional.of(r2.kaltdruck1),
+                        Optional.of(r2.kaltdruck2), Optional.of(r2.kaltdruck3), Optional.of(r2.kaltdruck4),
+                        Optional.of(r2.kaltdruckTemp), r2.serialNumber, r2.spez, Optional.of(r2.target), r2.uhrzeit,
+                        wrongRennId));
         String expected_message = String.format("Rennen with id %s not found.", wrongRennId);
         assertThat(exception.getMessage()).isEqualTo(expected_message);
         // then
@@ -251,7 +251,7 @@ class TireServiceTest {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"),
+        Tire r1 = new Tire(new Race(LocalDate.of(2021, 06, 03), "eifel"),
                 serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
