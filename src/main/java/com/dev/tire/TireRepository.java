@@ -17,6 +17,6 @@ public interface TireRepository extends CrudRepository<Tire, Long> {
 
     Optional<Tire> findTireBySerialNumber(String serialnumber);
 
-    List<Tire> findTiresByRennen_Rennid(Long rennid);
+    List<Tire> findTiresByRace_RaceID(Long rennid);
 
 }

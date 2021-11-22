@@ -40,7 +40,7 @@ public class TireController {
         return tireService.getTires();
     }
 
-    @GetMapping("/rennen")
+    @GetMapping("/race")
     public List<Tire> getReifensByRennen(@RequestParam(name = "rennid") Long rennid) {
         return tireService.findTiresByRennId(rennid);
     }

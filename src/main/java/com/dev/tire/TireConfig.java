@@ -1,6 +1,6 @@
 package com.dev.tire;
 
-import com.dev.rennen.Rennen;
+import com.dev.race.Race;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ public class TireConfig {
         return args -> {
             Random rnd = new Random();
             String serialnumber = "abx" + rnd.nextInt(10000);
-            Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021,06,03),
+            Tire r1 = new Tire(new Race(LocalDate.of(2021,06,03), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021,06,03),
                     new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                     new Time(18, 30, 0), new Time(20, 0, 0));
 

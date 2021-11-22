@@ -1,6 +1,6 @@
 package com.dev.tire;
 
-import com.dev.rennen.RennenRepository;
+import com.dev.race.RaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +16,12 @@ import java.util.Optional;
 public class TireService {
 
     private final TireRepository tireRepository;
-    private final RennenRepository rennenRepository;
+    private final RaceRepository raceRepository;
 
     @Autowired
-    public TireService(TireRepository tireRepository, RennenRepository rennenRepository) {
+    public TireService(TireRepository tireRepository, RaceRepository raceRepository) {
         this.tireRepository = tireRepository;
-        this.rennenRepository = rennenRepository;
+        this.raceRepository = raceRepository;
     }
 
     /*##########################################################################################################
@@ -59,10 +59,10 @@ public class TireService {
         return tire;
     }
 
-    public List<Tire> findTiresByRennId(Long rennid) {
-        List<Tire> tires = tireRepository.findTiresByRennen_Rennid(rennid);
+    public List<Tire> findTiresByRennId(Long raceID) {
+        List<Tire> tires = tireRepository.findTiresByRace_RaceID(raceID);
         if (tires.isEmpty()) {
-            throw new IllegalStateException(String.format("No tires were found with RennID: %s", rennid));
+            throw new IllegalStateException(String.format("No tires were found with RennID: %s", raceID));
         }
         return tires;
     }
@@ -173,8 +173,8 @@ public class TireService {
         if (uhrzeit != null && !tire.uhrzeit.equals(uhrzeit)) {
             tire.setUhrzeit(uhrzeit);
         }
-        if (rennid != null && !tire.rennen.getRennid().equals(rennid)) {
-            tire.setRennen(rennenRepository.findRennenByRennid(rennid).orElseThrow(() -> new IllegalStateException(String.format("Rennen with id %s not found.", rennid))));
+        if (rennid != null && !tire.race.getRaceID().equals(rennid)) {
+            tire.setRennen(raceRepository.findRaceByRaceID(rennid).orElseThrow(() -> new IllegalStateException(String.format("Rennen with id %s not found.", rennid))));
         }
 
     }
