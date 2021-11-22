@@ -13,7 +13,7 @@ public class RaceService {
     private final RaceRepository raceRepository;
 
     @Autowired
-    public RaceService(RaceRepository raceRepository){
+    public RaceService(RaceRepository raceRepository) {
         this.raceRepository = raceRepository;
     }
 
@@ -24,5 +24,12 @@ public class RaceService {
     public List<Race> findAllByDate(String date) {
         LocalDate d = LocalDate.parse(date);
         return raceRepository.findRacesByDate(Date.valueOf(d));
+    }
+
+    public Race addNewRace(String date, String location) {
+        LocalDate d = LocalDate.parse(date);
+        Race race = new Race(d,location);
+        raceRepository.save(race);
+        return race;
     }
 }

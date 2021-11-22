@@ -1,10 +1,7 @@
 package com.dev.race;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +24,11 @@ public class RaceController {
     @GetMapping(path = "/datum")
     public List<Race> getRacesByDate(@RequestAttribute(name = "date") String date) {
         return raceService.findAllByDate(date);
+    }
+
+    @PostMapping
+    public Race addNewRace(@RequestParam(required = true, name = "date") String date,
+                           @RequestParam(required = true, name = "location") String location) {
+        return raceService.addNewRace(date, location);
     }
 }
