@@ -86,8 +86,8 @@ public class TireService {
                            Optional<Double> bleed_hot3, Optional<Double> bleed_hot4,
                            String abgegeben_fuer, Optional<Double> bleed_in_blanket,
                            Optional<Double> target) {
-        if (tireRepository.findTireBySerialNumber(serialnumber).isPresent()){
-            throw new IllegalStateException(String.format("Tire with serialnumber %s already exists",serialnumber));
+        if (tireRepository.findTireBySerialNumber(serialnumber).isPresent()) {
+            throw new IllegalStateException(String.format("Tire with serialnumber %s already exists", serialnumber));
         }
         Optional<Race> race = raceRepository.findRaceByRaceID(raceid);
         if (race.isEmpty()) {

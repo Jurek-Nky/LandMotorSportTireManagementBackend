@@ -15,7 +15,7 @@ public class Tire {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long tireID;
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "raceID")
+    @JoinColumn(nullable = true,name = "raceID")
     @JsonIgnore // prevents infinite recursion in GET request
     Race race;
     @Column(unique = true, nullable = false)
