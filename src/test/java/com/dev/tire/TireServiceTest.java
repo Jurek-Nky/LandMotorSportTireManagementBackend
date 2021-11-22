@@ -4,7 +4,6 @@ import com.dev.rennen.Rennen;
 import com.dev.rennen.RennenRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +22,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class ReifenServiceTest {
+class TireServiceTest {
 
     @Autowired
     private ReifenRepository reifenRepository;
@@ -53,13 +52,13 @@ class ReifenServiceTest {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Reifen r1 = new Reifen(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         reifenRepository.save(r1);
         // when
-        List<Reifen> reifens_Serv = reifenService.getReifen();
-        List<Reifen> reifens_Repo = (List<Reifen>) reifenRepository.findAll();
+        List<Tire> reifens_Serv = reifenService.getReifen();
+        List<Tire> reifens_Repo = (List<Tire>) reifenRepository.findAll();
         // then
         for (int i = 0; i < reifens_Serv.size(); i++) {
             assertThat(reifens_Serv.get(i).toString()).isEqualTo(reifens_Repo.get(i).toString());
@@ -71,14 +70,14 @@ class ReifenServiceTest {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Reifen r1 = new Reifen(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         reifenRepository.save(r1);
         // when
-        List<Reifen> reifens = reifenService.findReifensByBezeichnung(r1.bezeichnung);
+        List<Tire> tires = reifenService.findReifensByBezeichnung(r1.bezeichnung);
         // then
-        assertThat(reifens).asList().isNotEmpty();
+        assertThat(tires).asList().isNotEmpty();
     }
 
     @Test
@@ -94,12 +93,12 @@ class ReifenServiceTest {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Reifen r1 = new Reifen(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         reifenRepository.save(r1);
         // when
-        Optional<Reifen> reifens = reifenService.findReifenById(r1.reifenid);
+        Optional<Tire> reifens = reifenService.findReifenById(r1.reifenid);
         // then
         assertThat(reifens).isPresent();
     }
@@ -117,12 +116,12 @@ class ReifenServiceTest {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Reifen r1 = new Reifen(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         reifenRepository.save(r1);
         // when
-        Optional<Reifen> reifens = reifenService.findReifenBySerialnumber(r1.serialNumber);
+        Optional<Tire> reifens = reifenService.findReifenBySerialnumber(r1.serialNumber);
         // then
         assertThat(reifens).isPresent();
     }
@@ -140,14 +139,14 @@ class ReifenServiceTest {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Reifen r1 = new Reifen(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         reifenRepository.save(r1);
         // when
-        List<Reifen> reifens = reifenService.findReifensByRennId(r1.rennen.getRennid());
+        List<Tire> tires = reifenService.findReifensByRennId(r1.rennen.getRennid());
         // then
-        assertThat(reifens).asList().isNotEmpty();
+        assertThat(tires).asList().isNotEmpty();
     }
 
     @Test
@@ -166,14 +165,14 @@ class ReifenServiceTest {
 
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Reifen r1 = new Reifen(new Rennen(new Date(2021, 06, 02), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Rennen(new Date(2021, 06, 02), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         // when
         reifenService.addNewReifen(r1);
-        Iterable<Reifen> reifens = reifenRepository.findAll();
+        Iterable<Tire> reifens = reifenRepository.findAll();
         ArrayList<String> reifen_strigs = new ArrayList<>();
-        for (Reifen r : reifens) {
+        for (Tire r : reifens) {
             reifen_strigs.add(r.toString());
         }
         // then
@@ -188,7 +187,7 @@ class ReifenServiceTest {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Reifen r1 = new Reifen(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
+        Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"), serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         reifenRepository.save(r1);
@@ -222,14 +221,14 @@ class ReifenServiceTest {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Reifen r1 = new Reifen(new Rennen(new Date(2021, 6, 2), "eifel"),
+        Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"),
                 serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         reifenRepository.save(r1);
         // when
         Long wrongRennId = 142l;
-        Reifen r2 = new Reifen(r1.reifenid, r1.rennen, "serial", "bezeich", LocalDate.of(2011, 11, 11),
+        Tire r2 = new Tire(r1.reifenid, r1.rennen, "serial", "bezeich", LocalDate.of(2011, 11, 11),
                 new Time(11, 11, 11), "spezifi", "session", 1.1, 1.2, 1.3, 1.4, 1, 2, 3, new Time(12, 12, 12),
                 new Time(13, 13, 13), 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2, 3.3, 3.4, "abgeb");
         Exception exception = assertThrows(RuntimeException.class,
@@ -252,13 +251,13 @@ class ReifenServiceTest {
         // given
         Random rnd = new Random();
         String serialnumber = "abx" + rnd.nextInt(10000);
-        Reifen r1 = new Reifen(new Rennen(new Date(2021, 6, 2), "eifel"),
+        Tire r1 = new Tire(new Rennen(new Date(2021, 6, 2), "eifel"),
                 serialnumber, "cooler reifen", LocalDate.of(2021, 06, 03),
                 new Time(0), "med G/D", "Q2", 1.49, 1.52, 1.33, 1.37, 20, 90, 90,
                 new Time(18, 30, 0), new Time(20, 0, 0));
         reifenRepository.save(r1);
         // when
-        Reifen r2 = new Reifen(r1.reifenid, r1.rennen, "serial", "bezeich", LocalDate.of(2011, 11, 11),
+        Tire r2 = new Tire(r1.reifenid, r1.rennen, "serial", "bezeich", LocalDate.of(2011, 11, 11),
                 new Time(11, 11, 11), "spezifi", "session", 1.1, 1.2, 1.3, 1.4, 1, 2, 3, new Time(12, 12, 12),
                 new Time(13, 13, 13), 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2, 3.3, 3.4, "abgeb");
 

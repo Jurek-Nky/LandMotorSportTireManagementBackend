@@ -1,4 +1,4 @@
-package com.dev.reifen;
+package com.dev.tire;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,56 +9,55 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "api/v1/reifen")
+@RequestMapping(path = "api/v1/tire")
 // manages all API calls and sends responses
-public class ReifenController {
+public class TireController {
 
-    private final ReifenService reifenService;
+    private final TireService tireService;
 
     @Autowired
-    public ReifenController(ReifenService reifenService) {
-        this.reifenService = reifenService;
+    public TireController(TireService tireService) {
+        this.tireService = tireService;
     }
 
     @GetMapping("/id")
-    public Optional<Reifen> getReifenById(@RequestParam(name = "id") Long reifenId) {
-        return reifenService.findReifenById(reifenId);
+    public Optional<Tire> getReifenById(@RequestParam(name = "id") Long reifenId) {
+        return tireService.findTireById(reifenId);
     }
 
     @GetMapping("/bez")
-    public List<Reifen> getReifenByBez(@RequestParam(name = "bez") String reifenBezeichnung) {
-        return reifenService.findReifensByBezeichnung(reifenBezeichnung);
+    public List<Tire> getReifenByBez(@RequestParam(name = "bez") String reifenBezeichnung) {
+        return tireService.findTiresByBezeichnung(reifenBezeichnung);
     }
 
     @GetMapping("/serial")
-    public Optional<Reifen> getReifenBySerial(@RequestParam(name = "serial") String serialnumber) {
-        return reifenService.findReifenBySerialnumber(serialnumber);
+    public Optional<Tire> getReifenBySerial(@RequestParam(name = "serial") String serialnumber) {
+        return tireService.findTireBySerialnumber(serialnumber);
     }
 
     @GetMapping("/all")
-    public List<Reifen> getAllReifens() {
-        return reifenService.getReifen();
+    public List<Tire> getAllReifens() {
+        return tireService.getTires();
     }
 
     @GetMapping("/rennen")
-    public List<Reifen> getReifensByRennen(@RequestParam(name = "rennid") Long rennid) {
-        return reifenService.findReifensByRennId(rennid);
+    public List<Tire> getReifensByRennen(@RequestParam(name = "rennid") Long rennid) {
+        return tireService.findTiresByRennId(rennid);
     }
-
 
     @PostMapping
-    public void registerNewReifen(@RequestBody Reifen reifen) {
-        reifenService.addNewReifen(reifen);
+    public void registerNewReifen(@RequestBody Tire tire) {
+        tireService.addNewTire(tire);
     }
 
-    @DeleteMapping(path = "{reifenId}")
-    public void deleteReifen(@PathVariable("reifenId") Long reifenId) {
-        reifenService.deleteReifen(reifenId);
+    @DeleteMapping(path = "{tireID}")
+    public void deleteReifen(@PathVariable("tireID") Long reifenId) {
+        tireService.deleteTire(reifenId);
     }
 
-    @PutMapping(path = "{reifenId}")
-    // request can look someting like this: PUT http://localhost:8080/api/v1/reifen/id/1?tp_hot1=5.7&spez=foo&datum=2021-11-20
-    public void updateReifen(@PathVariable("reifenId") Long reifenId,
+    @PutMapping(path = "{tireID}")
+    // request can look someting like this: PUT http://localhost:8080/api/v1/tire/id/1?tp_hot1=5.7&spez=foo&datum=2021-11-20
+    public void updateReifen(@PathVariable("tireID") Long reifenId,
                              @RequestParam(required = false, name = "bezeichnung") String bezeichnung,
                              @RequestParam(required = false, name = "datum") LocalDate datum,
                              @RequestParam(required = false, name = "tp_hot1") Optional<Double> tp_hot1,
@@ -86,7 +85,7 @@ public class ReifenController {
                              @RequestParam(required = false, name = "uhrzeit") Time uhrzeit,
                              @RequestParam(required = false, name = "rennid") Long rennid) {
 
-        reifenService.updateReifen(reifenId, bezeichnung, datum, tp_hot1, tp_hot2, tp_hot3, tp_hot4, bleed_hot1, bleed_hot2,
+        tireService.updateTire(reifenId, bezeichnung, datum, tp_hot1, tp_hot2, tp_hot3, tp_hot4, bleed_hot1, bleed_hot2,
                 bleed_hot3, bleed_hot4, bleed_in_blanket, abgegeben_fuer, heatingStart, heatingStop, heatingTemp, heatingTime,
                 kaltdruck1, kaltdruck2, kaltdruck3, kaltdruck4, kaltdruckTemp, serialnumber, spez, target, uhrzeit, rennid);
 

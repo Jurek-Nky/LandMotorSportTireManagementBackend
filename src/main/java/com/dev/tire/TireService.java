@@ -1,0 +1,182 @@
+package com.dev.tire;
+
+import com.dev.rennen.RennenRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+@Service
+// TireService is the layer between the API and the data management.
+public class TireService {
+
+    private final TireRepository tireRepository;
+    private final RennenRepository rennenRepository;
+
+    @Autowired
+    public TireService(TireRepository tireRepository, RennenRepository rennenRepository) {
+        this.tireRepository = tireRepository;
+        this.rennenRepository = rennenRepository;
+    }
+
+    /*##########################################################################################################
+     *  methodes for GET requests
+     */
+    public List<com.dev.tire.Tire> getTires() {
+        List<Tire> tires = (List<Tire>) tireRepository.findAll();
+        if (tires.isEmpty()) {
+            throw new IllegalStateException("No tires were found.");
+        }
+        return tires;
+    }
+
+    public List<Tire> findTiresByBezeichnung(String bezeichnung) {
+        List<Tire> tires = tireRepository.findTiresByBezeichnung(bezeichnung);
+        if (tires.isEmpty()) {
+            throw new IllegalStateException(String.format("No tires were found with Bezeichnung: %s", bezeichnung));
+        }
+        return tires;
+    }
+
+    public Optional<Tire> findTireById(Long tireID) {
+        Optional<Tire> tire = tireRepository.findTireByTireID(tireID);
+        if (tire.isEmpty()) {
+            throw new IllegalStateException(String.format("No tires were found with TireID: %s", tireID));
+        }
+        return tire;
+    }
+
+    public Optional<Tire> findTireBySerialnumber(String serialnumber) {
+        Optional<Tire> tire = tireRepository.findTireBySerialNumber(serialnumber);
+        if (tire.isEmpty()) {
+            throw new IllegalStateException(String.format("No tires were found with Serialnumber: %s", serialnumber));
+        }
+        return tire;
+    }
+
+    public List<Tire> findTiresByRennId(Long rennid) {
+        List<Tire> tires = tireRepository.findTiresByRennen_Rennid(rennid);
+        if (tires.isEmpty()) {
+            throw new IllegalStateException(String.format("No tires were found with RennID: %s", rennid));
+        }
+        return tires;
+    }
+
+    /*##########################################################################################################
+     *  methodes for POST requests
+     */
+    public void addNewTire(Tire tire) {
+        tireRepository.save(tire);
+    }
+
+    /*##########################################################################################################
+     *  methodes for DELETE requests
+     */
+    public void deleteTire(Long tireID) {
+        if (!tireRepository.existsById(tireID)) {
+            throw new IllegalStateException(String.format("tire with id %s does not exist.", tireID));
+        } else {
+            tireRepository.deleteById(tireID);
+        }
+    }
+
+    /*##########################################################################################################
+     *  methodes for PUT requests
+     */
+
+    @Transactional
+    // This methode checks every given argument for existence and equality to the tire field and replaces the tire field if necessary
+    public void updateTire(Long tireID, String bezeichnung, LocalDate datum, Optional<Double> tp_hot1, Optional<Double> tp_hot2, Optional<Double> tp_hot3,
+                             Optional<Double> tp_hot4, Optional<Double> bleed_hot1, Optional<Double> bleed_hot2, Optional<Double> bleed_hot3, Optional<Double> bleed_hot4,
+                             Optional<Double> bleed_in_blanket, String abgegeben_fuer, Time heatingStart, Time heatingStop, Optional<Integer> heatingTemp,
+                             Optional<Integer> heatingTime, Optional<Double> kaltdruck1, Optional<Double> kaltdruck2, Optional<Double> kaltdruck3, Optional<Double> kaltdruck4,
+                             Optional<Integer> kaltdruckTemp, String serialnumber, String spez, Optional<Double> target, Time uhrzeit, Long rennid) {
+        Tire tire = tireRepository.findTireByTireID(tireID).orElseThrow(() ->
+                new IllegalStateException(String.format("Tire with id %s could not be found.", tireID)));
+        if (bezeichnung != null && bezeichnung.length() > 0 && !tire.bezeichnung.equals(bezeichnung)) {
+            tire.setBezeichnung(bezeichnung);
+        }
+        if (abgegeben_fuer != null && abgegeben_fuer.length() > 0 && !Objects.equals(tire.abgegeben_fuer, abgegeben_fuer)) {
+            tire.setAbgegeben_fuer(abgegeben_fuer);
+        }
+        if (serialnumber != null && serialnumber.length() > 0 && !tire.serialNumber.equals(serialnumber)) {
+            tire.setSerialNumber(serialnumber);
+        }
+        if (spez != null && spez.length() > 0 && !tire.spez.equals(spez)) {
+            tire.setSpez(spez);
+        }
+        if (datum != null && !tire.datum.equals(datum)) {
+            tire.setDatum(datum);
+        }
+        if (tp_hot1.isPresent() && tire.tp_hot1 != tp_hot1.get()) {
+            tire.setTp_hot1(tp_hot1.get());
+        }
+        if (tp_hot2.isPresent() && tire.tp_hot2 != tp_hot2.get()) {
+            tire.setTp_hot2(tp_hot2.get());
+        }
+        if (tp_hot3.isPresent() && tire.tp_hot3 != tp_hot3.get()) {
+            tire.setTp_hot3(tp_hot3.get());
+        }
+        if (tp_hot4.isPresent() && tire.tp_hot4 != tp_hot4.get()) {
+            tire.setTp_hot4(tp_hot4.get());
+        }
+        if (bleed_hot1.isPresent() && tire.bleed_hot1 != bleed_hot1.get()) {
+            tire.setBleed_hot1(bleed_hot1.get());
+        }
+        if (bleed_hot2.isPresent() && tire.bleed_hot2 != bleed_hot2.get()) {
+            tire.setBleed_hot2(bleed_hot2.get());
+        }
+        if (bleed_hot3.isPresent() && tire.bleed_hot3 != bleed_hot3.get()) {
+            tire.setBleed_hot3(bleed_hot3.get());
+        }
+        if (bleed_hot4.isPresent() && tire.bleed_hot4 != bleed_hot4.get()) {
+            tire.setBleed_hot4(bleed_hot4.get());
+        }
+        if (bleed_in_blanket.isPresent() && tire.bleed_in_blanket != bleed_in_blanket.get()) {
+            tire.setBleed_in_blanket(bleed_in_blanket.get());
+        }
+        if (heatingStart != null && tire.heatingStart != heatingStart) {
+            tire.setHeatingStart(heatingStart);
+        }
+        if (heatingStop != null && tire.heatingStop != heatingStop) {
+            tire.setHeatingStop(heatingStop);
+        }
+        if (heatingTemp.isPresent() && tire.heatingTemp != heatingTemp.get()) {
+            tire.setHeatingTemp(heatingTemp.get());
+        }
+        if (heatingTime.isPresent() && tire.heatingTime != heatingTime.get()) {
+            tire.setHeatingTime(heatingTime.get());
+        }
+        if (kaltdruck1.isPresent() && tire.kaltdruck1 != kaltdruck1.get()) {
+            tire.setKaltdruck1(kaltdruck1.get());
+        }
+        if (kaltdruck2.isPresent() && tire.kaltdruck2 != kaltdruck2.get()) {
+            tire.setKaltdruck2(kaltdruck2.get());
+        }
+        if (kaltdruck3.isPresent() && tire.kaltdruck3 != kaltdruck3.get()) {
+            tire.setKaltdruck3(kaltdruck3.get());
+        }
+        if (kaltdruck4.isPresent() && tire.kaltdruck4 != kaltdruck4.get()) {
+            tire.setKaltdruck4(kaltdruck4.get());
+        }
+        if (kaltdruckTemp.isPresent() && tire.kaltdruckTemp != kaltdruckTemp.get()) {
+            tire.setKaltdruckTemp(kaltdruckTemp.get());
+        }
+        if (target.isPresent() && tire.target != target.get()) {
+            tire.setTarget(target.get());
+        }
+        if (uhrzeit != null && !tire.uhrzeit.equals(uhrzeit)) {
+            tire.setUhrzeit(uhrzeit);
+        }
+        if (rennid != null && !tire.rennen.getRennid().equals(rennid)) {
+            tire.setRennen(rennenRepository.findRennenByRennid(rennid).orElseThrow(() -> new IllegalStateException(String.format("Rennen with id %s not found.", rennid))));
+        }
+
+    }
+}
+
