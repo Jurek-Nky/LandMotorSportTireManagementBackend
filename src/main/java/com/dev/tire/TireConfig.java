@@ -27,8 +27,8 @@ public class TireConfig {
             // tireRepository.save(r1);
 
 
-            tireRepository.save(r1);
-            System.out.println(tireRepository.findAll());
+//            tireRepository.save(r1);
+//            System.out.println(tireRepository.findAll());
         };
     }
 }
