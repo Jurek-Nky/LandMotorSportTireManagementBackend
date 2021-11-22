@@ -1,6 +1,6 @@
-package com.dev.reifen;
+package com.dev.tire;
 
-import com.dev.rennen.Rennen;
+import com.dev.race.Race;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -8,16 +8,16 @@ import java.sql.Time;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Reifen")
-// Reifen is an entity that can be stored in a database.
-public class Reifen {
+@Table(name = "tires")
+// Tire is an entity that can be stored in a database.
+public class Tire {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    Long reifenid;
+    Long tireID;
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "rennID")
+    @JoinColumn(nullable = true,name = "raceID")
     @JsonIgnore // prevents infinite recursion in GET request
-    Rennen rennen;
+    Race race;
     @Column(unique = true, nullable = false)
     String serialNumber;
     @Column(nullable = false)
@@ -71,13 +71,13 @@ public class Reifen {
     @Column(nullable = true)
     String abgegeben_fuer;
 
-    public Reifen(Rennen rennen, String serialNumber, String bezeichnung,
-                  LocalDate datum, Time uhrzeit, String spez,
-                  String session, double kaltdruck1, double kaltdruck2,
-                  double kaltdruck3, double kaltdruck4, int kaltdruckTemp,
-                  int heatingTemp, int heatingTime, Time heatingStart,
-                  Time heatingStop) {
-        this.rennen = rennen;
+    public Tire(Race race, String serialNumber, String bezeichnung,
+                LocalDate datum, Time uhrzeit, String spez,
+                String session, double kaltdruck1, double kaltdruck2,
+                double kaltdruck3, double kaltdruck4, int kaltdruckTemp,
+                int heatingTemp, int heatingTime, Time heatingStart,
+                Time heatingStop) {
+        this.race = race;
         this.serialNumber = serialNumber;
         this.bezeichnung = bezeichnung;
         this.datum = datum;
@@ -95,16 +95,47 @@ public class Reifen {
         this.heatingStop = heatingStop;
     }
 
-    public Reifen() {
+    public Tire(Long tireID, Race race, String serialNumber, String bezeichnung, LocalDate datum, Time uhrzeit, String spez, String session, double kaltdruck1, double kaltdruck2, double kaltdruck3, double kaltdruck4, int kaltdruckTemp, int heatingTemp, int heatingTime, Time heatingStart, Time heatingStop, double bleed_in_blanket, double tp_hot1, double tp_hot2, double tp_hot3, double tp_hot4, double target, double bleed_hot1, double bleed_hot2, double bleed_hot3, double bleed_hot4, String abgegeben_fuer) {
+        this.tireID = tireID;
+        this.race = race;
+        this.serialNumber = serialNumber;
+        this.bezeichnung = bezeichnung;
+        this.datum = datum;
+        this.uhrzeit = uhrzeit;
+        this.spez = spez;
+        this.session = session;
+        this.kaltdruck1 = kaltdruck1;
+        this.kaltdruck2 = kaltdruck2;
+        this.kaltdruck3 = kaltdruck3;
+        this.kaltdruck4 = kaltdruck4;
+        this.kaltdruckTemp = kaltdruckTemp;
+        this.heatingTemp = heatingTemp;
+        this.heatingTime = heatingTime;
+        this.heatingStart = heatingStart;
+        this.heatingStop = heatingStop;
+        this.bleed_in_blanket = bleed_in_blanket;
+        this.tp_hot1 = tp_hot1;
+        this.tp_hot2 = tp_hot2;
+        this.tp_hot3 = tp_hot3;
+        this.tp_hot4 = tp_hot4;
+        this.target = target;
+        this.bleed_hot1 = bleed_hot1;
+        this.bleed_hot2 = bleed_hot2;
+        this.bleed_hot3 = bleed_hot3;
+        this.bleed_hot4 = bleed_hot4;
+        this.abgegeben_fuer = abgegeben_fuer;
+    }
+
+    public Tire() {
 
     }
 
-    public Long getReifenid() {
-        return reifenid;
+    public Long getTireID() {
+        return tireID;
     }
 
-    public void setReifenid(Long id) {
-        this.reifenid = id;
+    public void setTireID(Long id) {
+        this.tireID = id;
     }
 
     public String getBezeichnung() {
@@ -315,19 +346,19 @@ public class Reifen {
         this.serialNumber = serialNumber;
     }
 
-    public Rennen getRennen() {
-        return rennen;
+    public Race getRennen() {
+        return race;
     }
 
-    public void setRennen(Rennen rennen) {
-        this.rennen = rennen;
+    public void setRennen(Race race) {
+        this.race = race;
     }
 
     @Override
     public String toString() {
-        return "Reifen{" +
-                "reifenid=" + reifenid +
-                ", rennid= " + rennen.getRennid() +
+        return "Tire{" +
+                "reifenid=" + tireID +
+                ", rennid= " + race.getRaceID() +
                 ", serialNumber='" + serialNumber + '\'' +
                 ", bezeichnung='" + bezeichnung + '\'' +
                 ", datum=" + datum +

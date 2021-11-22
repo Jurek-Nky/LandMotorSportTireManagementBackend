@@ -1,4 +1,4 @@
-package com.dev.reifen;
+package com.dev.tire;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -8,15 +8,15 @@ import java.util.Optional;
 
 @Repository
 // ReifenRepository is the lowest layer of the Java backend and is used to interact with the database
-public interface ReifenRepository extends CrudRepository<Reifen, Long> {
+public interface TireRepository extends CrudRepository<Tire, Long> {
     // Repostitory automatically implements SQL-Querys for the following functions
 
-    List<Reifen> findReifensByBezeichnung(String bezeichnung);
+    List<Tire> findTiresByBezeichnung(String bezeichnung);
 
-    Optional<Reifen> findReifenByReifenid(Long reifenid);
+    Optional<Tire> findTireByTireID(Long tireID);
 
-    Optional<Reifen> findReifenBySerialNumber(String serialnumber);
+    Optional<Tire> findTireBySerialNumber(String serialnumber);
 
-    List<Reifen> findReifensByRennen_Rennid(Long rennid);
+    List<Tire> findTiresByRace_RaceID(Long rennid);
 
 }
