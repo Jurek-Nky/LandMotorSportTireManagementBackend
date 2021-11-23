@@ -2,8 +2,6 @@ package com.dev.tire;
 
 import com.dev.race.Race;
 import com.dev.race.RaceRepository;
-import net.bytebuddy.jar.asm.commons.Remapper;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +19,6 @@ public class TireService {
     private final TireRepository tireRepository;
     private final RaceRepository raceRepository;
 
-    @Autowired
-    ModelMapper modelMapper;
 
     @Autowired
     public TireService(TireRepository tireRepository, RaceRepository raceRepository) {
