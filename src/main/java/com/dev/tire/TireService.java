@@ -2,6 +2,8 @@ package com.dev.tire;
 
 import com.dev.race.Race;
 import com.dev.race.RaceRepository;
+import net.bytebuddy.jar.asm.commons.Remapper;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,9 @@ public class TireService {
 
     private final TireRepository tireRepository;
     private final RaceRepository raceRepository;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @Autowired
     public TireService(TireRepository tireRepository, RaceRepository raceRepository) {
@@ -71,8 +76,42 @@ public class TireService {
     /*##########################################################################################################
      *  methodes for POST requests
      */
-    public void addNewTire(Tire tire) {
+    public Tire addNewTire(Tire tire) {
         tireRepository.save(tire);
+        return tire;
+    }
+
+    public Tire addNewTire(TireDto tireDto) {
+        // adding tire using DataTransferObject to make it easier to work with foreign fields.
+        Optional<Race> race = raceRepository.findRaceByRaceID(tireDto.raceID);
+        if (race.isEmpty()) {
+            throw new IllegalStateException(String.format("No race with raceID %s found.", tireDto.raceID));
+        }
+        Optional<Tire> tireSerialTest = tireRepository.findTireBySerialNumber(tireDto.serialNumber);
+        if (tireSerialTest.isPresent()) {
+            throw new IllegalStateException(String.format("Tire with serialnumber %s already exists.", tireDto.serialNumber));
+        }
+        Tire tire = new Tire(race.get(), tireDto.serialNumber, tireDto.bezeichnung,
+                tireDto.date, tireDto.time, tireDto.spez, tireDto.session,
+                tireDto.kaltdruck1, tireDto.kaltdruck2, tireDto.kaltdruck3,
+                tireDto.kaltdruck4, tireDto.kaltdruckTemp, tireDto.heatingTemp,
+                tireDto.heatingTime, tireDto.heatingStart, tireDto.heatingStop);
+        tireDto.bleed_in_blanket.ifPresent(tire::setBleed_in_blanket);
+        tireDto.tp_hot1.ifPresent(tire::setTp_hot1);
+        tireDto.tp_hot2.ifPresent(tire::setTp_hot2);
+        tireDto.tp_hot3.ifPresent(tire::setTp_hot3);
+        tireDto.tp_hot4.ifPresent(tire::setTp_hot4);
+        tireDto.target.ifPresent(tire::setTarget);
+        tireDto.bleed_hot1.ifPresent(tire::setBleed_hot1);
+        tireDto.bleed_hot2.ifPresent(tire::setBleed_hot2);
+        tireDto.bleed_hot3.ifPresent(tire::setBleed_hot3);
+        tireDto.bleed_hot4.ifPresent(tire::setBleed_hot4);
+        if (tireDto.abgegeben_fuer != null && !tireDto.abgegeben_fuer.isEmpty()) {
+            tire.setAbgegeben_fuer(tireDto.abgegeben_fuer);
+        }
+        tire.setRace(race.get());
+        tireRepository.save(tire);
+        return tire;
     }
 
     public Tire addNewTire(Long raceid, String serialnumber, String bezeichnung,
@@ -139,11 +178,11 @@ public class TireService {
 
     @Transactional
     // This methode checks every given argument for existence and equality to the tire field and replaces the tire field if necessary
-    public void updateTire(Long tireID, String bezeichnung, LocalDate datum, Optional<Double> tp_hot1, Optional<Double> tp_hot2, Optional<Double> tp_hot3,
+    public void updateTire(Long tireID, String bezeichnung, LocalDate date, Optional<Double> tp_hot1, Optional<Double> tp_hot2, Optional<Double> tp_hot3,
                            Optional<Double> tp_hot4, Optional<Double> bleed_hot1, Optional<Double> bleed_hot2, Optional<Double> bleed_hot3, Optional<Double> bleed_hot4,
                            Optional<Double> bleed_in_blanket, String abgegeben_fuer, Time heatingStart, Time heatingStop, Optional<Integer> heatingTemp,
                            Optional<Integer> heatingTime, Optional<Double> kaltdruck1, Optional<Double> kaltdruck2, Optional<Double> kaltdruck3, Optional<Double> kaltdruck4,
-                           Optional<Integer> kaltdruckTemp, String serialnumber, String spez, Optional<Double> target, Time uhrzeit, Long rennid) {
+                           Optional<Integer> kaltdruckTemp, String serialnumber, String spez, Optional<Double> target, Time time, Long rennid) {
         Tire tire = tireRepository.findTireByTireID(tireID).orElseThrow(() ->
                 new IllegalStateException(String.format("Tire with id %s could not be found.", tireID)));
         if (bezeichnung != null && bezeichnung.length() > 0 && !tire.bezeichnung.equals(bezeichnung)) {
@@ -158,8 +197,8 @@ public class TireService {
         if (spez != null && spez.length() > 0 && !tire.spez.equals(spez)) {
             tire.setSpez(spez);
         }
-        if (datum != null && !tire.datum.equals(datum)) {
-            tire.setDatum(datum);
+        if (date != null && !tire.date.equals(date)) {
+            tire.setDate(date);
         }
         if (tp_hot1.isPresent() && tire.tp_hot1 != tp_hot1.get()) {
             tire.setTp_hot1(tp_hot1.get());
@@ -218,11 +257,11 @@ public class TireService {
         if (target.isPresent() && tire.target != target.get()) {
             tire.setTarget(target.get());
         }
-        if (uhrzeit != null && !tire.uhrzeit.equals(uhrzeit)) {
-            tire.setUhrzeit(uhrzeit);
+        if (time != null && !tire.time.equals(time)) {
+            tire.setTime(time);
         }
         if (rennid != null && !tire.race.getRaceID().equals(rennid)) {
-            tire.setRennen(raceRepository.findRaceByRaceID(rennid).orElseThrow(() -> new IllegalStateException(String.format("Rennen with id %s not found.", rennid))));
+            tire.setRace(raceRepository.findRaceByRaceID(rennid).orElseThrow(() -> new IllegalStateException(String.format("Rennen with id %s not found.", rennid))));
         }
 
     }

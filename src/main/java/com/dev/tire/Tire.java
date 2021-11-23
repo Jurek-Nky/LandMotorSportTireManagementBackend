@@ -2,6 +2,9 @@ package com.dev.tire;
 
 import com.dev.race.Race;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -15,17 +18,17 @@ public class Tire {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long tireID;
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(nullable = true,name = "raceID")
-    @JsonIgnore // prevents infinite recursion in GET request
+    @JoinColumn(nullable = true, name = "raceID")
+    @JsonIgnoreProperties("tireProRace") // prevents infinite recursion in GET request
     Race race;
     @Column(unique = true, nullable = false)
     String serialNumber;
     @Column(nullable = false)
     String bezeichnung;
     @Column(nullable = false)
-    LocalDate datum;
+    LocalDate date;
     @Column(nullable = false)
-    Time uhrzeit;
+    Time time;
     @Column(nullable = false)
     String spez;
     @Column(nullable = false)
@@ -72,7 +75,7 @@ public class Tire {
     String abgegeben_fuer;
 
     public Tire(Race race, String serialNumber, String bezeichnung,
-                LocalDate datum, Time uhrzeit, String spez,
+                LocalDate date, Time time, String spez,
                 String session, double kaltdruck1, double kaltdruck2,
                 double kaltdruck3, double kaltdruck4, int kaltdruckTemp,
                 int heatingTemp, int heatingTime, Time heatingStart,
@@ -80,8 +83,8 @@ public class Tire {
         this.race = race;
         this.serialNumber = serialNumber;
         this.bezeichnung = bezeichnung;
-        this.datum = datum;
-        this.uhrzeit = uhrzeit;
+        this.date = date;
+        this.time = time;
         this.spez = spez;
         this.session = session;
         this.kaltdruck1 = kaltdruck1;
@@ -95,13 +98,13 @@ public class Tire {
         this.heatingStop = heatingStop;
     }
 
-    public Tire(Long tireID, Race race, String serialNumber, String bezeichnung, LocalDate datum, Time uhrzeit, String spez, String session, double kaltdruck1, double kaltdruck2, double kaltdruck3, double kaltdruck4, int kaltdruckTemp, int heatingTemp, int heatingTime, Time heatingStart, Time heatingStop, double bleed_in_blanket, double tp_hot1, double tp_hot2, double tp_hot3, double tp_hot4, double target, double bleed_hot1, double bleed_hot2, double bleed_hot3, double bleed_hot4, String abgegeben_fuer) {
+    public Tire(Long tireID, Race race, String serialNumber, String bezeichnung, LocalDate date, Time time, String spez, String session, double kaltdruck1, double kaltdruck2, double kaltdruck3, double kaltdruck4, int kaltdruckTemp, int heatingTemp, int heatingTime, Time heatingStart, Time heatingStop, double bleed_in_blanket, double tp_hot1, double tp_hot2, double tp_hot3, double tp_hot4, double target, double bleed_hot1, double bleed_hot2, double bleed_hot3, double bleed_hot4, String abgegeben_fuer) {
         this.tireID = tireID;
         this.race = race;
         this.serialNumber = serialNumber;
         this.bezeichnung = bezeichnung;
-        this.datum = datum;
-        this.uhrzeit = uhrzeit;
+        this.date = date;
+        this.time = time;
         this.spez = spez;
         this.session = session;
         this.kaltdruck1 = kaltdruck1;
@@ -146,20 +149,20 @@ public class Tire {
         this.bezeichnung = bezeichnung;
     }
 
-    public LocalDate getDatum() {
-        return datum;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDatum(LocalDate datum) {
-        this.datum = datum;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public Time getUhrzeit() {
-        return uhrzeit;
+    public Time getTime() {
+        return time;
     }
 
-    public void setUhrzeit(Time uhrzeit) {
-        this.uhrzeit = uhrzeit;
+    public void setTime(Time time) {
+        this.time = time;
     }
 
     public String getSpez() {
@@ -346,11 +349,11 @@ public class Tire {
         this.serialNumber = serialNumber;
     }
 
-    public Race getRennen() {
+    public Race getRace() {
         return race;
     }
 
-    public void setRennen(Race race) {
+    public void setRace(Race race) {
         this.race = race;
     }
 
@@ -361,8 +364,8 @@ public class Tire {
                 ", rennid= " + race.getRaceID() +
                 ", serialNumber='" + serialNumber + '\'' +
                 ", bezeichnung='" + bezeichnung + '\'' +
-                ", datum=" + datum +
-                ", uhrzeit=" + uhrzeit +
+                ", date=" + date +
+                ", time=" + time +
                 ", spez='" + spez + '\'' +
                 ", session='" + session + '\'' +
                 ", kaltdruck1=" + kaltdruck1 +
