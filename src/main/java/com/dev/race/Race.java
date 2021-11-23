@@ -3,6 +3,8 @@ package com.dev.race;
 import com.dev.tire.Tire;
 import com.dev.weather.Weather;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,10 +21,10 @@ public class Race {
     @Column(nullable = false)
     String location;
     @OneToMany(mappedBy = "race")
-    @JsonIgnore
+    @JsonIgnoreProperties("race")
     List<Tire> tireProRace;
     @OneToMany(mappedBy = "race")
-    @JsonIgnore
+    @JsonIgnoreProperties("race")
     List<Weather> weather;
 
     public Race(Long raceID, LocalDate date, String location) {

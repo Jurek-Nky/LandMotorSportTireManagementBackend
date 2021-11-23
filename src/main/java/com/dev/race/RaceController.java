@@ -21,14 +21,13 @@ public class RaceController {
         return raceService.getRaces();
     }
 
-    @GetMapping(path = "/datum")
+    @GetMapping(path = "/date")
     public List<Race> getRacesByDate(@RequestAttribute(name = "date") String date) {
         return raceService.findAllByDate(date);
     }
 
-    @PostMapping
-    public Race addNewRace(@RequestParam(required = true, name = "date") String date,
-                           @RequestParam(required = true, name = "location") String location) {
-        return raceService.addNewRace(date, location);
+    @PostMapping("/new")
+    public Race addNewRace(@RequestBody(required = true) Race race) {
+        return raceService.addNewRace(race);
     }
 }
