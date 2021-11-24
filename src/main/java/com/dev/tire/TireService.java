@@ -110,53 +110,6 @@ public class TireService {
         return tire;
     }
 
-    public Tire addNewTire(Long raceid, String serialnumber, String bezeichnung,
-                           String date, String time, String spez, String session,
-                           Double kaltdruck1, Double kaltdruck2,
-                           Double kaltdruck3, Double kaltdruck4, int kaltdruckTemp,
-                           int heatingTemp, int heatingTime, String heatingStart,
-                           String heatingStop, Optional<Double> tp_hot1, Optional<Double> tp_hot2,
-                           Optional<Double> tp_hot3, Optional<Double> tp_hot4,
-                           Optional<Double> bleed_hot1, Optional<Double> bleed_hot2,
-                           Optional<Double> bleed_hot3, Optional<Double> bleed_hot4,
-                           String abgegeben_fuer, Optional<Double> bleed_in_blanket,
-                           Optional<Double> target) {
-        if (tireRepository.findTireBySerialNumber(serialnumber).isPresent()) {
-            throw new IllegalStateException(String.format("Tire with serialnumber %s already exists", serialnumber));
-        }
-        Optional<Race> race = raceRepository.findRaceByRaceID(raceid);
-        if (race.isEmpty()) {
-            throw new IllegalStateException(String.format("Race with id %s could not be found.", raceid));
-        }
-        System.out.println(raceid + " :  " + serialnumber + " :  " +
-                bezeichnung + " :  " + date + " :  " + time + " :  " + spez + " :  " +
-                session + " :  " + kaltdruck1 + " :  " + kaltdruckTemp + " :  " +
-                heatingTemp + " :  " + heatingTime + " :  " + heatingStart + " :  " + heatingStop);
-        LocalDate d = LocalDate.parse(date);
-        Time t = Time.valueOf(date.replace('-', ':'));
-        Time htstart = Time.valueOf(heatingStart.replace('-', ':'));
-        Time htstop = Time.valueOf(heatingStop.replace('-', ':'));
-        Tire tire = new Tire(race.get(), serialnumber, bezeichnung, d, t, spez,
-                session, kaltdruck1, kaltdruck2, kaltdruck3, kaltdruck4,
-                kaltdruckTemp, heatingTemp, heatingTime, htstart, htstop);
-
-        tp_hot1.ifPresent(tire::setTp_hot1);
-        tp_hot2.ifPresent(tire::setTp_hot2);
-        tp_hot3.ifPresent(tire::setTp_hot3);
-        tp_hot4.ifPresent(tire::setTp_hot4);
-        bleed_hot1.ifPresent(tire::setBleed_hot1);
-        bleed_hot2.ifPresent(tire::setBleed_hot2);
-        bleed_hot3.ifPresent(tire::setBleed_hot3);
-        bleed_hot4.ifPresent(tire::setBleed_hot4);
-        bleed_in_blanket.ifPresent(tire::setBleed_in_blanket);
-        target.ifPresent(tire::setTarget);
-        if (abgegeben_fuer != null && !abgegeben_fuer.isEmpty()) {
-            tire.setAbgegeben_fuer(abgegeben_fuer);
-        }
-        tireRepository.save(tire);
-        return tire;
-    }
-
     /*##########################################################################################################
      *  methodes for DELETE requests
      */
@@ -178,7 +131,7 @@ public class TireService {
                            Optional<Double> tp_hot4, Optional<Double> bleed_hot1, Optional<Double> bleed_hot2, Optional<Double> bleed_hot3, Optional<Double> bleed_hot4,
                            Optional<Double> bleed_in_blanket, String abgegeben_fuer, Time heatingStart, Time heatingStop, Optional<Integer> heatingTemp,
                            Optional<Integer> heatingTime, Optional<Double> kaltdruck1, Optional<Double> kaltdruck2, Optional<Double> kaltdruck3, Optional<Double> kaltdruck4,
-                           Optional<Integer> kaltdruckTemp, String serialnumber, String spez, Optional<Double> target, Time time, Long rennid) {
+                           Optional<Integer> kaltdruckTemp, String serialnumber, String spez, String session, Optional<Double> target, Time time, Long rennid) {
         Tire tire = tireRepository.findTireByTireID(tireID).orElseThrow(() ->
                 new IllegalStateException(String.format("Tire with id %s could not be found.", tireID)));
         if (bezeichnung != null && bezeichnung.length() > 0 && !tire.bezeichnung.equals(bezeichnung)) {
@@ -192,6 +145,9 @@ public class TireService {
         }
         if (spez != null && spez.length() > 0 && !tire.spez.equals(spez)) {
             tire.setSpez(spez);
+        }
+        if (session != null && session.length() > 0 && !tire.session.equals(session)) {
+            tire.setSession(session);
         }
         if (date != null && !tire.date.equals(date)) {
             tire.setDate(date);
