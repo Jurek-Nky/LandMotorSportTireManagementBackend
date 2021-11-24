@@ -1,10 +1,7 @@
 package com.dev.tire;
 
 import com.dev.race.Race;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -17,8 +14,8 @@ public class Tire {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long tireID;
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(nullable = true, name = "raceID")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "raceID")
     @JsonIgnoreProperties("tireProRace") // prevents infinite recursion in GET request
     Race race;
     @Column(unique = true, nullable = false)
@@ -98,7 +95,14 @@ public class Tire {
         this.heatingStop = heatingStop;
     }
 
-    public Tire(Long tireID, Race race, String serialNumber, String bezeichnung, LocalDate date, Time time, String spez, String session, double kaltdruck1, double kaltdruck2, double kaltdruck3, double kaltdruck4, int kaltdruckTemp, int heatingTemp, int heatingTime, Time heatingStart, Time heatingStop, double bleed_in_blanket, double tp_hot1, double tp_hot2, double tp_hot3, double tp_hot4, double target, double bleed_hot1, double bleed_hot2, double bleed_hot3, double bleed_hot4, String abgegeben_fuer) {
+    public Tire(Long tireID, Race race, String serialNumber, String bezeichnung,
+                LocalDate date, Time time, String spez, String session,
+                double kaltdruck1, double kaltdruck2, double kaltdruck3,
+                double kaltdruck4, int kaltdruckTemp, int heatingTemp,
+                int heatingTime, Time heatingStart, Time heatingStop,
+                double bleed_in_blanket, double tp_hot1, double tp_hot2,
+                double tp_hot3, double tp_hot4, double target, double bleed_hot1,
+                double bleed_hot2, double bleed_hot3, double bleed_hot4, String abgegeben_fuer) {
         this.tireID = tireID;
         this.race = race;
         this.serialNumber = serialNumber;

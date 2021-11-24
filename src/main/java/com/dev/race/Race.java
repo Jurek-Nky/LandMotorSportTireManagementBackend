@@ -28,7 +28,7 @@ public class Race {
     List<Weather> weather;
 
     public Race(Long raceID, LocalDate date, String location) {
-        raceID = raceID;
+        this.raceID = raceID;
         this.date = date;
         this.location = location;
     }
