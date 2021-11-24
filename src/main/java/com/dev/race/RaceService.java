@@ -32,4 +32,8 @@ public class RaceService {
         raceRepository.save(race);
         return race;
     }
+    public Race addNewRace(Race race){
+        raceRepository.save(race);
+        return race;
+    }
 }

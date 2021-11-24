@@ -232,13 +232,13 @@ class TireServiceTest {
                 new Time(11, 11, 11), "spezifi", "session", 1.1, 1.2, 1.3, 1.4, 1, 2, 3, new Time(12, 12, 12),
                 new Time(13, 13, 13), 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2, 3.3, 3.4, "abgeb");
         Exception exception = assertThrows(RuntimeException.class,
-                () -> tireService.updateTire(r2.tireID, r2.bezeichnung, r2.datum, Optional.of(r2.tp_hot1),
+                () -> tireService.updateTire(r2.tireID, r2.bezeichnung, r2.date, Optional.of(r2.tp_hot1),
                         Optional.of(r2.tp_hot2), Optional.of(r2.tp_hot3), Optional.of(r2.tp_hot4), Optional.of(r2.bleed_hot1),
                         Optional.of(r2.bleed_hot2), Optional.of(r2.bleed_hot3), Optional.of(r2.bleed_hot4),
                         Optional.of(r2.bleed_in_blanket), r2.abgegeben_fuer, r2.heatingStart, r2.heatingStop,
                         Optional.of(r2.heatingTemp), Optional.of(r2.heatingTime), Optional.of(r2.kaltdruck1),
                         Optional.of(r2.kaltdruck2), Optional.of(r2.kaltdruck3), Optional.of(r2.kaltdruck4),
-                        Optional.of(r2.kaltdruckTemp), r2.serialNumber, r2.spez, Optional.of(r2.target), r2.uhrzeit,
+                        Optional.of(r2.kaltdruckTemp), r2.serialNumber, r2.spez, Optional.of(r2.target), r2.time,
                         wrongRennId));
         String expected_message = String.format("Rennen with id %s not found.", wrongRennId);
         assertThat(exception.getMessage()).isEqualTo(expected_message);
@@ -261,13 +261,13 @@ class TireServiceTest {
                 new Time(11, 11, 11), "spezifi", "session", 1.1, 1.2, 1.3, 1.4, 1, 2, 3, new Time(12, 12, 12),
                 new Time(13, 13, 13), 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2, 3.3, 3.4, "abgeb");
 
-        tireService.updateTire(r2.tireID, r2.bezeichnung, r2.datum, Optional.of(r2.tp_hot1),
+        tireService.updateTire(r2.tireID, r2.bezeichnung, r2.date, Optional.of(r2.tp_hot1),
                 Optional.of(r2.tp_hot2), Optional.of(r2.tp_hot3), Optional.of(r2.tp_hot4), Optional.of(r2.bleed_hot1),
                 Optional.of(r2.bleed_hot2), Optional.of(r2.bleed_hot3), Optional.of(r2.bleed_hot4),
                 Optional.of(r2.bleed_in_blanket), r2.abgegeben_fuer, r2.heatingStart, r2.heatingStop,
                 Optional.of(r2.heatingTemp), Optional.of(r2.heatingTime), Optional.of(r2.kaltdruck1),
                 Optional.of(r2.kaltdruck2), Optional.of(r2.kaltdruck3), Optional.of(r2.kaltdruck4),
-                Optional.of(r2.kaltdruckTemp), r2.serialNumber, r2.spez, Optional.of(r2.target), r2.uhrzeit,
+                Optional.of(r2.kaltdruckTemp), r2.serialNumber, r2.spez, Optional.of(r2.target), r2.time,
                 r2.race.getRaceID());
         // then
         String expected = "Tire{" +
@@ -275,8 +275,8 @@ class TireServiceTest {
                 ", rennid= " + r2.race.getRaceID() +
                 ", serialNumber='" + r2.serialNumber + '\'' +
                 ", bezeichnung='" + r2.bezeichnung + '\'' +
-                ", datum=" + r2.datum +
-                ", uhrzeit=" + r2.uhrzeit +
+                ", datum=" + r2.date +
+                ", time=" + r2.time +
                 ", spez='" + r2.spez + '\'' +
                 ", session='" + r2.session + '\'' +
                 ", kaltdruck1=" + r2.kaltdruck1 +
