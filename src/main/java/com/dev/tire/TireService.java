@@ -174,7 +174,7 @@ public class TireService {
 
     @Transactional
     // This methode checks every given argument for existence and equality to the tire field and replaces the tire field if necessary
-    public void updateTire(Long tireID, String bezeichnung, LocalDate date, Optional<Double> tp_hot1, Optional<Double> tp_hot2, Optional<Double> tp_hot3,
+    public Tire updateTire(Long tireID, String bezeichnung, LocalDate date, Optional<Double> tp_hot1, Optional<Double> tp_hot2, Optional<Double> tp_hot3,
                            Optional<Double> tp_hot4, Optional<Double> bleed_hot1, Optional<Double> bleed_hot2, Optional<Double> bleed_hot3, Optional<Double> bleed_hot4,
                            Optional<Double> bleed_in_blanket, String abgegeben_fuer, Time heatingStart, Time heatingStop, Optional<Integer> heatingTemp,
                            Optional<Integer> heatingTime, Optional<Double> kaltdruck1, Optional<Double> kaltdruck2, Optional<Double> kaltdruck3, Optional<Double> kaltdruck4,
@@ -260,6 +260,7 @@ public class TireService {
             tire.setRace(raceRepository.findRaceByRaceID(rennid).orElseThrow(() -> new IllegalStateException(String.format("Rennen with id %s not found.", rennid))));
         }
 
+        return tire;
     }
 
 
