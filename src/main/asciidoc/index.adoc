@@ -1,0 +1,21 @@
+= Land Motorsport  Rest API
+
+This is an example output for a service running at http://limla.ml:8080:
+
+= POST API
+
+.request
+include::{snippets}/testAddTire/http-request.adoc[]
+
+.response
+include::{snippets}/testAddTire/http-response.adoc[]
+
+= GET API
+
+.request
+include::{snippets}/testGetTire/http-request.adoc[]
+
+.response
+include::{snippets}/testGetTire/http-response.adoc[]
+
+As you can see the format is very simple, and in fact you always get the same message.
