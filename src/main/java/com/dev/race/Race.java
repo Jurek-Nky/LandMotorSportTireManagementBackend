@@ -2,9 +2,7 @@ package com.dev.race;
 
 import com.dev.tire.Tire;
 import com.dev.weather.Weather;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import javax.persistence.*;
 import java.time.LocalDate;
