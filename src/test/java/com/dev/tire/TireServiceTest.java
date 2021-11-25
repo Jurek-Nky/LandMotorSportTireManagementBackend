@@ -27,16 +27,18 @@ class TireServiceTest {
     private RaceRepository raceRepository;
     @Autowired
     private TireService tireService = new TireService(tireRepository, raceRepository);
-    private Race race = new Race(LocalDate.of(2012, 12, 12), "schwarzwald");
+    private Race race;
     ObjectMapper om = new ObjectMapper().registerModule(new JavaTimeModule());
 
     @BeforeEach
     void beforeEach() {
-        tireRepository.deleteAll();
+        race = raceRepository.save(new Race(LocalDate.of(2012, 12, 12), "schwarzwald"));
     }
 
     @AfterEach
     void afterEach() {
+        tireRepository.deleteAll();
+        raceRepository.deleteAll();
     }
 
     @Test
@@ -134,10 +136,44 @@ class TireServiceTest {
     }
 
     @Test
-    void addNewTire() throws JsonProcessingException {
+    void addNewTire() {
         Tire tire = tireService.addNewTire(new TestTire(race).getTire());
 
-        assertThat(tireRepository.findTireBySerialNumber(tire.serialNumber).get().getSerialNumber()).isEqualTo(tire.getSerialNumber());
+        assertThat(tireRepository.findTireByTireID(tire.tireID)).isPresent();
+    }
+
+    @Test
+    void addNewTireNoRace() {
+        TireDto tireDto = new TestTire(race).getTireDto();
+        raceRepository.deleteAll();
+        Exception exception = assertThrows(RuntimeException.class,
+                () -> tireService.addNewTire(tireDto));
+        String expectedException = String.format("No race with raceID %s found.", tireDto.raceID);
+        assertThat(exception.getMessage()).isEqualTo(expectedException);
+    }
+
+    @Test
+    void addNewTireSerialAlreadyExists() {
+        TestTire testTire = new TestTire(race);
+
+        Tire tire = tireRepository.save(testTire.getTire());
+
+        Exception e = assertThrows(RuntimeException.class,
+                () -> tireService.addNewTire(testTire.getTireDto()));
+        String expected = String.format("Tire with serialnumber %s already exists.", tire.getSerialNumber());
+        assertThat(e.getMessage()).isEqualTo(expected);
+    }
+
+    @Test
+    void addNewTireWithDto() {
+//        tireRepository.deleteAll();
+//        race = new Race(LocalDate.of(12,12,12),"foobar");
+        Race testRace = new Race(race.getRaceID(), LocalDate.of(12, 12, 12), "foobar");
+        TireDto tireDto = new TestTire(testRace).getTireDto();
+
+        Tire tire = tireService.addNewTire(tireDto);
+
+        assertThat(tire).isInstanceOf(Tire.class);
     }
 
     @Test
@@ -163,7 +199,7 @@ class TireServiceTest {
         Exception exception = assertThrows(RuntimeException.class,
                 () -> tireService.updateTire(null, null, null, Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), null, null, null, Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), null, null, null, Optional.empty(), null, null));
         String expected_message = String.format("Tire with id %s could not be found.", null);
-        
+
         assertThat(exception.getMessage()).isEqualTo(expected_message);
     }
 
@@ -187,16 +223,16 @@ class TireServiceTest {
     @Test
     void testUpdateTire() throws JsonProcessingException {
         Tire tire = tireRepository.save(new TestTire(race).getTire());
+        tireRepository.deleteById(tire.tireID);
         Tire tire2 = tireRepository.save(new TestTire(race).getTire());
-        tire2.setTireID(tire.tireID);
-
+        tire.setTireID(tire2.tireID);
         tireService.updateTire(tire2.tireID, tire.getBezeichnung(), tire.date, Optional.of(tire.tp_hot1), Optional.of(tire.tp_hot2),
                 Optional.of(tire.tp_hot3), Optional.of(tire.tp_hot4), Optional.of(tire.bleed_hot1), Optional.of(tire.bleed_hot2), Optional.of(tire.bleed_hot3), Optional.of(tire.bleed_hot4),
                 Optional.of(tire.bleed_in_blanket), tire.abgegeben_fuer, tire.heatingStart, tire.heatingStop,
                 Optional.of(tire.heatingTemp), Optional.of(tire.heatingTime), Optional.of(tire.kaltdruck1), Optional.of(tire.kaltdruck2),
                 Optional.of(tire.kaltdruck3), Optional.of(tire.kaltdruck4), Optional.of(tire.kaltdruckTemp), tire.serialNumber,
                 tire.spez, tire.session, Optional.of(tire.target), tire.time, tire.race.getRaceID());
-
-        assertThat(om.writeValueAsString(tireRepository.findTireByTireID(tire.tireID).get())).isEqualTo(om.writeValueAsString(tire));
+        
+        assertThat(om.writeValueAsString(tireRepository.findTireByTireID(tire2.tireID).get())).isEqualTo(om.writeValueAsString(tire));
     }
 }

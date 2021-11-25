@@ -73,8 +73,7 @@ public class TireService {
      *  methodes for POST requests
      */
     public Tire addNewTire(Tire tire) {
-        tireRepository.save(tire);
-        return tire;
+        return tireRepository.save(tire);
     }
 
     public Tire addNewTire(TireDto tireDto) {
@@ -105,7 +104,6 @@ public class TireService {
         if (tireDto.abgegeben_fuer != null && !tireDto.abgegeben_fuer.isEmpty()) {
             tire.setAbgegeben_fuer(tireDto.abgegeben_fuer);
         }
-        tire.setRace(race.get());
         tireRepository.save(tire);
         return tire;
     }
@@ -213,7 +211,8 @@ public class TireService {
             tire.setTime(time);
         }
         if (rennid != null && !tire.race.getRaceID().equals(rennid)) {
-            tire.setRace(raceRepository.findRaceByRaceID(rennid).orElseThrow(() -> new IllegalStateException(String.format("Rennen with id %s not found.", rennid))));
+            tire.setRace(raceRepository.findRaceByRaceID(rennid).orElseThrow(
+                    () -> new IllegalStateException(String.format("Rennen with id %s not found.", rennid))));
         }
 
         return tire;
