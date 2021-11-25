@@ -59,6 +59,7 @@ public class TireController {
     // request can look someting like this: PUT http://localhost:8080/api/v1/tire/id/1?tp_hot1=5.7&spez=foo&date=2021-11-20
     public Tire updateTire(@PathVariable("tireID") Long reifenId,
                            @RequestParam(required = false, name = "bezeichnung") String bezeichnung,
+                           @RequestParam(required = false, name = "session") String session,
                            @RequestParam(required = false, name = "date") LocalDate date,
                            @RequestParam(required = false, name = "tp_hot1") Optional<Double> tp_hot1,
                            @RequestParam(required = false, name = "tp_hot2") Optional<Double> tp_hot2,
@@ -87,7 +88,7 @@ public class TireController {
 
         return tireService.updateTire(reifenId, bezeichnung, date, tp_hot1, tp_hot2, tp_hot3, tp_hot4, bleed_hot1, bleed_hot2,
                 bleed_hot3, bleed_hot4, bleed_in_blanket, abgegeben_fuer, heatingStart, heatingStop, heatingTemp, heatingTime,
-                kaltdruck1, kaltdruck2, kaltdruck3, kaltdruck4, kaltdruckTemp, serialnumber, spez, target, time, rennid);
+                kaltdruck1, kaltdruck2, kaltdruck3, kaltdruck4, kaltdruckTemp, serialnumber, spez,session, target, time, rennid);
 
     }
 }

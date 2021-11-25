@@ -36,7 +36,6 @@ public class TestTire {
     private final String bezeichnung;
     private final String serialNumber;
     private final Long tireId;
-    Tire tire;
     Random rnd;
 
     public TestTire(Race race) {
@@ -69,8 +68,6 @@ public class TestTire {
         bleed_hot3 = rnd.nextDouble(10);
         bleed_hot4 = rnd.nextDouble(10);
         abgegeben_fuer = rndString(10);
-
-
     }
 
     static String rndString(int n) {

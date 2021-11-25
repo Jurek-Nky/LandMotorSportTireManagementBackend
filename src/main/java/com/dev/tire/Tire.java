@@ -14,9 +14,9 @@ public class Tire {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long tireID;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "raceID")
-    @JsonIgnoreProperties("tireProRace") // prevents infinite recursion in GET request
+    @JsonIgnoreProperties({"tireProRace", "weather"}) // prevents infinite recursion in GET request
     Race race;
     @Column(unique = true, nullable = false)
     String serialNumber;
@@ -361,37 +361,4 @@ public class Tire {
         this.race = race;
     }
 
-    @Override
-    public String toString() {
-        return "Tire{" +
-                "reifenid=" + tireID +
-                ", rennid= " + race.getRaceID() +
-                ", serialNumber='" + serialNumber + '\'' +
-                ", bezeichnung='" + bezeichnung + '\'' +
-                ", date=" + date +
-                ", time=" + time +
-                ", spez='" + spez + '\'' +
-                ", session='" + session + '\'' +
-                ", kaltdruck1=" + kaltdruck1 +
-                ", kaltdruck2=" + kaltdruck2 +
-                ", kaltdruck3=" + kaltdruck3 +
-                ", kaltdruck4=" + kaltdruck4 +
-                ", kaltdruckTemp=" + kaltdruckTemp +
-                ", heatingTemp=" + heatingTemp +
-                ", heatingTime=" + heatingTime +
-                ", heatingStart=" + heatingStart +
-                ", heatingStop=" + heatingStop +
-                ", bleed_in_blanket=" + bleed_in_blanket +
-                ", tp_hot1=" + tp_hot1 +
-                ", tp_hot2=" + tp_hot2 +
-                ", tp_hot3=" + tp_hot3 +
-                ", tp_hot4=" + tp_hot4 +
-                ", target=" + target +
-                ", bleed_hot1=" + bleed_hot1 +
-                ", bleed_hot2=" + bleed_hot2 +
-                ", bleed_hot3=" + bleed_hot3 +
-                ", bleed_hot4=" + bleed_hot4 +
-                ", abgegeben_fuer='" + abgegeben_fuer + '\'' +
-                '}';
-    }
 }
