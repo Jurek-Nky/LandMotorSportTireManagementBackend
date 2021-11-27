@@ -1,11 +1,13 @@
 package com.dev.tire;
 
 import com.dev.race.Race;
+import io.swagger.annotations.ApiModel;
 
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.Optional;
 
+@ApiModel(description = "Date transfer object for easy tire insertion.")
 public class TireDto extends Tire {
     Long raceID;
 
