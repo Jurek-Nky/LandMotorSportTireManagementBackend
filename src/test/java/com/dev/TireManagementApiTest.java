@@ -11,14 +11,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.RestDocumentationContextProvider;
-import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
@@ -27,17 +22,11 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
 
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
-@AutoConfigureRestDocs(outputDir = "target/generated-snippets")
 class SpringDocsApplicationTests {
 
     @Autowired
@@ -56,13 +45,11 @@ class SpringDocsApplicationTests {
 
 
     @BeforeEach
-    public void setUp(WebApplicationContext webApplicationContext,
-                      RestDocumentationContextProvider restDocumentation) {
+    public void setUp(WebApplicationContext webApplicationContext) {
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
-                .apply(documentationConfiguration(restDocumentation))
                 .build();
-        race = new Race(LocalDate.of(2021, 02, 03), "eifel");
+        race = new Race(LocalDate.of(2021, 2, 3), "eifel");
         race = raceRepository.save(race);
         tireRepository.deleteAll();
     }
@@ -83,14 +70,12 @@ class SpringDocsApplicationTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(tireJson))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andDo(document("{methodName}",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()))).andReturn();
+                .andExpect(status().isOk());
+
     }
 
     @Test
-    public void TestGetTireById() throws Exception {
+    public void testGetTireById() throws Exception {
         tire = tireRepository.save(new TestTire(race).getTire());
 
         mockMvc.perform(get("/api/v1/tire/id")
@@ -98,14 +83,11 @@ class SpringDocsApplicationTests {
                         .characterEncoding("UTF-8")
                         .accept("application/json"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andDo(document("{methodName}",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void TestGetTiresByBez() throws Exception {
+    public void testGetTiresByBez() throws Exception {
         tire = tireRepository.save(new TestTire(race).getTire());
 
         mockMvc.perform(get("/api/v1/tire/bez")
@@ -113,14 +95,11 @@ class SpringDocsApplicationTests {
                         .characterEncoding("UTF-8")
                         .accept("application/json"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andDo(document("{methodName}",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void TestGetTireBySerial() throws Exception {
+    public void testGetTireBySerial() throws Exception {
         tire = tireRepository.save(new TestTire(race).getTire());
 
         mockMvc.perform(get("/api/v1/tire/serial")
@@ -128,10 +107,7 @@ class SpringDocsApplicationTests {
                         .characterEncoding("UTF-8")
                         .accept("application/json"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andDo(document("{methodName}",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -142,16 +118,13 @@ class SpringDocsApplicationTests {
                         .characterEncoding("UTF-8")
                         .accept("application/json"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andDo(document("{methodName}",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                .andExpect(status().isOk());
 
     }
 
 
     @Test
-    public void TestGetTiresByRace() throws Exception {
+    public void testGetTiresByRace() throws Exception {
         tire = tireRepository.save(new TestTire(race).getTire());
 
         mockMvc.perform(get("/api/v1/tire/race")
@@ -159,14 +132,11 @@ class SpringDocsApplicationTests {
                         .characterEncoding("UTF-8")
                         .accept("application/json"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andDo(document("{methodName}",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void TestDeleteTire() throws Exception {
+    public void testDeleteTire() throws Exception {
         tire = tireRepository.save(new TestTire(race).getTire());
 
         mockMvc.perform(delete("/api/v1/tire/delete/" + tire.getTireID())
@@ -174,18 +144,15 @@ class SpringDocsApplicationTests {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
-                        .isOk())
-                .andDo(document("{methodName}",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        .isOk());
     }
 
     @Test
-    public void TestUpdateTire() throws Exception {
+    public void testUpdateTire() throws Exception {
         tire = tireRepository.save(new TestTire(race).getTire());
         Tire tire1 = new TestTire(race).getTire();
 
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("spez", tire1.getSpez());
         map.add("serial", tire1.getSerialNumber());
 
@@ -195,10 +162,7 @@ class SpringDocsApplicationTests {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
-                        .isOk())
-                .andDo(document("{methodName}",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        .isOk());
     }
 
 }

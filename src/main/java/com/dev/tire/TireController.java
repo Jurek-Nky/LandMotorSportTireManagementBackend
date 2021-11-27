@@ -1,5 +1,6 @@
 package com.dev.tire;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,41 +22,56 @@ public class TireController {
     }
 
     @GetMapping("/id")
+    @ApiOperation(value = "find tire by id.")
     public Optional<Tire> gettireById(@RequestParam(name = "id") Long reifenId) {
         return tireService.findTireById(reifenId);
     }
 
     @GetMapping("/bez")
+    @ApiOperation(value = "find tires by bezeichnung.")
     public List<Tire> gettireByBez(@RequestParam(name = "bez") String reifenBezeichnung) {
         return tireService.findTiresByBezeichnung(reifenBezeichnung);
     }
 
     @GetMapping("/serial")
+    @ApiOperation(value = "find tire by serialnumber")
     public Optional<Tire> gettireBySerial(@RequestParam(name = "serial") String serialnumber) {
         return tireService.findTireBySerialnumber(serialnumber);
     }
 
     @GetMapping("/all")
+    @ApiOperation(value = "returns all tires that are stored in the system.")
     public List<Tire> getAlltires() {
         return tireService.getTires();
     }
 
     @GetMapping("/race")
+    @ApiOperation(value = "find tires by race.")
     public List<Tire> gettiresByRennen(@RequestParam(name = "raceid") Long raceid) {
         return tireService.findTiresByRennId(raceid);
     }
 
+    @GetMapping("/time")
+    @ApiOperation(value = "find ale tires by time of order.")
+    public List<Tire> getTiresByTime(@RequestParam(name = "time") Time time) {
+        return tireService.findTiresByTime(time);
+    }
+
+
     @PostMapping("/new")
+    @ApiOperation(value = "insert new tire.")
     public Tire registerNewtire(@RequestBody(required = true) TireDto tireDto) {
         return tireService.addNewTire(tireDto);
     }
 
     @DeleteMapping(path = "/delete/{tireID}")
+    @ApiOperation(value = "delete tire by id.")
     public void deletetire(@PathVariable("tireID") Long reifenId) {
         tireService.deleteTire(reifenId);
     }
 
     @PutMapping(path = "/update/{tireID}")
+    @ApiOperation(value = "update tire by id.")
     // request can look someting like this: PUT http://localhost:8080/api/v1/tire/id/1?tp_hot1=5.7&spez=foo&date=2021-11-20
     public Tire updateTire(@PathVariable("tireID") Long reifenId,
                            @RequestParam(required = false, name = "bezeichnung") String bezeichnung,
@@ -88,7 +104,7 @@ public class TireController {
 
         return tireService.updateTire(reifenId, bezeichnung, date, tp_hot1, tp_hot2, tp_hot3, tp_hot4, bleed_hot1, bleed_hot2,
                 bleed_hot3, bleed_hot4, bleed_in_blanket, abgegeben_fuer, heatingStart, heatingStop, heatingTemp, heatingTime,
-                kaltdruck1, kaltdruck2, kaltdruck3, kaltdruck4, kaltdruckTemp, serialnumber, spez,session, target, time, rennid);
+                kaltdruck1, kaltdruck2, kaltdruck3, kaltdruck4, kaltdruckTemp, serialnumber, spez, session, target, time, rennid);
 
     }
 }
