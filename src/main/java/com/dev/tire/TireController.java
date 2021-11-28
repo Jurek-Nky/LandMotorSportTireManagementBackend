@@ -52,7 +52,7 @@ public class TireController {
     }
 
     @GetMapping("/time")
-    @ApiOperation(value = "find ale tires by time of order.")
+    @ApiOperation(value = "find all tires by time of order.")
     public List<Tire> getTiresByTime(@RequestParam(name = "time") Time time) {
         return tireService.findTiresByTime(time);
     }

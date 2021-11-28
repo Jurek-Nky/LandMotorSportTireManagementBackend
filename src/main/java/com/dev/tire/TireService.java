@@ -69,6 +69,14 @@ public class TireService {
         return tires;
     }
 
+    public List<Tire> findTiresByTime(Time time) {
+        List<Tire> tires = tireRepository.findTiresByTime(time);
+        if (tires.isEmpty()) {
+            throw new IllegalStateException(String.format("No tires were found with time: %s", time));
+        }
+        return tires;
+    }
+
     /*##########################################################################################################
      *  methodes for POST requests
      */
