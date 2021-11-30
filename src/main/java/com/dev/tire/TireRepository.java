@@ -1,5 +1,6 @@
 package com.dev.tire;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,5 +21,6 @@ public interface TireRepository extends CrudRepository<Tire, Long> {
 
     List<Tire> findTiresByRace_RaceID(Long rennid);
 
-    List<Tire> findTiresByTime(Time time);
+    List<Tire> findTiresByErhaltenUm(Time time);
+
 }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Time;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -70,7 +69,7 @@ public class TireService {
     }
 
     public List<Tire> findTiresByTime(Time time) {
-        List<Tire> tires = tireRepository.findTiresByTime(time);
+        List<Tire> tires = tireRepository.findTiresByErhaltenUm(time);
         if (tires.isEmpty()) {
             throw new IllegalStateException(String.format("No tires were found with time: %s", time));
         }
@@ -85,35 +84,25 @@ public class TireService {
     }
 
     public Tire addNewTire(TireDto tireDto) {
+        System.out.println("service");
         // adding tire using DataTransferObject to make it easier to work with foreign fields.
-        Optional<Race> race = raceRepository.findRaceByRaceID(tireDto.raceID);
+        Optional<Race> race = raceRepository.findRaceByRaceID(tireDto.raceid);
         if (race.isEmpty()) {
-            throw new IllegalStateException(String.format("No race with raceID %s found.", tireDto.raceID));
+            throw new IllegalStateException(String.format("No race with raceID %s found.", tireDto.raceid));
         }
-        Optional<Tire> tireSerialTest = tireRepository.findTireBySerialNumber(tireDto.serialNumber);
-        if (tireSerialTest.isPresent()) {
-            throw new IllegalStateException(String.format("Tire with serialnumber %s already exists.", tireDto.serialNumber));
-        }
-        Tire tire = new Tire(race.get(), tireDto.serialNumber, tireDto.bezeichnung,
-                tireDto.date, tireDto.time, tireDto.spez, tireDto.session,
-                tireDto.kaltdruck1, tireDto.kaltdruck2, tireDto.kaltdruck3,
-                tireDto.kaltdruck4, tireDto.kaltdruckTemp, tireDto.heatingTemp,
-                tireDto.heatingTime, tireDto.heatingStart, tireDto.heatingStop);
-        tireDto.bleed_in_blanket.ifPresent(tire::setBleed_in_blanket);
-        tireDto.tp_hot1.ifPresent(tire::setTp_hot1);
-        tireDto.tp_hot2.ifPresent(tire::setTp_hot2);
-        tireDto.tp_hot3.ifPresent(tire::setTp_hot3);
-        tireDto.tp_hot4.ifPresent(tire::setTp_hot4);
-        tireDto.target.ifPresent(tire::setTarget);
-        tireDto.bleed_hot1.ifPresent(tire::setBleed_hot1);
-        tireDto.bleed_hot2.ifPresent(tire::setBleed_hot2);
-        tireDto.bleed_hot3.ifPresent(tire::setBleed_hot3);
-        tireDto.bleed_hot4.ifPresent(tire::setBleed_hot4);
-        if (tireDto.abgegeben_fuer != null && !tireDto.abgegeben_fuer.isEmpty()) {
-            tire.setAbgegeben_fuer(tireDto.abgegeben_fuer);
-        }
-        tireRepository.save(tire);
-        return tire;
+//        Optional<Tire> tireSerialTest = tireRepository.findTireBySerialNumber(tireDto.serialNumber);
+//        if (tireSerialTest.isPresent()) {
+//            throw new IllegalStateException(String.format("Tire with serialnumber %s already exists.", tireDto.serialNumber));
+//        }
+        Tire tire = new Tire(
+                race.get(),
+                tireDto.serialNumber,
+                tireDto.bezeichnung,
+                tireDto.mischung,
+                tireDto.art);
+
+        return tireRepository.save(tire);
+
     }
 
     /*##########################################################################################################
@@ -133,94 +122,47 @@ public class TireService {
 
     @Transactional
     // This methode checks every given argument for existence and equality to the tire field and replaces the tire field if necessary
-    public Tire updateTire(Long tireID, String bezeichnung, LocalDate date, Optional<Double> tp_hot1, Optional<Double> tp_hot2, Optional<Double> tp_hot3,
-                           Optional<Double> tp_hot4, Optional<Double> bleed_hot1, Optional<Double> bleed_hot2, Optional<Double> bleed_hot3, Optional<Double> bleed_hot4,
-                           Optional<Double> bleed_in_blanket, String abgegeben_fuer, Time heatingStart, Time heatingStop, Optional<Integer> heatingTemp,
-                           Optional<Integer> heatingTime, Optional<Double> kaltdruck1, Optional<Double> kaltdruck2, Optional<Double> kaltdruck3, Optional<Double> kaltdruck4,
-                           Optional<Integer> kaltdruckTemp, String serialnumber, String spez, String session, Optional<Double> target, Time time, Long rennid) {
+    public Tire updateTire(Long tireID, Long raceID, String serial, String bez,
+                           String mischung, String art, Time erhalten_um,
+                           String session, Optional<Double> kaltdruck, Optional<Integer> kaltdruckTemp,
+                           Optional<Integer> heatingTemp, Optional<Integer> heatingTime, Time heatingStart,
+                           Time heatingStop) {
         Tire tire = tireRepository.findTireByTireID(tireID).orElseThrow(() ->
                 new IllegalStateException(String.format("Tire with id %s could not be found.", tireID)));
-        if (bezeichnung != null && bezeichnung.length() > 0 && !tire.bezeichnung.equals(bezeichnung)) {
-            tire.setBezeichnung(bezeichnung);
+        if (raceID != null && !Objects.equals(tire.race.getRaceID(), raceID)) {
+            Optional<Race> race = raceRepository.findRaceByRaceID(raceID);
+            race.ifPresentOrElse(tire::setRace,
+                    () -> {
+                        throw new IllegalStateException(String.format("No race with id %s was found.", raceID));
+                    });
         }
-        if (abgegeben_fuer != null && abgegeben_fuer.length() > 0 && !Objects.equals(tire.abgegeben_fuer, abgegeben_fuer)) {
-            tire.setAbgegeben_fuer(abgegeben_fuer);
+        if (serial != null && serial.length() > 0 && !tire.serialNumber.equals(serial)) {
+            tire.setSerialNumber(serial);
         }
-        if (serialnumber != null && serialnumber.length() > 0 && !tire.serialNumber.equals(serialnumber)) {
-            tire.setSerialNumber(serialnumber);
+        if (bez != null && bez.length() > 0 && !tire.bezeichnung.equals(bez)) {
+            tire.setBezeichnung(bez);
         }
-        if (spez != null && spez.length() > 0 && !tire.spez.equals(spez)) {
-            tire.setSpez(spez);
+        if (mischung != null && mischung.length() > 0 && !tire.mischung.equals(mischung)) {
+            tire.setMischung(mischung);
+        }
+        if (art != null && art.length() > 0 && !tire.art.equals(art)) {
+            tire.setArt(art);
+        }
+        if (erhalten_um != null && tire.erhaltenUm != erhalten_um) {
+            tire.setErhaltenUm(erhalten_um);
         }
         if (session != null && session.length() > 0 && !tire.session.equals(session)) {
             tire.setSession(session);
         }
-        if (date != null && !tire.date.equals(date)) {
-            tire.setDate(date);
-        }
-        if (tp_hot1.isPresent() && tire.tp_hot1 != tp_hot1.get()) {
-            tire.setTp_hot1(tp_hot1.get());
-        }
-        if (tp_hot2.isPresent() && tire.tp_hot2 != tp_hot2.get()) {
-            tire.setTp_hot2(tp_hot2.get());
-        }
-        if (tp_hot3.isPresent() && tire.tp_hot3 != tp_hot3.get()) {
-            tire.setTp_hot3(tp_hot3.get());
-        }
-        if (tp_hot4.isPresent() && tire.tp_hot4 != tp_hot4.get()) {
-            tire.setTp_hot4(tp_hot4.get());
-        }
-        if (bleed_hot1.isPresent() && tire.bleed_hot1 != bleed_hot1.get()) {
-            tire.setBleed_hot1(bleed_hot1.get());
-        }
-        if (bleed_hot2.isPresent() && tire.bleed_hot2 != bleed_hot2.get()) {
-            tire.setBleed_hot2(bleed_hot2.get());
-        }
-        if (bleed_hot3.isPresent() && tire.bleed_hot3 != bleed_hot3.get()) {
-            tire.setBleed_hot3(bleed_hot3.get());
-        }
-        if (bleed_hot4.isPresent() && tire.bleed_hot4 != bleed_hot4.get()) {
-            tire.setBleed_hot4(bleed_hot4.get());
-        }
-        if (bleed_in_blanket.isPresent() && tire.bleed_in_blanket != bleed_in_blanket.get()) {
-            tire.setBleed_in_blanket(bleed_in_blanket.get());
-        }
+        kaltdruck.ifPresent(tire::setKaltdruck);
+        kaltdruckTemp.ifPresent(tire::setKaltdruckTemp);
+        heatingTemp.ifPresent(tire::setHeatingTemp);
+        heatingTime.ifPresent(tire::setHeatingTime);
         if (heatingStart != null && tire.heatingStart != heatingStart) {
             tire.setHeatingStart(heatingStart);
         }
         if (heatingStop != null && tire.heatingStop != heatingStop) {
             tire.setHeatingStop(heatingStop);
-        }
-        if (heatingTemp.isPresent() && tire.heatingTemp != heatingTemp.get()) {
-            tire.setHeatingTemp(heatingTemp.get());
-        }
-        if (heatingTime.isPresent() && tire.heatingTime != heatingTime.get()) {
-            tire.setHeatingTime(heatingTime.get());
-        }
-        if (kaltdruck1.isPresent() && tire.kaltdruck1 != kaltdruck1.get()) {
-            tire.setKaltdruck1(kaltdruck1.get());
-        }
-        if (kaltdruck2.isPresent() && tire.kaltdruck2 != kaltdruck2.get()) {
-            tire.setKaltdruck2(kaltdruck2.get());
-        }
-        if (kaltdruck3.isPresent() && tire.kaltdruck3 != kaltdruck3.get()) {
-            tire.setKaltdruck3(kaltdruck3.get());
-        }
-        if (kaltdruck4.isPresent() && tire.kaltdruck4 != kaltdruck4.get()) {
-            tire.setKaltdruck4(kaltdruck4.get());
-        }
-        if (kaltdruckTemp.isPresent() && tire.kaltdruckTemp != kaltdruckTemp.get()) {
-            tire.setKaltdruckTemp(kaltdruckTemp.get());
-        }
-        if (target.isPresent() && tire.target != target.get()) {
-            tire.setTarget(target.get());
-        }
-        if (time != null && !tire.time.equals(time)) {
-            tire.setTime(time);
-        }
-        if (rennid != null && !tire.race.getRaceID().equals(rennid)) {
-            tire.setRace(raceRepository.findRaceByRaceID(rennid).orElseThrow(
-                    () -> new IllegalStateException(String.format("Rennen with id %s not found.", rennid))));
         }
 
         return tire;
