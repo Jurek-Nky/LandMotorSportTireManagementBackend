@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "weather")
@@ -12,10 +13,12 @@ public class Weather {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long wetterid;
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "rennID")
     @JsonIgnore
     Race race;
+    @Column(nullable = false)
+    LocalDate date;
     @Column(nullable = false)
     Time time;
     @Column(nullable = false)
@@ -34,11 +37,19 @@ public class Weather {
         this.tracktemperatur = tracktemperatur;
     }
 
-    public Weather(Race race, Time time, int airtemperatur, int tracktemperatur) {
+    public Weather(Race race, LocalDate localDate, Time time, int airtemperatur, int tracktemperatur) {
         this.race = race;
         this.time = time;
         this.airtemperatur = airtemperatur;
         this.tracktemperatur = tracktemperatur;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Long getWetterid() {
