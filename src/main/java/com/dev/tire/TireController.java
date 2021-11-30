@@ -59,7 +59,7 @@ public class TireController {
 
 
     @PostMapping(value = "/new")
-    @ApiOperation(value = "insert new tire.")
+    @ApiOperation(value = "insert new tire.", notes = "all time attributes can be written as yyyy:M:dd:hh:mm:ss")
     public Tire registerNewtire(@RequestBody(required = true) TireDto tireDto) {
         System.out.println("controller");
         return tireService.addNewTire(tireDto);
@@ -93,5 +93,12 @@ public class TireController {
                 bezeichnung, mischung, art, time, session,
                 kaltdruck, kaltdruckTemp, heatingTemp, heatingTime,
                 heatingStart, heatingStop);
+    }
+
+    @PutMapping(path = "/update/{tireID}/status")
+    @ApiOperation(value = "update status of a tire. Availiable statuses are: \"bestellt\", \"auf lager\" and \"used\"")
+    public Tire updateTireStatus(@PathVariable("tireID") Long tireID,
+                                 @RequestParam(required = true, name = "status") String status) {
+        return tireService.changeStatus(tireID, status);
     }
 }

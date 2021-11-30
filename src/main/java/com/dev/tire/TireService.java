@@ -121,6 +121,14 @@ public class TireService {
      */
 
     @Transactional
+    public Tire changeStatus(Long tireid,String newStatus){
+        Optional<Tire> tire = tireRepository.findTireByTireID(tireid);
+        tire.ifPresentOrElse(tire1 -> {tire1.setStatus(newStatus);},
+                () -> {throw  new IllegalStateException(String.format("No tire with id %s was found.",tireid));});
+        return tire.get();
+    }
+
+    @Transactional
     // This methode checks every given argument for existence and equality to the tire field and replaces the tire field if necessary
     public Tire updateTire(Long tireID, Long raceID, String serial, String bez,
                            String mischung, String art, Time erhalten_um,

@@ -2,6 +2,7 @@ package com.dev.tire;
 
 import com.dev.race.Race;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.SwaggerDefinition;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -21,6 +22,8 @@ public class Tire {
     // just for testing purposes. in a normal usecase serialnumber should always be unique
     @Column(nullable = true)
     String serialNumber;
+    @Column(nullable = false)
+    String status;
     @Column(nullable = false)
     String bezeichnung;
     @Column(nullable = true)
@@ -54,6 +57,7 @@ public class Tire {
         this.bezeichnung = bezeichnung;
         this.mischung = mischung;
         this.art = art;
+        this.status = "bestellt";
     }
 
     public Tire(Race race,
@@ -82,9 +86,18 @@ public class Tire {
         this.heatingTime = heatingTime;
         this.heatingStart = heatingStart;
         this.heatingStop = heatingStop;
+        this.status = "bestellt";
     }
 
     public Tire() {
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Long getTireID() {
