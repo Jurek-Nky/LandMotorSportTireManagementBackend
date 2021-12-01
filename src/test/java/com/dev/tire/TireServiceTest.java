@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +33,7 @@ class TireServiceTest {
 
     @BeforeEach
     void beforeEach() {
-        race = raceRepository.save(new Race(LocalDate.of(2012, 12, 12), "schwarzwald"));
+        race = raceRepository.save(new Race(LocalDate.of(2012, 12, 12), "cooles race", "schwarzwald"));
     }
 
     @AfterEach
@@ -169,10 +168,8 @@ class TireServiceTest {
 
     @Test
     void addNewTireWithDto() {
-//        tireRepository.deleteAll();
-//        race = new Race(LocalDate.of(12,12,12),"foobar");
-        Race testRace = new Race(race.getRaceID(), LocalDate.of(12, 12, 12), "foobar");
-        TireDto tireDto = new TestTire(testRace).getTireDto();
+
+        TireDto tireDto = new TestTire(race).getTireDto();
 
         Tire tire = tireService.addNewTire(tireDto);
 
@@ -211,7 +208,7 @@ class TireServiceTest {
     @Test
     void testUpdateTireForExceptionNoRennenFound() {
         Tire tire = tireRepository.save(new TestTire(race).getTire());
-        race = raceRepository.save(new Race(LocalDate.of(1, 1, 1), "lslsl"));
+        race = raceRepository.save(new Race(LocalDate.of(2012, 12, 12), "cooles race", "schwarzwald"));
         raceRepository.deleteById(race.getRaceID());
 
         Exception exception = assertThrows(RuntimeException.class,

@@ -49,7 +49,7 @@ class TireManagementApiTest {
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .build();
-        race = new Race(LocalDate.of(2021, 2, 3), "eifel");
+        race = raceRepository.save(new Race(LocalDate.of(2012, 12, 12), "cooles race", "schwarzwald"));
         race = raceRepository.save(race);
         tireRepository.deleteAll();
     }
