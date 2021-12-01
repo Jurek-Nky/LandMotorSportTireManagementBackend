@@ -3,6 +3,7 @@ Content-Type: application/json
 
 {
   "date": "2020-12-05",
+  "name": "super rennen",
   "location": "eifel"
 }
 ###
@@ -11,6 +12,7 @@ Content-Type: application/json
 
 {
   "date": "2020-07-08",
+  "name": "hier gehts ab",
   "location": "hamburg"
 }
 ###
@@ -19,6 +21,7 @@ Content-Type: application/json
 
 {
   "date": "2020-06-03",
+  "name": "super speed race...",
   "location": "muenchen"
 }
 

@@ -31,7 +31,7 @@ public class RaceController {
     }
 
     @PostMapping("/new")
-    @ApiOperation(value = "insert new race.")
+    @ApiOperation(value = "nsert new race.")
     public Race addNewRace(@RequestBody(required = true) Race race) {
         return raceService.addNewRace(race);
     }

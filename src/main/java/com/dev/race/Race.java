@@ -17,6 +17,8 @@ public class Race {
     @Column(nullable = false)
     LocalDate date;
     @Column(nullable = false)
+    String name;
+    @Column(nullable = false)
     String location;
     @OneToMany(mappedBy = "race")
     @JsonIgnoreProperties("race")
@@ -25,19 +27,29 @@ public class Race {
     @JsonIgnoreProperties("race")
     List<Weather> weather;
 
-    public Race(Long raceID, LocalDate date, String location) {
+    public Race(Long raceID, LocalDate date,String name, String location) {
         this.raceID = raceID;
         this.date = date;
         this.location = location;
+        this.name = name;
     }
 
-    public Race(LocalDate date, String location) {
+    public Race(LocalDate date, String name, String location) {
         this.date = date;
+        this.name = name;
         this.location = location;
     }
 
     public Race() {
 
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getRaceID() {

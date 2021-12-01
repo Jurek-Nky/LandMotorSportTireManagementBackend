@@ -33,15 +33,7 @@ public class RaceService {
         return races;
     }
 
-    public Race addNewRace(String date, String location) {
-        LocalDate d = LocalDate.parse(date);
-        Race race = new Race(d, location);
-        raceRepository.save(race);
-        return race;
-    }
-
     public Race addNewRace(Race race) {
-        raceRepository.save(race);
-        return race;
+        return raceRepository.save(race);
     }
 }
