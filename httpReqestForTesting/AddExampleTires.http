@@ -1,0 +1,24 @@
+POST http://localhost:8080/api/v1/tire/new
+Content-Type: application/json
+
+{
+  "raceid": 1,
+  "serial": "sdf",
+  "bezeichnung": "slkjk",
+  "mischung": "sssss",
+  "art": "www"
+}
+###
+POST http://localhost:8080/api/v1/tire/new
+Content-Type: application/json
+
+{
+  "raceid": 1,
+  "serial": "sdfsdf",
+  "bezeichnung": "sdfffff",
+  "mischung": "wwww",
+  "art": "wwaaaaaaaw"
+}
+
+###
+PUT http://localhost:8080/api/v1/tire/update/12/status?status=auf lager

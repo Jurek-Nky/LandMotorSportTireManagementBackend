@@ -1,0 +1,25 @@
+POST http://localhost:8080/api/v1/race/new
+Content-Type: application/json
+
+{
+  "date": "2020-12-05",
+  "location": "eifel"
+}
+###
+POST http://localhost:8080/api/v1/race/new
+Content-Type: application/json
+
+{
+  "date": "2020-07-08",
+  "location": "hamburg"
+}
+###
+POST http://localhost:8080/api/v1/race/new
+Content-Type: application/json
+
+{
+  "date": "2020-06-03",
+  "location": "muenchen"
+}
+
+###

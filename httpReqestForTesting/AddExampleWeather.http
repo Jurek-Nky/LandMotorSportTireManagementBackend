@@ -1,0 +1,19 @@
+POST http://localhost:8080/api/v1/weather/new?raceid=1
+Content-Type: application/json
+
+{
+  "airTemp": 14,
+  "trackTemp": 9,
+  "condition": "drying"
+}
+
+###
+
+POST http://localhost:8080/api/v1/weather/new
+Content-Type: application/json
+
+{
+  "airTemp": 45,
+  "trackTemp": 8,
+  "condition": "klatschnass"
+}
