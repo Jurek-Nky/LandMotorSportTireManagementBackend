@@ -18,7 +18,11 @@ public class RaceService {
     }
 
     public List<Race> getRaces() {
-        return (List<Race>) raceRepository.findAll();
+        List<Race> races = (List<Race>) raceRepository.findAll();
+        if (races.isEmpty()){
+            throw new IllegalStateException("No races availiable.");
+        }
+        return races;
     }
 
     public List<Race> findAllByDate(String date) {
