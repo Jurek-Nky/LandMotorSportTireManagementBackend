@@ -2,7 +2,6 @@ package com.dev.tire;
 
 import com.dev.race.Race;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.swagger.annotations.SwaggerDefinition;
 
 import javax.persistence.*;
 import java.sql.Time;
