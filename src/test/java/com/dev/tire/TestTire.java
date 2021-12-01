@@ -28,7 +28,7 @@ public class TestTire {
     Random rnd;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy:M:dd:hh:mm:ss");
 
-    public TestTire(Race race) throws ParseException {
+    public TestTire(Race race) {
         mischung = rndString(10);
         art = rndString(10);
         rnd = new Random();
@@ -36,13 +36,7 @@ public class TestTire {
         this.race = race;
         serialNumber = "serial" + rnd.nextInt(10000);
         bezeichnung = rndString(8);
-        time = new Time(sdf.parse(String.format("%s:%s:%s:%s:%s:%s",
-                rnd.nextInt(1990, 2022),
-                rnd.nextInt(12),
-                rnd.nextInt(30),
-                rnd.nextInt(23),
-                rnd.nextInt(59),
-                rnd.nextInt(59))).getTime());
+        time = new Time(rnd.nextInt(0, 23), rnd.nextInt(0, 59), rnd.nextInt(0, 59));
         session = rndString(10);
         kaltdruck = rnd.nextDouble(10);
         kaltdruckTemp = rnd.nextInt(40);
@@ -70,7 +64,6 @@ public class TestTire {
     }
 
     public TireDto getTireDto() {
-        return new TireDto(race.getRaceID(), serialNumber, bezeichnung,
-                mischung, art);
+        return new TireDto(race.getRaceID(), serialNumber, bezeichnung, mischung, art);
     }
 }

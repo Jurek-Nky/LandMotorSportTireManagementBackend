@@ -52,7 +52,7 @@ class TireServiceTest {
 
 
     @Test
-    void getTiresWithElements() throws JsonProcessingException, ParseException {
+    void getTiresWithElements() throws JsonProcessingException {
         Tire tire = tireRepository.save(new TestTire(race).getTire());
         Tire tire1 = tireRepository.save(new TestTire(race).getTire());
 
@@ -63,7 +63,7 @@ class TireServiceTest {
     }
 
     @Test
-    void testFindTiresByBezeichnungWithElement() throws JsonProcessingException, ParseException {
+    void testFindTiresByBezeichnungWithElement() throws JsonProcessingException {
         Tire tire = tireRepository.save(new TestTire(race).getTire());
         tireRepository.save(new TestTire(race).getTire());
 
@@ -82,7 +82,7 @@ class TireServiceTest {
     }
 
     @Test
-    void testFindTireByIdWithElement() throws JsonProcessingException, ParseException {
+    void testFindTireByIdWithElement() throws JsonProcessingException {
         Tire tire = tireRepository.save(new TestTire(race).getTire());
 
         Optional<Tire> tireFromService = tireService.findTireById(tire.tireID);
@@ -93,14 +93,14 @@ class TireServiceTest {
 
     @Test
     void testFindTireByIdWithoutElement() {
-        Long id = 316426946l;
+        Long id = 316426946L;
         Exception exception = assertThrows(RuntimeException.class, () -> tireService.findTireById(id));
         String expected_message = String.format("No tires were found with TireID: %s", id);
         assertThat(exception.getMessage()).isEqualTo(expected_message);
     }
 
     @Test
-    void testFindTireBySerialnumberWithElement() throws JsonProcessingException, ParseException {
+    void testFindTireBySerialnumberWithElement() throws JsonProcessingException {
         Tire tire = tireRepository.save(new TestTire(race).getTire());
 
         Optional<Tire> tireFromService = tireService.findTireBySerialnumber(tire.serialNumber);
@@ -118,7 +118,7 @@ class TireServiceTest {
     }
 
     @Test
-    void testFindTiresByRennIdWithElement() throws JsonProcessingException, ParseException {
+    void testFindTiresByRennIdWithElement() throws JsonProcessingException {
         race = raceRepository.save(race);
         Tire tire = tireRepository.save(new TestTire(race).getTire());
         Tire tire1 = tireRepository.save(new TestTire(race).getTire());
@@ -131,32 +131,32 @@ class TireServiceTest {
 
     @Test
     void testFindTiresByRennIdWithoutElement() {
-        Long rennid = 631452l;
+        Long rennid = 631452L;
         Exception exception = assertThrows(RuntimeException.class, () -> tireService.findTiresByRennId(rennid));
         String expected_message = String.format("No tires were found with RennID: %s", rennid);
         assertThat(exception.getMessage()).isEqualTo(expected_message);
     }
 
     @Test
-    void addNewTire() throws ParseException {
+    void addNewTire() {
         Tire tire = tireService.addNewTire(new TestTire(race).getTire());
 
         assertThat(tireRepository.findTireByTireID(tire.tireID)).isPresent();
     }
 
     @Test
-    void addNewTireNoRace() throws ParseException {
+    void addNewTireNoRace() {
         TireDto tireDto = new TestTire(race).getTireDto();
         raceRepository.deleteAll();
         Exception exception = assertThrows(RuntimeException.class,
                 () -> tireService.addNewTire(tireDto));
-        String expectedException = String.format("No race with raceID %s found.", tireDto.raceid);
+        String expectedException = String.format("No race with raceID %s found.", tireDto.getRaceid());
         assertThat(exception.getMessage()).isEqualTo(expectedException);
     }
 
     @Test
     @Disabled
-    void addNewTireSerialAlreadyExists() throws ParseException {
+    void addNewTireSerialAlreadyExists() {
         TestTire testTire = new TestTire(race);
 
         Tire tire = tireRepository.save(testTire.getTire());
@@ -168,7 +168,7 @@ class TireServiceTest {
     }
 
     @Test
-    void addNewTireWithDto() throws ParseException {
+    void addNewTireWithDto() {
 //        tireRepository.deleteAll();
 //        race = new Race(LocalDate.of(12,12,12),"foobar");
         Race testRace = new Race(race.getRaceID(), LocalDate.of(12, 12, 12), "foobar");
@@ -180,7 +180,7 @@ class TireServiceTest {
     }
 
     @Test
-    void testDeleteTireWithElement() throws ParseException {
+    void testDeleteTireWithElement() {
         Tire tire = tireRepository.save(new TestTire(race).getTire());
 
         tireService.deleteTire(tire.tireID);
@@ -191,7 +191,7 @@ class TireServiceTest {
 
     @Test
     void testDeleteTireWithoutElement() {
-        Long id = 63649l;
+        Long id = 63649L;
         Exception exception = assertThrows(RuntimeException.class, () -> tireService.deleteTire(id));
         String expected_message = String.format("tire with id %s does not exist.", id);
         assertThat(exception.getMessage()).isEqualTo(expected_message);
@@ -203,13 +203,13 @@ class TireServiceTest {
                 () -> tireService.updateTire(null, null, null, null, null,
                         null, null, null, Optional.empty(), Optional.empty(),
                         Optional.empty(), Optional.empty(), null, null));
-        String expected_message = String.format("Tire with id %s could not be found.", null);
+        String expected_message = String.format("Tire with id %s could not be found.", (Object) null);
 
         assertThat(exception.getMessage()).isEqualTo(expected_message);
     }
 
     @Test
-    void testUpdateTireForExceptionNoRennenFound() throws ParseException {
+    void testUpdateTireForExceptionNoRennenFound() {
         Tire tire = tireRepository.save(new TestTire(race).getTire());
         race = raceRepository.save(new Race(LocalDate.of(1, 1, 1), "lslsl"));
         raceRepository.deleteById(race.getRaceID());
@@ -224,7 +224,7 @@ class TireServiceTest {
     }
 
     @Test
-    void testUpdateTire() throws JsonProcessingException, ParseException {
+    void testUpdateTire() throws JsonProcessingException {
         Tire tire = tireRepository.save(new TestTire(race).getTire());
         tireRepository.deleteById(tire.tireID);
         Tire tire2 = tireRepository.save(new TestTire(race).getTire());
