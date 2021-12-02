@@ -86,20 +86,16 @@ public class TireService {
     public Tire addNewTire(TireDto tireDto) {
         System.out.println("service");
         // adding tire using DataTransferObject to make it easier to work with foreign fields.
-        Optional<Race> race = raceRepository.findRaceByRaceID(tireDto.raceid);
+        Optional<Race> race = raceRepository.findRaceByRaceID(tireDto.getRaceid());
         if (race.isEmpty()) {
-            throw new IllegalStateException(String.format("No race with raceID %s found.", tireDto.raceid));
+            throw new IllegalStateException(String.format("No race with raceID %s found.", tireDto.getRaceid()));
         }
-//        Optional<Tire> tireSerialTest = tireRepository.findTireBySerialNumber(tireDto.serialNumber);
-//        if (tireSerialTest.isPresent()) {
-//            throw new IllegalStateException(String.format("Tire with serialnumber %s already exists.", tireDto.serialNumber));
-//        }
         Tire tire = new Tire(
                 race.get(),
-                tireDto.serialNumber,
-                tireDto.bezeichnung,
-                tireDto.mischung,
-                tireDto.art);
+                tireDto.getSerial(),
+                tireDto.getBezeichnung(),
+                tireDto.getMischung(),
+                tireDto.getArt());
 
         return tireRepository.save(tire);
 
@@ -119,6 +115,15 @@ public class TireService {
     /*##########################################################################################################
      *  methodes for PUT requests
      */
+
+    @Transactional
+    public Tire changeStatus(Long tireid, String newStatus) {
+        Optional<Tire> tire = tireRepository.findTireByTireID(tireid);
+        tire.ifPresentOrElse(tire1 -> tire1.setStatus(newStatus), () -> {
+            throw new IllegalStateException(String.format("No tire with id %s was found.", tireid));
+        });
+        return tire.get();
+    }
 
     @Transactional
     // This methode checks every given argument for existence and equality to the tire field and replaces the tire field if necessary

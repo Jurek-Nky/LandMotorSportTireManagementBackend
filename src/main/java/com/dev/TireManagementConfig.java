@@ -28,15 +28,12 @@ public class TireManagementConfig {
     private static final Set<String> DEFAULT_PRODUCES_AND_CONSUMES =
             new HashSet<>(List.of("application/json"));
 
-    private static final String HOST_NAME = "limla.ml:8080";
-
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(DEFAULT_API_INFO)
                 .produces(DEFAULT_PRODUCES_AND_CONSUMES)
-                .consumes(DEFAULT_PRODUCES_AND_CONSUMES)
-                .host("limla.ml");
+                .consumes(DEFAULT_PRODUCES_AND_CONSUMES);
     }
 
 }

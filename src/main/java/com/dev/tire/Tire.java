@@ -22,6 +22,8 @@ public class Tire {
     @Column(nullable = true)
     String serialNumber;
     @Column(nullable = false)
+    String status;
+    @Column(nullable = false)
     String bezeichnung;
     @Column(nullable = true)
     Time erhaltenUm;
@@ -54,6 +56,7 @@ public class Tire {
         this.bezeichnung = bezeichnung;
         this.mischung = mischung;
         this.art = art;
+        this.status = "bestellt";
     }
 
     public Tire(Race race,
@@ -82,9 +85,18 @@ public class Tire {
         this.heatingTime = heatingTime;
         this.heatingStart = heatingStart;
         this.heatingStop = heatingStop;
+        this.status = "bestellt";
     }
 
     public Tire() {
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Long getTireID() {

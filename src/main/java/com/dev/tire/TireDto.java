@@ -1,38 +1,45 @@
 package com.dev.tire;
 
-import com.dev.race.Race;
 import io.swagger.annotations.ApiModel;
 
-import java.sql.Time;
-
 @ApiModel(description = "Date transfer object for easy tire insertion.")
-public class TireDto extends Tire {
+public class TireDto {
 
-    Long raceid;
+    private Long raceid;
+    private String serial;
+    private String bezeichnung;
+    private String mischung;
+    private String art;
 
-    public TireDto(Long raceid, String serialNumber, String bezeichnung,
-                   String mischung, String art) {
-        super(null, serialNumber, bezeichnung, mischung, art);
+    public TireDto(Long raceid,
+                   String serial,
+                   String bezeichnung,
+                   String mischung,
+                   String art) {
+        this.serial = serial;
         this.raceid = raceid;
+        this.bezeichnung = bezeichnung;
+        this.mischung = mischung;
+        this.art = art;
     }
-
-//    public TireDto(Long raceid, String serialNumber,
-//                   String bezeichnung, String mischung, String art,
-//                   Time erhalten_um, String session, double kaltdruck,
-//                   int kaltdruckTemp, int heatingTemp, int heatingTime,
-//                   Time heatingStart, Time heatingStop) {
-//        super(null, serialNumber, bezeichnung, mischung, art,
-//                erhalten_um, session, kaltdruck, kaltdruckTemp,
-//                heatingTemp, heatingTime, heatingStart, heatingStop);
-//        this.raceid = raceid;
-//    }
 
     public Long getRaceid() {
         return raceid;
     }
 
-    public void setRaceid(Long raceid) {
-        this.raceid = raceid;
+    public String getSerial() {
+        return serial;
     }
 
+    public String getBezeichnung() {
+        return bezeichnung;
+    }
+
+    public String getMischung() {
+        return mischung;
+    }
+
+    public String getArt() {
+        return art;
+    }
 }

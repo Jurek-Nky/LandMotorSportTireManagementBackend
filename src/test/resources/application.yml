@@ -3,10 +3,10 @@ spring:
     import: private.yml
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true
   datasource:
-    url: jdbc:mysql://limla.ml:3306/tiremanagement?createDatabaseIfNotExist=true&serverTimezone=UTC
+    url: jdbc:mysql://limla.ml:3306/tiremanagementTest?createDatabaseIfNotExist=true&serverTimezone=UTC
     driver:-class-name: com.mysql.cj.jdbc.Driver
 server:
   error:

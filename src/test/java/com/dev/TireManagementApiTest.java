@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-class SpringDocsApplicationTests {
+class TireManagementApiTest {
 
     @Autowired
     private WebApplicationContext context;
@@ -49,7 +49,7 @@ class SpringDocsApplicationTests {
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .build();
-        race = new Race(LocalDate.of(2021, 2, 3), "eifel");
+        race = raceRepository.save(new Race(LocalDate.of(2012, 12, 12), "cooles race", "schwarzwald"));
         race = raceRepository.save(race);
         tireRepository.deleteAll();
     }
@@ -59,19 +59,38 @@ class SpringDocsApplicationTests {
     public void testAddTire() throws Exception {
         testTire = new TestTire(race);
         tireDto = testTire.getTireDto();
-        tire = testTire.getTire();
-
         tireJson = new ObjectMapper()
                 .registerModule(new JavaTimeModule())
                 .writeValueAsString(tireDto);
 
         mockMvc.perform(post("/api/v1/tire/new")
                         .characterEncoding("UTF-8")
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType("application/json")
                         .content(tireJson))
                 .andDo(print())
                 .andExpect(status().isOk());
 
+    }
+
+    @Test
+    public void testAddTireWithAllFields() throws Exception {
+        System.out.println("test");
+        testTire = new TestTire(race);
+        System.out.println(testTire);
+        tireDto = testTire.getTireDto();
+        System.out.println(tireDto);
+
+        tireJson = new ObjectMapper()
+                .registerModule(new JavaTimeModule())
+                .writeValueAsString(tireDto);
+        System.out.println(tireJson);
+
+        mockMvc.perform(post("/api/v1/tire/new")
+                        .characterEncoding("UTF-8")
+                        .contentType("application/json")
+                        .content(tireJson))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -153,7 +172,7 @@ class SpringDocsApplicationTests {
         Tire tire1 = new TestTire(race).getTire();
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("spez", tire1.getSpez());
+        map.add("bez", tire1.getBezeichnung());
         map.add("serial", tire1.getSerialNumber());
 
         mockMvc.perform(put("/api/v1/tire/update/" + tire.getTireID())

@@ -1,0 +1,28 @@
+POST http://localhost:8080/api/v1/race/new
+Content-Type: application/json
+
+{
+  "date": "2020-12-05",
+  "name": "super rennen",
+  "location": "eifel"
+}
+###
+POST http://localhost:8080/api/v1/race/new
+Content-Type: application/json
+
+{
+  "date": "2020-07-08",
+  "name": "hier gehts ab",
+  "location": "hamburg"
+}
+###
+POST http://localhost:8080/api/v1/race/new
+Content-Type: application/json
+
+{
+  "date": "2020-06-03",
+  "name": "super speed race...",
+  "location": "muenchen"
+}
+
+###

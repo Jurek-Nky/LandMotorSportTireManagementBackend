@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -25,12 +26,12 @@ public class RaceController {
 
     @GetMapping(path = "/date")
     @ApiOperation(value = "find races by date.")
-    public List<Race> getRacesByDate(@RequestAttribute(name = "date") String date) {
+    public List<Race> getRacesByDate(@RequestAttribute(name = "date") LocalDate date) {
         return raceService.findAllByDate(date);
     }
 
     @PostMapping("/new")
-    @ApiOperation(value = "insert new race.")
+    @ApiOperation(value = "nsert new race.")
     public Race addNewRace(@RequestBody(required = true) Race race) {
         return raceService.addNewRace(race);
     }
