@@ -148,8 +148,8 @@ class TireServiceTest {
         TireDto tireDto = new TestTire(race).getTireDto();
         raceRepository.deleteAll();
         Exception exception = assertThrows(RuntimeException.class,
-                () -> tireService.addNewTire(tireDto));
-        String expectedException = String.format("No race with raceID %s found.", tireDto.getRaceid());
+                () -> tireService.addNewTire(race.getRaceID(),tireDto));
+        String expectedException = String.format("No race with ID %s was found.", race.getRaceID());
         assertThat(exception.getMessage()).isEqualTo(expectedException);
     }
 
@@ -161,7 +161,7 @@ class TireServiceTest {
         Tire tire = tireRepository.save(testTire.getTire());
 
         Exception e = assertThrows(RuntimeException.class,
-                () -> tireService.addNewTire(testTire.getTireDto()));
+                () -> tireService.addNewTire(race.getRaceID(),testTire.getTireDto()));
         String expected = String.format("Tire with serialnumber %s already exists.", tire.getSerialNumber());
         assertThat(e.getMessage()).isEqualTo(expected);
     }
@@ -171,7 +171,7 @@ class TireServiceTest {
 
         TireDto tireDto = new TestTire(race).getTireDto();
 
-        Tire tire = tireService.addNewTire(tireDto);
+        Tire tire = tireService.addNewTire(race.getRaceID(),tireDto);
 
         assertThat(tire).isInstanceOf(Tire.class);
     }

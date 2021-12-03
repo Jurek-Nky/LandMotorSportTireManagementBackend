@@ -2,6 +2,7 @@ package com.dev.race;
 
 import com.dev.tire.Tire;
 import com.dev.weather.Weather;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -22,9 +23,11 @@ public class Race {
     String location;
     @OneToMany(mappedBy = "race")
     @JsonIgnoreProperties("race")
+    @JsonIgnore
     List<Tire> tireProRace;
     @OneToMany(mappedBy = "race")
     @JsonIgnoreProperties("race")
+    @JsonIgnore
     List<Weather> weather;
 
     public Race(Long raceID, LocalDate date,String name, String location) {
