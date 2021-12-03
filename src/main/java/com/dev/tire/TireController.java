@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,10 +58,17 @@ public class TireController {
 
 
     @PostMapping(value = "/new")
-    @ApiOperation(value = "insert new tire.", notes = "all time attributes can be written as yyyy:M:dd:hh:mm:ss")
-    public Tire registerNewtire(@RequestBody(required = true) TireDto tireDto) {
+    @ApiOperation(value = "insert new tire.")
+    public Tire registerNewtire(@RequestParam(required = false) Long raceid,
+                                @RequestBody(required = true) TireDto tireDto) {
         System.out.println("controller");
-        return tireService.addNewTire(tireDto);
+        return tireService.addNewTire(raceid, tireDto);
+    }
+
+    @PostMapping(value = "/newset")
+    @ApiOperation(value = "inset new set of four tires.")
+    public List<Tire> addNewTireSet(@RequestParam(required = false) Long raceid, @RequestBody(required = true) TireSet tireSet) {
+        return tireService.addNewTireSet(raceid, tireSet);
     }
 
     @DeleteMapping(path = "/delete/{tireID}")
@@ -96,7 +102,7 @@ public class TireController {
     }
 
     @PutMapping(path = "/update/{tireID}/status")
-    @ApiOperation(value = "update status of a tire. Availiable statuses are: \"bestellt\", \"auf lager\" and \"used\"")
+    @ApiOperation(value = "update status of a tire. Availiable statuses are: \"bestellt\", \"auf lager\" and \"benutzt\"")
     public Tire updateTireStatus(@PathVariable("tireID") Long tireID,
                                  @RequestParam(required = true, name = "status") String status) {
         return tireService.changeStatus(tireID, status);

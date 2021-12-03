@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -83,13 +84,20 @@ public class TireService {
         return tireRepository.save(tire);
     }
 
-    public Tire addNewTire(TireDto tireDto) {
-        System.out.println("service");
-        // adding tire using DataTransferObject to make it easier to work with foreign fields.
-        Optional<Race> race = raceRepository.findRaceByRaceID(tireDto.getRaceid());
-        if (race.isEmpty()) {
-            throw new IllegalStateException(String.format("No race with raceID %s found.", tireDto.getRaceid()));
+    public Tire addNewTire(Long raceid, TireDto tireDto) {
+        Optional<Race> race;
+        if (raceid != null) {
+            race = raceRepository.findRaceByRaceID(raceid);
+            if (race.isEmpty()) {
+                throw new IllegalStateException(String.format("No race with ID %s was found.", raceid));
+            }
+        } else {
+            race = raceRepository.getFirstByOrderByDateDesc();
+            if (race.isEmpty()) {
+                throw new IllegalStateException("No race available.");
+            }
         }
+
         Tire tire = new Tire(
                 race.get(),
                 tireDto.getSerial(),
@@ -99,6 +107,31 @@ public class TireService {
 
         return tireRepository.save(tire);
 
+    }
+
+    public List<Tire> addNewTireSet(Long raceid, TireSet tireSet) {
+        Optional<Race> race;
+        if (raceid != null) {
+            race = raceRepository.findRaceByRaceID(raceid);
+            if (race.isEmpty()) {
+                throw new IllegalStateException(String.format("No race with ID %s was found.", raceid));
+            }
+        } else {
+            race = raceRepository.getFirstByOrderByDateDesc();
+            if (race.isEmpty()) {
+                throw new IllegalStateException("No race available.");
+            }
+        }
+
+        TireDto front = tireSet.getFront();
+        TireDto rear = tireSet.getRear();
+        List<Tire> tires = new ArrayList<>();
+        tires.add(tireRepository.save(new Tire(race.get(), front.getSerial(), front.getBezeichnung(), front.getMischung(), front.getArt())));
+        tires.add(tireRepository.save(new Tire(race.get(), front.getSerial(), front.getBezeichnung(), front.getMischung(), front.getArt())));
+        tires.add(tireRepository.save(new Tire(race.get(), rear.getSerial(), rear.getBezeichnung(), rear.getMischung(), rear.getArt())));
+        tires.add(tireRepository.save(new Tire(race.get(), rear.getSerial(), rear.getBezeichnung(), rear.getMischung(), rear.getArt())));
+
+        return tires;
     }
 
     /*##########################################################################################################
@@ -119,9 +152,14 @@ public class TireService {
     @Transactional
     public Tire changeStatus(Long tireid, String newStatus) {
         Optional<Tire> tire = tireRepository.findTireByTireID(tireid);
-        tire.ifPresentOrElse(tire1 -> tire1.setStatus(newStatus), () -> {
-            throw new IllegalStateException(String.format("No tire with id %s was found.", tireid));
-        });
+        if (newStatus.equals("bestellt") || newStatus.equals("auf lager") || newStatus.equals("benutzt")) {
+            tire.ifPresentOrElse(tire1 -> tire1.setStatus(newStatus), () -> {
+                throw new IllegalStateException(String.format("No tire with id %s was found.", tireid));
+            });
+        } else {
+            throw new IllegalStateException(String.format("No status named %s is available.", newStatus));
+        }
+
         return tire.get();
     }
 
