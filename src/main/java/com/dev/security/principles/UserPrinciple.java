@@ -34,8 +34,8 @@ public class UserPrinciple implements UserDetails {
     }
 
     public static UserPrinciple create(User user) {
-        List<GrantedAuthority> authorities = List.of( new SimpleGrantedAuthority(user.getRolle().getRoleName()));
-        return new UserPrinciple(user,authorities);
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRolle().getRoleName()));
+        return new UserPrinciple(user, authorities);
     }
 
 
