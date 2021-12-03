@@ -64,6 +64,6 @@ public class TestTire {
     }
 
     public TireDto getTireDto() {
-        return new TireDto(race.getRaceID(), serialNumber, bezeichnung, mischung, art);
+        return new TireDto(serialNumber, bezeichnung, mischung, art);
     }
 }
