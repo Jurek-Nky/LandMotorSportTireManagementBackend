@@ -5,3 +5,4 @@
 /src/test/resources/private.yml
 /target/
 /.idea/
+/spring-boot-index-page.iml
