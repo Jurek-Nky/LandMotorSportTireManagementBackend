@@ -11,30 +11,27 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long Userid;
+
     @Column(nullable = false)
     String vorName;
+
     @Column(nullable = false)
     String nachName;
+
+    @Transient
+    String roleName;
+
+    @Column(nullable = false)
+    String password;
+
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "roleID")
     @JsonIgnore
     Role role;
 
-    public User(Long userid, String vorName, String nachName) {
-        Userid = userid;
-        this.vorName = vorName;
-        this.nachName = nachName;
-    }
-
     public User(String vorName, String nachName) {
         this.vorName = vorName;
         this.nachName = nachName;
-    }
-
-    public User(String vorName, String nachName, Role role) {
-        this.vorName = vorName;
-        this.nachName = nachName;
-        this.role = role;
     }
 
     public User() {
@@ -66,6 +63,30 @@ public class User {
 
     public Role getRolle() {
         return role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     public void setRolle(Role role) {
