@@ -5,26 +5,19 @@ import io.swagger.annotations.ApiModel;
 @ApiModel(description = "Date transfer object for easy tire insertion.")
 public class TireDto {
 
-    private Long raceid;
     private String serial;
     private String bezeichnung;
     private String mischung;
     private String art;
 
-    public TireDto(Long raceid,
-                   String serial,
+    public TireDto(String serial,
                    String bezeichnung,
                    String mischung,
                    String art) {
         this.serial = serial;
-        this.raceid = raceid;
         this.bezeichnung = bezeichnung;
         this.mischung = mischung;
         this.art = art;
-    }
-
-    public Long getRaceid() {
-        return raceid;
     }
 
     public String getSerial() {

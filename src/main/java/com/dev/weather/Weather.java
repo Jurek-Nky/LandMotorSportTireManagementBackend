@@ -1,6 +1,7 @@
 package com.dev.weather;
 
 import com.dev.race.Race;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class Weather {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "rennID")
     @JsonIgnoreProperties({"tireProRace", "weather"})
+    @JsonIgnore
     Race race;
     @Column(nullable = false)
     LocalDate date;
