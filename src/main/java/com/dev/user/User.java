@@ -24,7 +24,7 @@ public class User {
     @Column(nullable = false)
     String password;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
     @JoinColumn(name = "roleID")
     @JsonIgnore
     Role role;
