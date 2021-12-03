@@ -3,7 +3,6 @@ package com.dev.user;
 import com.dev.role.Role;
 import com.dev.role.RoleRepository;
 import com.dev.security.jwt.JwtTokenProvider;
-import com.dev.security.principles.UserPrinciple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Optional;
 
 @Service
@@ -43,47 +43,37 @@ public class AuthService {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = tokenProvider.generateToken(authentication);
-        return jwt;
+        return tokenProvider.generateToken(authentication);
     }
 
     @Transactional
     public User registerUser(User signUpRequest) {
-        if(!this.isValidUserPass(signUpRequest)) return null;
+        if (!this.isValidUserPass(signUpRequest))
+            throw new IllegalStateException("Password must be at least 8 characters.");
 
         Optional<User> userInDb = userRepository.findUserByVorNameAndNachName(signUpRequest.vorName, signUpRequest.nachName);
         if (userInDb.isPresent()) {
-            throw new IllegalStateException(String.format("User with vorname: %s and nachname: %s, already exists."));
+            throw new IllegalStateException(
+                    String.format("User with vorname: %s and nachname: %s, already exists.",
+                            signUpRequest.vorName,
+                            signUpRequest.nachName)
+            );
         }
         // if combination of vorname and nachname is unique then add user
         User user = new User(signUpRequest.vorName, signUpRequest.nachName);
 
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
-        Role userRole =  roleRepository.findRoleByRoleName(signUpRequest.roleName).get();
-        user.setRole(userRole);
+        Optional<Role> userRole = roleRepository.findRoleByRoleName(signUpRequest.roleName);
+        if (userRole.isEmpty()) {
+            throw new IllegalStateException(String.format("No role found with name %s .", signUpRequest.roleName));
+        }
+        user.setRole(userRole.get());
 
-        User result = userRepository.save(user);
-
-        return result;
-    }
-
-    public User getUserByMobileOrEmail(String vorName) {
-        User user = userRepository.findUserByVorName(vorName).get();
-        return user;
-    }
-
-    public UserPrinciple getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (UserPrinciple) authentication.getPrincipal();
-    }
-
-    public Long getCurrentUserId() {
-        return this.getCurrentUser().getId();
+        return userRepository.save(user);
     }
 
     public boolean isValidUserPass(User userModel) {
-        if(userModel.getPassword().length() < 6 ) return false;
-        return true;
+        return userModel.getPassword().length() >= 8;
     }
 }

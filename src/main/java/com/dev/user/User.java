@@ -2,7 +2,6 @@ package com.dev.user;
 
 import com.dev.role.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 
@@ -30,21 +29,9 @@ public class User {
     @JsonIgnore
     Role role;
 
-    public User(Long userid, String vorName, String nachName) {
-        Userid = userid;
-        this.vorName = vorName;
-        this.nachName = nachName;
-    }
-
     public User(String vorName, String nachName) {
         this.vorName = vorName;
         this.nachName = nachName;
-    }
-
-    public User(String vorName, String nachName, Role role) {
-        this.vorName = vorName;
-        this.nachName = nachName;
-        this.role = role;
     }
 
     public User() {
