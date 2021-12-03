@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -123,10 +124,9 @@ public class WeatherService {
                 throw new IllegalStateException("No race is availiable.");
             }
         }
-        System.out.println(weatherDto.getDate());
         Weather weather = new Weather(race.get(),
-                weatherDto.getDate(),
-                weatherDto.getTime(),
+                LocalDate.now(),
+                Time.valueOf(LocalTime.now()),
                 weatherDto.getAirtemp(),
                 weatherDto.getTracktemp(),
                 weatherDto.getCond());
