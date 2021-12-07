@@ -77,6 +77,12 @@ public class TireService {
         return tires;
     }
 
+    public List<Tire> findTiresByStatus(String status) {
+        List<Tire> tires = tireRepository.findTiresByStatus(status);
+        if (tires.isEmpty()){throw new IllegalStateException(String.format("No tires with status %s were found."));}
+        return tires;
+    }
+
     /*##########################################################################################################
      *  methodes for POST requests
      */
@@ -122,6 +128,8 @@ public class TireService {
                 throw new IllegalStateException("No race available.");
             }
         }
+
+
 
         TireDto front = tireSet.getFront();
         TireDto rear = tireSet.getRear();
@@ -210,6 +218,7 @@ public class TireService {
 
         return tire;
     }
+
 
 
 }

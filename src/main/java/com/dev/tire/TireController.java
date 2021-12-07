@@ -38,6 +38,12 @@ public class TireController {
         return tireService.findTireBySerialnumber(serialnumber);
     }
 
+    @GetMapping("/status")
+    @ApiOperation(value = "find tires filtered by status")
+    public List<Tire> getTiresByStatus(@RequestParam(name = "status") String status){
+        return tireService.findTiresByStatus(status);
+    }
+
     @GetMapping("/all")
     @ApiOperation(value = "returns all tires that are stored in the system.")
     public List<Tire> getAlltires() {

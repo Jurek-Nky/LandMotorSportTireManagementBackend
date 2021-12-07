@@ -23,4 +23,5 @@ public interface TireRepository extends CrudRepository<Tire, Long> {
 
     List<Tire> findTiresByErhaltenUm(Time time);
 
+    List<Tire> findTiresByStatus(String status);
 }
