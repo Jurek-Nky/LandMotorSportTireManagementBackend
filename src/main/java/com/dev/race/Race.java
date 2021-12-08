@@ -1,4 +1,4 @@
-TireMixturePrefixespackage com.dev.race;
+package com.dev.race;
 
 
 import com.dev.tire.TireSet;
