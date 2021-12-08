@@ -6,6 +6,7 @@ import com.dev.weather.Weather;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -47,6 +48,8 @@ public class Race {
     @Column(nullable = false)
     @JsonIgnore
     double pressureVar4;
+    @Column(nullable = true)
+    Time orderReady;
 
     public Race() {
 
@@ -56,6 +59,14 @@ public class Race {
         this.date = date;
         this.name = name;
         this.location = location;
+    }
+
+    public Time getOrderReady() {
+        return orderReady;
+    }
+
+    public void setOrderReady(Time orderReady) {
+        this.orderReady = orderReady;
     }
 
     public String getName() {

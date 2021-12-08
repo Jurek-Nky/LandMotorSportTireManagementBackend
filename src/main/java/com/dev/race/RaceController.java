@@ -32,13 +32,13 @@ public class RaceController {
 
     @GetMapping(path = "/prefixes")
     @ApiOperation(value = "return the integer prefixes for tiremixture in the following order:\nHot, ")
-    public int[] getTireMixtureMap(@RequestParam(name = "id",required = false) Long raceid) {
+    public int[] getTireMixtureMap(@RequestParam(name = "id", required = false) Long raceid) {
         return raceService.getPrefixes(raceid);
     }
 
     @GetMapping(path = "/pressureVars")
     @ApiOperation(value = "returs the variables for pressure calculation")
-    public double[] getPressureVars(@RequestParam(name = "id",required = false) Long raceid){
+    public double[] getPressureVars(@RequestParam(name = "id", required = false) Long raceid) {
         return raceService.getPressureVars(raceid);
 
     }
@@ -60,5 +60,10 @@ public class RaceController {
     @ApiOperation(value = "change all variables for calculating the tire pressure.")
     public Race changePressureVars(@RequestParam(required = false) Long raceid, @RequestBody double[] pressureVars) {
         return raceService.changePressureVariables(raceid, pressureVars);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteRaceById(@PathVariable(name = "id") Long raceid) {
+        raceService.deleteRaceById(raceid);
     }
 }
