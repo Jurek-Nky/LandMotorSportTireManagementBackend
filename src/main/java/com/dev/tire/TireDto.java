@@ -5,34 +5,47 @@ import io.swagger.annotations.ApiModel;
 @ApiModel(description = "Date transfer object for easy tire insertion.")
 public class TireDto {
 
-    private String serial;
-    private String bezeichnung;
-    private String mischung;
-    private String art;
+    String frontArt;
+    String frontMischung;
+    String rearArt;
+    String rearMischung;
 
-    public TireDto(String serial,
-                   String bezeichnung,
-                   String mischung,
-                   String art) {
-        this.serial = serial;
-        this.bezeichnung = bezeichnung;
-        this.mischung = mischung;
-        this.art = art;
+    public TireDto(String frontArt, String frontMischung, String rearArt, String rearMischung) {
+        this.frontArt = frontArt;
+        this.frontMischung = frontMischung;
+        this.rearArt = rearArt;
+        this.rearMischung = rearMischung;
     }
 
-    public String getSerial() {
-        return serial;
+    public String getFrontArt() {
+        return frontArt;
     }
 
-    public String getBezeichnung() {
-        return bezeichnung;
+    public void setFrontArt(String frontArt) {
+        this.frontArt = frontArt;
     }
 
-    public String getMischung() {
-        return mischung;
+    public String getFrontMischung() {
+        return frontMischung;
     }
 
-    public String getArt() {
-        return art;
+    public void setFrontMischung(String frontMischung) {
+        this.frontMischung = frontMischung;
+    }
+
+    public String getRearArt() {
+        return rearArt;
+    }
+
+    public void setRearArt(String rearArt) {
+        this.rearArt = rearArt;
+    }
+
+    public String getRearMischung() {
+        return rearMischung;
+    }
+
+    public void setRearMischung(String rearMischung) {
+        this.rearMischung = rearMischung;
     }
 }

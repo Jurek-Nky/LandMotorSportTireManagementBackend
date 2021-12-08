@@ -1,9 +1,9 @@
 package com.dev.race;
 
-import com.dev.tire.Tire;
+
+import com.dev.tire.TireSet;
 import com.dev.weather.Weather;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -21,30 +21,41 @@ public class Race {
     String name;
     @Column(nullable = false)
     String location;
+
     @OneToMany(mappedBy = "race")
-    @JsonIgnoreProperties("race")
-    @JsonIgnore
-    List<Tire> tireProRace;
-    @OneToMany(mappedBy = "race")
-    @JsonIgnoreProperties("race")
     @JsonIgnore
     List<Weather> weather;
 
-    public Race(Long raceID, LocalDate date,String name, String location) {
-        this.raceID = raceID;
-        this.date = date;
-        this.location = location;
-        this.name = name;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn
+    @JsonIgnore
+    tireMixturePrefixes prefixes;
+
+    @OneToMany(mappedBy = "race", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @JsonIgnore
+    List<TireSet> tireSets;
+
+    @Column(nullable = false)
+    @JsonIgnore
+    double pressureVar1;
+    @Column(nullable = false)
+    @JsonIgnore
+    double pressureVar2;
+    @Column(nullable = false)
+    @JsonIgnore
+    double pressureVar3;
+    @Column(nullable = false)
+    @JsonIgnore
+    double pressureVar4;
+
+    public Race() {
+
     }
 
     public Race(LocalDate date, String name, String location) {
         this.date = date;
         this.name = name;
         this.location = location;
-    }
-
-    public Race() {
-
     }
 
     public String getName() {
@@ -79,16 +90,36 @@ public class Race {
         this.location = location;
     }
 
-    public List<Tire> getTireProRace() {
-        return tireProRace;
+    public List<TireSet> getTireSets() {
+        return tireSets;
     }
 
-    public void setTireProRace(List<Tire> tireProRace) {
-        this.tireProRace = tireProRace;
+    public void setTireSets(List<TireSet> tireSets) {
+        this.tireSets = tireSets;
     }
 
     public List<Weather> getWeather() {
         return weather;
+    }
+
+    public double[] getPressureVars() {
+        return new double[]{pressureVar1, pressureVar2, pressureVar3, pressureVar4};
+    }
+
+    @JsonIgnore
+    public void setPressureVars(double[] pressureVars) {
+        this.pressureVar1 = pressureVars[0];
+        this.pressureVar2 = pressureVars[1];
+        this.pressureVar3 = pressureVars[2];
+        this.pressureVar4 = pressureVars[3];
+    }
+
+    public tireMixturePrefixes getPrefixes() {
+        return prefixes;
+    }
+
+    public void setPrefixes(tireMixturePrefixes prefixes) {
+        this.prefixes = prefixes;
     }
 
     public void setWeather(List<Weather> weather) {

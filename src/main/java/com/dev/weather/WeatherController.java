@@ -1,5 +1,6 @@
 package com.dev.weather;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,6 +58,12 @@ public class WeatherController {
     List<Weather> getWeathersByTimePeriod(@RequestParam(name = "start", required = true) Time t1,
                                           @RequestParam(name = "stop", required = true) Time t2) {
         return weatherService.getWeatherByTimePeriod(t1, t2);
+    }
+
+    @GetMapping("/timer")
+    @ApiOperation(value = "returns the time, when the latest  weather was recorded.")
+    Time getTimer(){
+        return weatherService.getTimer();
     }
 
     @PostMapping("/new")

@@ -10,13 +10,13 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class WeatherService {
     private final WeatherRepository weatherRepository;
     private final RaceRepository raceRepository;
+    private Time lastMeasurement;
 
     @Autowired
     public WeatherService(WeatherRepository weatherRepository, RaceRepository raceRepository) {
@@ -119,7 +119,7 @@ public class WeatherService {
                 throw new IllegalStateException(String.format("No race with id %s was found.", raceid));
             }
         } else {
-            race = raceRepository.getFirstByOrderByDateDesc();
+            race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
             if (race.isEmpty()) {
                 throw new IllegalStateException("No race is availiable.");
             }
@@ -130,6 +130,8 @@ public class WeatherService {
                 weatherDto.getAirtemp(),
                 weatherDto.getTracktemp(),
                 weatherDto.getCond());
+
+        lastMeasurement = Time.valueOf(LocalTime.now());
 
         return weatherRepository.save(weather);
     }
@@ -173,4 +175,10 @@ public class WeatherService {
         return weather.get();
     }
 
+    public Time getTimer() {
+        if (lastMeasurement == null) {
+            throw new IllegalStateException("No timer available.");
+        }
+        return lastMeasurement;
+    }
 }

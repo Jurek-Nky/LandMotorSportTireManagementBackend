@@ -38,17 +38,18 @@ public class TireController {
         return tireService.findTireBySerialnumber(serialnumber);
     }
 
+    @GetMapping("/status")
+    @ApiOperation(value = "find tires filtered by status")
+    public List<Tire> getTiresByStatus(@RequestParam(name = "status") String status) {
+        return tireService.findTiresByStatus(status);
+    }
+
     @GetMapping("/all")
     @ApiOperation(value = "returns all tires that are stored in the system.")
     public List<Tire> getAlltires() {
         return tireService.getTires();
     }
 
-    @GetMapping("/race")
-    @ApiOperation(value = "find tires by race.")
-    public List<Tire> gettiresByRennen(@RequestParam(name = "raceid") Long raceid) {
-        return tireService.findTiresByRennId(raceid);
-    }
 
     @GetMapping("/time")
     @ApiOperation(value = "find all tires by time of order.")
@@ -56,19 +57,10 @@ public class TireController {
         return tireService.findTiresByTime(time);
     }
 
-
-    @PostMapping(value = "/new")
-    @ApiOperation(value = "insert new tire.")
-    public Tire registerNewtire(@RequestParam(required = false) Long raceid,
-                                @RequestBody(required = true) TireDto tireDto) {
-        System.out.println("controller");
-        return tireService.addNewTire(raceid, tireDto);
-    }
-
     @PostMapping(value = "/newset")
     @ApiOperation(value = "inset new set of four tires.")
-    public List<Tire> addNewTireSet(@RequestParam(required = false) Long raceid, @RequestBody(required = true) TireSet tireSet) {
-        return tireService.addNewTireSet(raceid, tireSet);
+    public void addNewTireSet(@RequestParam(required = false) Long raceid, @RequestBody(required = true) TireDto tireDto) {
+        tireService.addNewTireSet(raceid, tireDto);
     }
 
     @DeleteMapping(path = "/delete/{tireID}")
@@ -95,7 +87,7 @@ public class TireController {
                            @RequestParam(required = false, name = "start") Time heatingStart,
                            @RequestParam(required = false, name = "stop") Time heatingStop) {
 
-        return tireService.updateTire(tireid, raceid, serialnumber,
+        return tireService.updateTire(tireid, serialnumber,
                 bezeichnung, mischung, art, time, session,
                 kaltdruck, kaltdruckTemp, heatingTemp, heatingTime,
                 heatingStart, heatingStop);
