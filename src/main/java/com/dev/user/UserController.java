@@ -30,4 +30,22 @@ public class UserController {
         String jwt = authService.getJwt(loginRequest);
         return ResponseEntity.ok(jwt);
     }
+
+    @DeleteMapping("/{id}/delete")
+    public void deleteUserById(@PathVariable(name = "id")Long userid){
+        userService.deleteUserById(userid);
+    }
+
+    @PutMapping("/resetpw/{id}")
+    public User resetPassword(@PathVariable(name = "id") Long userid,
+                              @RequestParam(name = "pwold") String pwOld,
+                              @RequestParam(name = "pwnew") String pwNew) {
+        return authService.resetUserPassword(userid, pwOld, pwNew);
+    }
+
+    @PutMapping("/admin/resetpw/{id}")
+    public User resetPaswordWithAdmin(@PathVariable(name = "id") Long userid,
+                                      @RequestParam(name = "pwnew") String pwNew) {
+        return authService.adminResetUserPassword(userid, pwNew);
+    }
 }

@@ -18,9 +18,6 @@ public class User {
     @Column(nullable = false)
     String nachName;
 
-    @Transient
-    String roleName;
-
     @Column(nullable = false)
     String password;
 
@@ -79,14 +76,6 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
     }
 
     public void setRolle(Role role) {

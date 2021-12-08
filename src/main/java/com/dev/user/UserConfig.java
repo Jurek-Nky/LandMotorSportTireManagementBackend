@@ -5,35 +5,27 @@ import com.dev.role.RoleRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Optional;
-import java.util.Scanner;
 
 @Configuration
 public class UserConfig {
     @Bean
-    CommandLineRunner userConf(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    CommandLineRunner userConf(AuthService authService, UserRepository userRepository, RoleRepository roleRepository) {
         return args -> {
-            if (!userRepository.existsUserByRole_RoleName("admin")) {
+            if (!userRepository.existsUserByRole_RoleName("Admin")) {
                 User admin = new User();
                 admin.setVorName("admin");
                 admin.setNachName("admin");
-                String pw = rndString(20);
-                System.out.println(String.format("################################################\n" +
-                        "Admin password = %s" +
-                        "\n################################################", pw));
-                admin.setPassword(passwordEncoder.encode(pw));
+                admin.setPassword(rndString(20));
+                System.out.println(String.format("##############################\n" +
+                        "admin pw : %s\n" +
+                        "##############################", admin.getPassword()));
+                Role adminRole = new Role();
+                adminRole.setRoleName("Admin");
+                adminRole = roleRepository.save(adminRole);
 
-                Optional<Role> role = roleRepository.findRoleByRoleName("Admin");
-                role.ifPresent(admin::setRole);
-                if (role.isEmpty()) {
-                    Role temp = new Role();
-                    temp.setRoleName("Admin");
-                    role = Optional.of(roleRepository.save(temp));
-                    admin.setRole(role.get());
-                }
-                userRepository.save(admin);
+                admin.setRole(adminRole);
+
+                authService.registerUser(admin);
             }
 
         };

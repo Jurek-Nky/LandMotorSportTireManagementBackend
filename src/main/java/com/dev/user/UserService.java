@@ -22,4 +22,11 @@ public class UserService {
         }
         return users;
     }
+
+    public void deleteUserById(Long userid){
+        if (userRepository.findById(userid).isEmpty()){
+            throw new IllegalStateException(String.format("No user with ID %s was found.",userid));
+        }
+        userRepository.deleteById(userid);
+    }
 }
