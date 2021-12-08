@@ -25,19 +25,18 @@ public class UserConfig {
                 adminRole = roleRepository.save(adminRole);
 
                 Role managerRole = new Role();
-                adminRole.setRoleName("Manager");
-                managerRole = roleRepository.save(managerRole);
+                managerRole.setRoleName("Manager");
+                roleRepository.save(managerRole);
 
                 Role ingRole = new Role();
                 ingRole.setRoleName("Ingenieur");
-                ingRole = roleRepository.save(ingRole);
+                roleRepository.save(ingRole);
 
                 Role employeeRole = new Role();
                 employeeRole.setRoleName("Employee");
-                employeeRole = roleRepository.save(employeeRole);
+                roleRepository.save(employeeRole);
 
                 admin.setRole(adminRole);
-
                 authService.registerUser(admin);
             }
 
