@@ -6,9 +6,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "prefixes")
-public class tireMixturePrefixes {
+public class TireMixturePrefixes {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    
     @JsonIgnore
     private Long id;
     @Column
@@ -19,7 +20,7 @@ public class tireMixturePrefixes {
     Race race;
 
 
-    public tireMixturePrefixes(int hot, int medium, int cold, int intermediate, int dry_wet, int heavy_wet) {
+    public TireMixturePrefixes(int hot, int medium, int cold, int intermediate, int dry_wet, int heavy_wet) {
         Hot = hot;
         Medium = medium;
         Cold = cold;
@@ -28,7 +29,7 @@ public class tireMixturePrefixes {
         Heavy_wet = heavy_wet;
     }
 
-    public tireMixturePrefixes() {
+    public TireMixturePrefixes() {
 
     }
 

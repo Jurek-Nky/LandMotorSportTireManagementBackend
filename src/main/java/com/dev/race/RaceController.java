@@ -1,4 +1,4 @@
-package com.dev.race;
+TireMixturePrefixespackage com.dev.race;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

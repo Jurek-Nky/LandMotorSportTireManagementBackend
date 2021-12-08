@@ -1,4 +1,4 @@
-package com.dev.race;
+TireMixturePrefixespackage com.dev.race;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
