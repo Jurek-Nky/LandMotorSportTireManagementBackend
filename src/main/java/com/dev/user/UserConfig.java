@@ -16,12 +16,25 @@ public class UserConfig {
                 admin.setVorName("admin");
                 admin.setNachName("admin");
                 admin.setPassword(rndString(20));
-                System.out.println(String.format("##############################\n" +
-                        "admin pw : %s\n" +
-                        "##############################", admin.getPassword()));
+                System.out.printf(
+                        "##############################\nadmin pw : %s\n##############################%n",
+                        admin.getPassword());
+
                 Role adminRole = new Role();
                 adminRole.setRoleName("Admin");
                 adminRole = roleRepository.save(adminRole);
+
+                Role managerRole = new Role();
+                adminRole.setRoleName("Manager");
+                managerRole = roleRepository.save(managerRole);
+
+                Role ingRole = new Role();
+                ingRole.setRoleName("Ingenieur");
+                ingRole = roleRepository.save(ingRole);
+
+                Role employeeRole = new Role();
+                employeeRole.setRoleName("Employee");
+                employeeRole = roleRepository.save(employeeRole);
 
                 admin.setRole(adminRole);
 
