@@ -53,6 +53,24 @@ public class RaceService {
         return races;
     }
 
+
+    public double[] getPressureVars(Long raceid) {
+        Optional<Race> race;
+        if (raceid != null) {
+            race = raceRepository.findRaceByRaceID(raceid);
+            if (race.isEmpty()) {
+                throw new IllegalStateException(String.format("No race with ID %s was found.", race));
+            }
+        } else {
+            race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
+            if (race.isEmpty()) {
+                throw new IllegalStateException("No race available.");
+            }
+        }
+        return race.get().getPressureVars();
+
+    }
+
     public Race addNewRace(Race race) {
         race.setPressureVars(new double[]{0, 0, 0, 0});
         race.setPrefixes(new tireMixturePrefixes(1, 2, 3, 4, 5, 6));

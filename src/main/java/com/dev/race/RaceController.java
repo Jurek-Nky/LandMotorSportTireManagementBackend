@@ -30,10 +30,17 @@ public class RaceController {
         return raceService.findAllByDate(date);
     }
 
-    @GetMapping(path = "/{id}/prefixes")
+    @GetMapping(path = "/prefixes")
     @ApiOperation(value = "return the integer prefixes for tiremixture in the following order:\nHot, ")
-    public int[] getTireMixtureMap(@PathVariable(name = "id") Long raceid) {
+    public int[] getTireMixtureMap(@RequestParam(name = "id",required = false) Long raceid) {
         return raceService.getPrefixes(raceid);
+    }
+
+    @GetMapping(path = "/pressureVars")
+    @ApiOperation(value = "returs the variables for pressure calculation")
+    public double[] getPressureVars(@RequestParam(name = "id",required = false) Long raceid){
+        return raceService.getPressureVars(raceid);
+
     }
 
     @PostMapping("/new")
