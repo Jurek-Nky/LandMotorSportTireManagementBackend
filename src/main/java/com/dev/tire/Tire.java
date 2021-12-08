@@ -1,7 +1,6 @@
 package com.dev.tire;
 
-import com.dev.race.Race;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -13,17 +12,18 @@ public class Tire {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long tireID;
+
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "raceID")
-    @JsonIgnoreProperties({"tireProRace", "weather"}) // prevents infinite recursion in GET request
-    Race race;
+    @JoinColumn(name = "tire_set_id")
+    @JsonIgnore
+    TireSet tireSet;
     //@Column(unique = true, nullable = false)
     // just for testing purposes. in a normal usecase serialnumber should always be unique
     @Column(nullable = true)
     String serialNumber;
     @Column(nullable = false)
     String status;
-    @Column(nullable = false)
+    @Column(nullable = true)
     String bezeichnung;
     @Column(nullable = true)
     Time erhaltenUm;
@@ -46,21 +46,18 @@ public class Tire {
     @Column(nullable = true)
     Time heatingStop;
 
-    public Tire(Race race,
-                String serialNumber,
-                String bezeichnung,
-                String mischung,
+    public TireSet getTireSet() {
+        return tireSet;
+    }
+
+    public Tire(String mischung,
                 String art) {
-        this.race = race;
-        this.serialNumber = serialNumber;
-        this.bezeichnung = bezeichnung;
         this.mischung = mischung;
         this.art = art;
         this.status = "bestellt";
     }
 
-    public Tire(Race race,
-                String serialNumber,
+    public Tire(String serialNumber,
                 String bezeichnung,
                 String mischung,
                 String art,
@@ -72,7 +69,6 @@ public class Tire {
                 int heatingTime,
                 Time heatingStart,
                 Time heatingStop) {
-        this.race = race;
         this.serialNumber = serialNumber;
         this.bezeichnung = bezeichnung;
         this.erhaltenUm = erhalten_um;
@@ -86,6 +82,10 @@ public class Tire {
         this.heatingStart = heatingStart;
         this.heatingStop = heatingStop;
         this.status = "bestellt";
+    }
+
+    public void setTireSet(TireSet tireSet) {
+        this.tireSet = tireSet;
     }
 
     public Tire() {
@@ -105,14 +105,6 @@ public class Tire {
 
     public void setTireID(Long tireID) {
         this.tireID = tireID;
-    }
-
-    public Race getRace() {
-        return race;
-    }
-
-    public void setRace(Race race) {
-        this.race = race;
     }
 
     public String getSerialNumber() {
