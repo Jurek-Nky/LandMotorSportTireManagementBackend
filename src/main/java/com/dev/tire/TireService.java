@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -105,26 +106,38 @@ public class TireService {
         } else {
             nr = lastSet.get().getTireSetNr() + 1;
         }
-        Tire FR = new Tire(tireDto.getFrontMischung(), tireDto.getFrontArt());
-        FR.setBezeichnung(String.format("%s%02d", race.get().getPrefixes().getprefix(FR.getMischung()), nr));
-        Tire FL = new Tire(tireDto.getFrontMischung(), tireDto.getFrontArt());
-        FL.setBezeichnung(String.format("%s%02d", race.get().getPrefixes().getprefix(FL.getMischung()), nr));
-        Tire RL = new Tire(tireDto.getRearMischung(), tireDto.getRearArt());
-        RL.setBezeichnung(String.format("%s%02d", race.get().getPrefixes().getprefix(RL.getMischung()), nr));
-        Tire RR = new Tire(tireDto.getRearMischung(), tireDto.getRearArt());
-        RR.setBezeichnung(String.format("%s%02d", race.get().getPrefixes().getprefix(RR.getMischung()), nr));
 
         TireSet tireSet = new TireSet(nr);
         tireSet.setRace(race.get());
         tireSet = tireSetRepository.save(tireSet);
-        RR.setTireSet(tireSet);
-        RL.setTireSet(tireSet);
-        FL.setTireSet(tireSet);
-        FR.setTireSet(tireSet);
-        tireRepository.save(FR);
-        tireRepository.save(FL);
-        tireRepository.save(RR);
-        tireRepository.save(RL);
+
+        for (int i = 0; i < 2; i++) {
+            Tire front = new Tire(tireDto.getFrontMischung(), tireDto.getFrontArt());
+            front.setBezeichnung(String.format("%s%02d", race.get().getPrefixes().getprefix(front.getMischung()), nr));
+            front.setStatus("bestellt");
+            front.setBestelltUm(Time.valueOf(LocalTime.now()));
+            front.setTireSet(tireSet);
+            if (tireDto.getFrontMischung().equals("Heavy_wet") || tireDto.getFrontMischung().equals("Dry_wet")) {
+                front.setHeatingTemp(40);
+            } else {
+                front.setHeatingTemp(90);
+            }
+            tireRepository.save(front);
+        }
+        for (int i = 0; i < 2; i++) {
+            Tire rear = new Tire(tireDto.getRearMischung(), tireDto.getRearArt());
+            rear.setBezeichnung(String.format("%s%02d", race.get().getPrefixes().getprefix(rear.getMischung()), nr));
+            rear.setStatus("bestellt");
+            rear.setBestelltUm(Time.valueOf(LocalTime.now()));
+            rear.setTireSet(tireSet);
+            if (tireDto.getRearMischung().equals("Heavy_wet") || tireDto.getRearMischung().equals("Dry_wet")) {
+                rear.setHeatingTemp(40);
+            } else {
+                rear.setHeatingTemp(90);
+            }
+            tireRepository.save(rear);
+        }
+
 
     }
 
@@ -146,14 +159,20 @@ public class TireService {
     @Transactional
     public Tire changeStatus(Long tireid, String newStatus) {
         Optional<Tire> tire = tireRepository.findTireByTireID(tireid);
-        if (newStatus.equals("bestellt") || newStatus.equals("auf lager") || newStatus.equals("benutzt")) {
-            tire.ifPresentOrElse(tire1 -> tire1.setStatus(newStatus), () -> {
-                throw new IllegalStateException(String.format("No tire with id %s was found.", tireid));
-            });
-        } else {
-            throw new IllegalStateException(String.format("No status named %s is available.", newStatus));
+        if (tire.isEmpty()) {
+            throw new IllegalStateException(String.format("No tire with ID %s was found.", tireid));
         }
-
+        switch (newStatus) {
+            case "auf lager" -> {
+                tire.get().setHeatingStart(Time.valueOf(LocalTime.now()));
+                tire.get().setStatus(newStatus);
+            }
+            case "benutzt" -> {
+                tire.get().setHeatingStop(Time.valueOf(LocalTime.now()));
+                tire.get().setStatus(newStatus);
+            }
+            default -> throw new IllegalStateException(String.format("%s must be one of [auf lager, benutzt]", newStatus));
+        }
         return tire.get();
     }
 
@@ -198,6 +217,22 @@ public class TireService {
         return tire;
     }
 
+    @Transactional
+    public Time setOrderTimer(int minutes) {
+        Optional<Race> race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
+        if (race.isEmpty()) {
+            throw new IllegalStateException("No race was found.");
+        }
+        race.get().setOrderReady(Time.valueOf(LocalTime.now().plusMinutes(minutes)));
+        return race.get().getOrderReady();
+    }
 
+    public Time getOrderTimer() {
+        Optional<Race> race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
+        if (race.isEmpty()) {
+            throw new IllegalStateException("No race was found.");
+        }
+        return race.get().getOrderReady();
+    }
 }
 

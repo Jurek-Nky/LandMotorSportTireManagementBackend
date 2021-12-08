@@ -26,6 +26,8 @@ public class Tire {
     @Column(nullable = true)
     String bezeichnung;
     @Column(nullable = true)
+    Time bestelltUm;
+    @Column(nullable = true)
     Time erhaltenUm;
     @Column(nullable = false)
     String mischung;
@@ -54,7 +56,6 @@ public class Tire {
                 String art) {
         this.mischung = mischung;
         this.art = art;
-        this.status = "bestellt";
     }
 
     public Tire(String serialNumber,
@@ -82,6 +83,14 @@ public class Tire {
         this.heatingStart = heatingStart;
         this.heatingStop = heatingStop;
         this.status = "bestellt";
+    }
+
+    public Time getBestelltUm() {
+        return bestelltUm;
+    }
+
+    public void setBestelltUm(Time bestelltUm) {
+        this.bestelltUm = bestelltUm;
     }
 
     public void setTireSet(TireSet tireSet) {

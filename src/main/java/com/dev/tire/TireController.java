@@ -57,10 +57,20 @@ public class TireController {
         return tireService.findTiresByTime(time);
     }
 
+    @GetMapping("/ordertimer")
+    public Time getOrderTimer() {
+        return tireService.getOrderTimer();
+    }
+
     @PostMapping(value = "/newset")
     @ApiOperation(value = "inset new set of four tires.")
     public void addNewTireSet(@RequestParam(required = false) Long raceid, @RequestBody(required = true) TireDto tireDto) {
         tireService.addNewTireSet(raceid, tireDto);
+    }
+
+    @PostMapping(value = "/ordertimer")
+    public Time setOrderTimer(@RequestParam(name = "time") int minutes) {
+        return tireService.setOrderTimer(minutes);
     }
 
     @DeleteMapping(path = "/delete/{tireID}")
@@ -73,7 +83,6 @@ public class TireController {
     @ApiOperation(value = "update tire by id.")
     // request can look someting like this: PUT http://localhost:8080/api/v1/tire/id/1?tp_hot1=5.7&spez=foo&date=2021-11-20
     public Tire updateTire(@PathVariable("tireID") Long tireid,
-                           @RequestParam(required = false, name = "raceid") Long raceid,
                            @RequestParam(required = false, name = "serial") String serialnumber,
                            @RequestParam(required = false, name = "bezeichnung") String bezeichnung,
                            @RequestParam(required = false, name = "mischung") String mischung,
