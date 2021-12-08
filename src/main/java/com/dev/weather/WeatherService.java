@@ -10,7 +10,6 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -120,7 +119,7 @@ public class WeatherService {
                 throw new IllegalStateException(String.format("No race with id %s was found.", raceid));
             }
         } else {
-            race = raceRepository.getFirstByOrderByDateDesc();
+            race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
             if (race.isEmpty()) {
                 throw new IllegalStateException("No race is availiable.");
             }
