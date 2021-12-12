@@ -13,8 +13,8 @@ public class UserConfig {
         return args -> {
             if (!userRepository.existsUserByRole_RoleName("Admin")) {
                 User admin = new User();
-                admin.setVorName("admin");
-                admin.setNachName("admin");
+                admin.setFirstName("admin");
+                admin.setLastName("admin");
                 admin.setPassword(rndString(20));
                 System.out.printf(
                         "##############################\nadmin pw : %s\n##############################%n",

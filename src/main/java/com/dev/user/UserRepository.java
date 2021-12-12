@@ -8,9 +8,9 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 
-    Optional<User> findUserByVorNameAndNachName(String vorName, String nachName);
+    Optional<User> findUserByFirstNameAndLastName(String firstName, String lastName);
 
-    Optional<User> findUserByVorName(String vorName);
+    Optional<User> findUserByFirstName(String firstName);
 
     boolean existsUserByRole_RoleName(String rolename);
 }

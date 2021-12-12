@@ -1,5 +1,6 @@
 package com.dev.user;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,25 +27,32 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody User loginRequest) {
+    public ResponseEntity<?> authenticateUser(@RequestBody User loginRequest) throws JsonProcessingException {
         String jwt = authService.getJwt(loginRequest);
         return ResponseEntity.ok(jwt);
     }
 
+    @GetMapping(path = "/role")
+    public String getRole(@RequestParam(name = "name") String name,
+                          @RequestParam(name = "surname") String surname) {
+        return authService.getRole(name, surname);
+    }
+
     @DeleteMapping("/{id}/delete")
-    public void deleteUserById(@PathVariable(name = "id")Long userid){
+    public void deleteUserById(@PathVariable(name = "id") Long userid) {
         userService.deleteUserById(userid);
     }
 
-    @PutMapping("/resetpw/{id}")
-    public User resetPassword(@PathVariable(name = "id") Long userid,
+    @PutMapping("/resetpw")
+    public User resetPassword(@RequestParam(name = "vorname") String vorName,
+                              @RequestParam(name = "nachname") String nachName,
                               @RequestParam(name = "pwold") String pwOld,
                               @RequestParam(name = "pwnew") String pwNew) {
-        return authService.resetUserPassword(userid, pwOld, pwNew);
+        return authService.resetUserPassword(vorName, nachName, pwOld, pwNew);
     }
 
-    @PutMapping("/admin/resetpw/{id}")
-    public User resetPaswordWithAdmin(@PathVariable(name = "id") Long userid,
+    @PutMapping("/admin/resetpw")
+    public User resetPaswordWithAdmin(@RequestParam(name = "id") Long userid,
                                       @RequestParam(name = "pwnew") String pwNew) {
         return authService.adminResetUserPassword(userid, pwNew);
     }

@@ -23,7 +23,7 @@ public class Race {
     @Column(nullable = false)
     String location;
 
-    @OneToMany(mappedBy = "race")
+    @OneToMany(mappedBy = "race", cascade = CascadeType.ALL)
     @JsonIgnore
     List<Weather> weather;
 
@@ -49,7 +49,10 @@ public class Race {
     @JsonIgnore
     double pressureVar4;
     @Column(nullable = true)
+    @JsonIgnore
     Time orderReady;
+    @Column(nullable = true)
+    int tireContingent;
 
     public Race() {
 
@@ -63,6 +66,18 @@ public class Race {
 
     public Time getOrderReady() {
         return orderReady;
+    }
+
+    public int getTireContingent() {
+        return tireContingent;
+    }
+
+    public void setTireContingent(int tireContingent) {
+        this.tireContingent = tireContingent;
+    }
+
+    public void decreaseTireContingent() {
+        tireContingent = tireContingent - 1;
     }
 
     public void setOrderReady(Time orderReady) {

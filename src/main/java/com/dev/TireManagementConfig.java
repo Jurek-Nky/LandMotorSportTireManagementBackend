@@ -55,11 +55,13 @@ public class TireManagementConfig {
                 .securitySchemes(List.of(apiKey()));
     }
 
+    // needs to be removed later on, to be safe from sql injections
+    // #######################################################
     @Bean
     public HttpFirewall allowUrlSemicolonHttpFirewall() {
         StrictHttpFirewall firewall = new StrictHttpFirewall();
         firewall.setAllowSemicolon(true);
         return firewall;
     }
-
+    // #######################################################
 }

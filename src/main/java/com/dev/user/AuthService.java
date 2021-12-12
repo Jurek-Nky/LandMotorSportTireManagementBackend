@@ -3,6 +3,10 @@ package com.dev.user;
 import com.dev.role.Role;
 import com.dev.role.RoleRepository;
 import com.dev.security.jwt.JwtTokenProvider;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,8 +33,8 @@ public class AuthService {
     JwtTokenProvider tokenProvider;
 
 
-    public String getJwt(User userModel) {
-        String cridential = userModel.vorName;
+    public String getJwt(User userModel) throws JsonProcessingException {
+        String cridential = userModel.getFirstName();
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         cridential,
@@ -39,7 +43,9 @@ public class AuthService {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return tokenProvider.generateToken(authentication);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(tokenProvider.generateToken(authentication));
     }
 
     @Transactional
@@ -47,16 +53,16 @@ public class AuthService {
         if (!this.isValidUserPass(signUpRequest.getPassword()))
             throw new IllegalStateException("Password must be at least 8 characters.");
 
-        Optional<User> userInDb = userRepository.findUserByVorNameAndNachName(signUpRequest.vorName, signUpRequest.nachName);
+        Optional<User> userInDb = userRepository.findUserByFirstNameAndLastName(signUpRequest.firstName, signUpRequest.lastName);
         if (userInDb.isPresent()) {
             throw new IllegalStateException(
                     String.format("User with vorname: %s and nachname: %s, already exists.",
-                            signUpRequest.vorName,
-                            signUpRequest.nachName)
+                            signUpRequest.firstName,
+                            signUpRequest.lastName)
             );
         }
         // if combination of vorname and nachname is unique then add user
-        User user = new User(signUpRequest.vorName, signUpRequest.nachName);
+        User user = new User(signUpRequest.firstName, signUpRequest.lastName);
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
         Optional<Role> userRole = roleRepository.findRoleByRoleName(signUpRequest.getRole().getRoleName());
@@ -69,10 +75,10 @@ public class AuthService {
     }
 
     @Transactional
-    public User resetUserPassword(Long userid, String oldPassword, String newPassword) {
-        Optional<User> user = userRepository.findById(userid);
+    public User resetUserPassword(String vorname, String nachname, String oldPassword, String newPassword) {
+        Optional<User> user = userRepository.findUserByFirstNameAndLastName(vorname, nachname);
         if (user.isEmpty()) {
-            throw new IllegalStateException(String.format("No user with ID %s was found", userid));
+            throw new IllegalStateException(String.format("No user with name %s and surname %s was found.", vorname, nachname));
         } else if (!passwordEncoder.matches(oldPassword, user.get().getPassword())) {
             throw new IllegalStateException("Wrong password.");
         } else if (!isValidUserPass(newPassword)) {
@@ -96,5 +102,13 @@ public class AuthService {
 
     public boolean isValidUserPass(String password) {
         return password.length() >= 8;
+    }
+
+    public String getRole(String name, String surname) {
+        Optional<User> user = userRepository.findUserByFirstNameAndLastName(name, surname);
+        if (user.isEmpty()) {
+            throw new IllegalStateException("No user found with that name.");
+        }
+        return user.get().getRole().getRoleName();
     }
 }

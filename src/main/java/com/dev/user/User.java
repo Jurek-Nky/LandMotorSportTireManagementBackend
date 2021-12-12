@@ -13,10 +13,10 @@ public class User {
     Long Userid;
 
     @Column(nullable = false)
-    String vorName;
+    String firstName;
 
     @Column(nullable = false)
-    String nachName;
+    String lastName;
 
     @Column(nullable = false)
     String password;
@@ -26,9 +26,9 @@ public class User {
     @JsonIgnore
     Role role;
 
-    public User(String vorName, String nachName) {
-        this.vorName = vorName;
-        this.nachName = nachName;
+    public User(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public User() {
@@ -42,20 +42,20 @@ public class User {
         Userid = userid;
     }
 
-    public String getVorName() {
-        return vorName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setVorName(String vorName) {
-        this.vorName = vorName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getNachName() {
-        return nachName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setNachName(String nachName) {
-        this.nachName = nachName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public Role getRolle() {

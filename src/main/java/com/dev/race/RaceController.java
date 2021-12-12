@@ -43,6 +43,11 @@ public class RaceController {
 
     }
 
+    @GetMapping(path = "/contingent")
+    public int getCont() {
+        return raceService.getContingent();
+    }
+
     @PostMapping("/new")
     @ApiOperation(value = "insert new race.")
     public Race addNewRace(@RequestBody(required = true) Race race) {
@@ -54,6 +59,11 @@ public class RaceController {
     public tireMixturePrefixes changePrefixes(@RequestParam(required = false) Long raceid,
                                               @RequestBody int[] ints) {
         return raceService.changePrefixes(raceid, ints);
+    }
+
+    @PutMapping("/contingent")
+    public void setTireContingent(@RequestParam(name = "cont") int cont) {
+        raceService.setContingent(cont);
     }
 
     @PutMapping("/pressure")
