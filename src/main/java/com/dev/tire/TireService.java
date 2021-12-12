@@ -99,6 +99,9 @@ public class TireService {
                 throw new IllegalStateException("No race available.");
             }
         }
+        if (race.get().getTireContingent() == 0 ){
+            throw new IllegalStateException("Tire contingent is empty.");
+        }
         Optional<TireSet> lastSet = tireSetRepository.findFirstByRace_RaceIDEqualsOrderByTireSetNrDesc(race.get().getRaceID());
         int nr;
         if (lastSet.isEmpty()) {
@@ -137,6 +140,8 @@ public class TireService {
             }
             tireRepository.save(rear);
         }
+
+        race.get().decreaseTireContingent();
 
 
     }
