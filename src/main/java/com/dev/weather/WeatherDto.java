@@ -12,7 +12,7 @@ public class WeatherDto {
 
     private int airtemp;
     private int tracktemp;
-    private String cond;
+    private final String cond;
 
     public WeatherDto(int airTemp, int trackTemp, String condition) {
         this.airtemp = airtemp;

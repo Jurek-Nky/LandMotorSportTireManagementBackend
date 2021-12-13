@@ -48,32 +48,5 @@ public class RaceController {
         return raceService.getContingent();
     }
 
-    @PostMapping("/new")
-    @ApiOperation(value = "insert new race.")
-    public Race addNewRace(@RequestBody(required = true) Race race) {
-        return raceService.addNewRace(race);
-    }
 
-    @PutMapping("/prefixes")
-    @ApiOperation(value = "changes the prefixes for a give race. Its important that the correct order is used(hot,medium,cold,intermediate,dry_wet,heavy_wet).")
-    public tireMixturePrefixes changePrefixes(@RequestParam(required = false) Long raceid,
-                                              @RequestBody int[] ints) {
-        return raceService.changePrefixes(raceid, ints);
-    }
-
-    @PutMapping("/contingent")
-    public void setTireContingent(@RequestParam(name = "cont") int cont) {
-        raceService.setContingent(cont);
-    }
-
-    @PutMapping("/pressure")
-    @ApiOperation(value = "change all variables for calculating the tire pressure.")
-    public Race changePressureVars(@RequestParam(required = false) Long raceid, @RequestBody double[] pressureVars) {
-        return raceService.changePressureVariables(raceid, pressureVars);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public void deleteRaceById(@PathVariable(name = "id") Long raceid) {
-        raceService.deleteRaceById(raceid);
-    }
 }

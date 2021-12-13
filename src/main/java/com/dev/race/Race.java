@@ -30,7 +30,7 @@ public class Race {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn
     @JsonIgnore
-    tireMixturePrefixes prefixes;
+    TireMixturePrefixes prefixes;
 
     @OneToMany(mappedBy = "race", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JsonIgnore
@@ -140,11 +140,11 @@ public class Race {
         this.pressureVar4 = pressureVars[3];
     }
 
-    public tireMixturePrefixes getPrefixes() {
+    public TireMixturePrefixes getPrefixes() {
         return prefixes;
     }
 
-    public void setPrefixes(tireMixturePrefixes prefixes) {
+    public void setPrefixes(TireMixturePrefixes prefixes) {
         this.prefixes = prefixes;
     }
 

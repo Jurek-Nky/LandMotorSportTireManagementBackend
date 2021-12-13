@@ -85,12 +85,12 @@ public class RaceService {
 
     public Race addNewRace(Race race) {
         race.setPressureVars(new double[]{0, 0, 0, 0});
-        race.setPrefixes(new tireMixturePrefixes(1, 2, 3, 4, 5, 6));
+        race.setPrefixes(new TireMixturePrefixes(1, 2, 3, 4, 5, 6));
         return raceRepository.save(race);
     }
 
     @Transactional
-    public tireMixturePrefixes changePrefixes(Long raceid, int[] prefInts) {
+    public TireMixturePrefixes changePrefixes(Long raceid, int[] prefInts) {
         Optional<Race> race;
         if (raceid != null) {
             race = raceRepository.findRaceByRaceID(raceid);
@@ -108,7 +108,7 @@ public class RaceService {
             throw new IllegalStateException("Array must be exactly 6 integers long.");
         }
 
-        race.get().setPrefixes(new tireMixturePrefixes(prefInts[0], prefInts[1], prefInts[2], prefInts[3], prefInts[4], prefInts[5]));
+        race.get().setPrefixes(new TireMixturePrefixes(prefInts[0], prefInts[1], prefInts[2], prefInts[3], prefInts[4], prefInts[5]));
 
         return race.get().getPrefixes();
     }
