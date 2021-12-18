@@ -33,9 +33,8 @@ public class UserController {
     }
 
     @GetMapping(path = "/role")
-    public String getRole(@RequestParam(name = "name") String name,
-                          @RequestParam(name = "surname") String surname) {
-        return authService.getRole(name, surname);
+    public String getRole(@RequestParam(name = "u") String username) {
+        return authService.getRole(username);
     }
 
     @DeleteMapping("/{id}/delete")
@@ -44,11 +43,10 @@ public class UserController {
     }
 
     @PutMapping("/resetpw")
-    public User resetPassword(@RequestParam(name = "vorname") String vorName,
-                              @RequestParam(name = "nachname") String nachName,
+    public User resetPassword(@RequestParam(name = "username") String username,
                               @RequestParam(name = "pwold") String pwOld,
                               @RequestParam(name = "pwnew") String pwNew) {
-        return authService.resetUserPassword(vorName, nachName, pwOld, pwNew);
+        return authService.resetUserPassword(username, pwOld, pwNew);
     }
 
     @PutMapping("/admin/resetpw")

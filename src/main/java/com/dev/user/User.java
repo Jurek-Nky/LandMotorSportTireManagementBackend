@@ -13,10 +13,7 @@ public class User {
     Long Userid;
 
     @Column(nullable = false)
-    String firstName;
-
-    @Column(nullable = false)
-    String lastName;
+    String username;
 
     @Column(nullable = false)
     String password;
@@ -26,9 +23,8 @@ public class User {
     @JsonIgnore
     Role role;
 
-    public User(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String username) {
+        this.username = username;
     }
 
     public User() {
@@ -42,20 +38,12 @@ public class User {
         Userid = userid;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Role getRolle() {

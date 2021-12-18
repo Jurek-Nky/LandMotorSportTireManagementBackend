@@ -28,7 +28,7 @@ public class UserPrinciple implements UserDetails {
 
     public UserPrinciple(User model, Collection<? extends GrantedAuthority> authorities) {
         this.setId(model.getUserid());
-        this.setFirstName(model.getFirstName());
+        this.setFirstName(model.getUsername());
         this.setAuthoritiesg(authorities);
         this.setPasswords(model.getPassword());
     }

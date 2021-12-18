@@ -34,7 +34,7 @@ public class AuthService {
 
 
     public String getJwt(User userModel) throws JsonProcessingException {
-        String cridential = userModel.getFirstName();
+        String cridential = userModel.getUsername();
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         cridential,
@@ -53,16 +53,15 @@ public class AuthService {
         if (!this.isValidUserPass(signUpRequest.getPassword()))
             throw new IllegalStateException("Password must be at least 8 characters.");
 
-        Optional<User> userInDb = userRepository.findUserByFirstNameAndLastName(signUpRequest.firstName, signUpRequest.lastName);
+        Optional<User> userInDb = userRepository.findByUsername(signUpRequest.username);
         if (userInDb.isPresent()) {
             throw new IllegalStateException(
-                    String.format("User with vorname: %s and nachname: %s, already exists.",
-                            signUpRequest.firstName,
-                            signUpRequest.lastName)
+                    String.format("User with username: %s already exists.",
+                            signUpRequest.username)
             );
         }
         // if combination of vorname and nachname is unique then add user
-        User user = new User(signUpRequest.firstName, signUpRequest.lastName);
+        User user = new User(signUpRequest.username);
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
         Optional<Role> userRole = roleRepository.findRoleByRoleName(signUpRequest.getRole().getRoleName());
@@ -75,10 +74,10 @@ public class AuthService {
     }
 
     @Transactional
-    public User resetUserPassword(String vorname, String nachname, String oldPassword, String newPassword) {
-        Optional<User> user = userRepository.findUserByFirstNameAndLastName(vorname, nachname);
+    public User resetUserPassword(String username, String oldPassword, String newPassword) {
+        Optional<User> user = userRepository.findByUsername(username);
         if (user.isEmpty()) {
-            throw new IllegalStateException(String.format("No user with name %s and surname %s was found.", vorname, nachname));
+            throw new IllegalStateException(String.format("No user with username %s was found.", username));
         } else if (!passwordEncoder.matches(oldPassword, user.get().getPassword())) {
             throw new IllegalStateException("Wrong password.");
         } else if (!isValidUserPass(newPassword)) {
@@ -104,10 +103,10 @@ public class AuthService {
         return password.length() >= 8;
     }
 
-    public String getRole(String name, String surname) {
-        Optional<User> user = userRepository.findUserByFirstNameAndLastName(name, surname);
+    public String getRole(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
         if (user.isEmpty()) {
-            throw new IllegalStateException("No user found with that name.");
+            throw new IllegalStateException(String.format("No user with username: %s was found", username));
         }
         return user.get().getRole().getRoleName();
     }
