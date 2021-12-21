@@ -22,6 +22,8 @@ public class Race {
     String name;
     @Column(nullable = false)
     String location;
+    @Column()
+    double length;
 
     @OneToMany(mappedBy = "race", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -48,20 +50,22 @@ public class Race {
     @Column(nullable = false)
     @JsonIgnore
     double pressureVar4;
-    @Column(nullable = true)
+    @Column()
     @JsonIgnore
     Time orderReady;
-    @Column(nullable = true)
+    @Column()
     int tireContingent;
 
     public Race() {
 
     }
 
-    public Race(LocalDate date, String name, String location) {
-        this.date = date;
-        this.name = name;
-        this.location = location;
+    public double getLength() {
+        return length;
+    }
+
+    public void setLength(double length) {
+        this.length = length;
     }
 
     public Time getOrderReady() {
@@ -94,10 +98,6 @@ public class Race {
 
     public Long getRaceID() {
         return raceID;
-    }
-
-    public void setRaceID(Long raceID) {
-        this.raceID = raceID;
     }
 
     public void setDate(LocalDate date) {
