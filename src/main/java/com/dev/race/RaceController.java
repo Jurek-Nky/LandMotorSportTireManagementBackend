@@ -30,10 +30,22 @@ public class RaceController {
         return raceService.findAllByDate(date);
     }
 
-    @GetMapping(path = "/{id}/prefixes")
+    @GetMapping(path = "/prefixes")
     @ApiOperation(value = "return the integer prefixes for tiremixture in the following order:\nHot, ")
-    public int[] getTireMixtureMap(@PathVariable(name = "id") Long raceid) {
+    public int[] getTireMixtureMap(@RequestParam(name = "id", required = false) Long raceid) {
         return raceService.getPrefixes(raceid);
+    }
+
+    @GetMapping(path = "/pressureVars")
+    @ApiOperation(value = "returs the variables for pressure calculation")
+    public double[] getPressureVars(@RequestParam(name = "id", required = false) Long raceid) {
+        return raceService.getPressureVars(raceid);
+
+    }
+
+    @GetMapping(path = "/contingent")
+    public int getCont() {
+        return raceService.getContingent();
     }
 
     @PostMapping("/new")
@@ -49,9 +61,19 @@ public class RaceController {
         return raceService.changePrefixes(raceid, ints);
     }
 
+    @PutMapping("/contingent")
+    public void setTireContingent(@RequestParam(name = "cont") int cont) {
+        raceService.setContingent(cont);
+    }
+
     @PutMapping("/pressure")
     @ApiOperation(value = "change all variables for calculating the tire pressure.")
     public Race changePressureVars(@RequestParam(required = false) Long raceid, @RequestBody double[] pressureVars) {
         return raceService.changePressureVariables(raceid, pressureVars);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteRaceById(@PathVariable(name = "id") Long raceid) {
+        raceService.deleteRaceById(raceid);
     }
 }

@@ -16,7 +16,6 @@ import java.util.Optional;
 public class WeatherService {
     private final WeatherRepository weatherRepository;
     private final RaceRepository raceRepository;
-    private Time lastMeasurement;
 
     @Autowired
     public WeatherService(WeatherRepository weatherRepository, RaceRepository raceRepository) {
@@ -131,8 +130,6 @@ public class WeatherService {
                 weatherDto.getTracktemp(),
                 weatherDto.getCond());
 
-        lastMeasurement = Time.valueOf(LocalTime.now());
-
         return weatherRepository.save(weather);
     }
 
@@ -176,9 +173,10 @@ public class WeatherService {
     }
 
     public Time getTimer() {
-        if (lastMeasurement == null) {
-            throw new IllegalStateException("No timer available.");
+        Optional<Weather> latest = weatherRepository.findFirstByOrderByDateDescTimeDesc();
+        if (latest.isEmpty()) {
+            return null;
         }
-        return lastMeasurement;
+        return latest.get().getTime();
     }
 }

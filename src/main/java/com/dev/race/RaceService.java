@@ -53,6 +53,36 @@ public class RaceService {
         return races;
     }
 
+
+    public double[] getPressureVars(Long raceid) {
+        Optional<Race> race;
+        if (raceid != null) {
+            race = raceRepository.findRaceByRaceID(raceid);
+            if (race.isEmpty()) {
+                throw new IllegalStateException(String.format("No race with ID %s was found.", race));
+            }
+        } else {
+            race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
+            if (race.isEmpty()) {
+                throw new IllegalStateException("No race available.");
+            }
+        }
+        return race.get().getPressureVars();
+
+    }
+
+    public int getContingent() {
+        Optional<Race> race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
+        if (race.isEmpty()) {
+            throw new IllegalStateException("No race available");
+        }
+        if (race.get().getTireContingent() != 0) {
+            return race.get().getTireContingent();
+        } else {
+            throw new IllegalStateException("Contingent empty.");
+        }
+    }
+
     public Race addNewRace(Race race) {
         race.setPressureVars(new double[]{0, 0, 0, 0});
         race.setPrefixes(new tireMixturePrefixes(1, 2, 3, 4, 5, 6));
@@ -105,4 +135,19 @@ public class RaceService {
     }
 
 
+    public void deleteRaceById(Long raceid) {
+        if (raceRepository.findRaceByRaceID(raceid).isEmpty()) {
+            throw new IllegalStateException(String.format("No race with ID %s was found.", raceid));
+        }
+        raceRepository.deleteById(raceid);
+    }
+
+    @Transactional
+    public void setContingent(int cont) {
+        Optional<Race> race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
+        if (race.isEmpty()) {
+            throw new IllegalStateException("No race available");
+        }
+        race.get().setTireContingent(cont);
+    }
 }

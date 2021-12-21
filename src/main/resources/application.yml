@@ -6,10 +6,10 @@ spring:
       ddl-auto: update
     show-sql: true
   datasource:
-    url: jdbc:mysql://limla.ml:3306/tiremanagement?createDatabaseIfNotExist=true&serverTimezone=UTC
+    url: jdbc:mysql://limla.ml:3306/tiremanagement?createDatabaseIfNotExist=true&serverTimezone=CET
     driver:-class-name: com.mysql.cj.jdbc.Driver
 
 server:
   error:
     include-message: always
-  port: 8080
+  port: 8081

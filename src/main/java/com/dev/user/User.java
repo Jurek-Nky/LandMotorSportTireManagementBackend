@@ -13,13 +13,7 @@ public class User {
     Long Userid;
 
     @Column(nullable = false)
-    String vorName;
-
-    @Column(nullable = false)
-    String nachName;
-
-    @Transient
-    String roleName;
+    String username;
 
     @Column(nullable = false)
     String password;
@@ -29,9 +23,8 @@ public class User {
     @JsonIgnore
     Role role;
 
-    public User(String vorName, String nachName) {
-        this.vorName = vorName;
-        this.nachName = nachName;
+    public User(String username) {
+        this.username = username;
     }
 
     public User() {
@@ -45,20 +38,12 @@ public class User {
         Userid = userid;
     }
 
-    public String getVorName() {
-        return vorName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setVorName(String vorName) {
-        this.vorName = vorName;
-    }
-
-    public String getNachName() {
-        return nachName;
-    }
-
-    public void setNachName(String nachName) {
-        this.nachName = nachName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Role getRolle() {
@@ -79,14 +64,6 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
     }
 
     public void setRolle(Role role) {

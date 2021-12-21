@@ -6,6 +6,7 @@ import com.dev.weather.Weather;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class Race {
     @Column(nullable = false)
     String location;
 
-    @OneToMany(mappedBy = "race")
+    @OneToMany(mappedBy = "race", cascade = CascadeType.ALL)
     @JsonIgnore
     List<Weather> weather;
 
@@ -47,6 +48,11 @@ public class Race {
     @Column(nullable = false)
     @JsonIgnore
     double pressureVar4;
+    @Column(nullable = true)
+    @JsonIgnore
+    Time orderReady;
+    @Column(nullable = true)
+    int tireContingent;
 
     public Race() {
 
@@ -56,6 +62,26 @@ public class Race {
         this.date = date;
         this.name = name;
         this.location = location;
+    }
+
+    public Time getOrderReady() {
+        return orderReady;
+    }
+
+    public int getTireContingent() {
+        return tireContingent;
+    }
+
+    public void setTireContingent(int tireContingent) {
+        this.tireContingent = tireContingent;
+    }
+
+    public void decreaseTireContingent() {
+        tireContingent = tireContingent - 1;
+    }
+
+    public void setOrderReady(Time orderReady) {
+        this.orderReady = orderReady;
     }
 
     public String getName() {

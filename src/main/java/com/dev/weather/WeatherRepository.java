@@ -18,4 +18,8 @@ public interface WeatherRepository extends CrudRepository<Weather, Long> {
     List<Weather> findWeathersByWeatherConditions(String condition);
 
     List<Weather> findWeathersByTimeBetween(Time t1, Time t2);
+
+    Optional<Weather> findFirstByOrderByDateDescTimeDesc();
+
+
 }
