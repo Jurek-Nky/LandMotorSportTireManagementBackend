@@ -11,46 +11,38 @@ public class UserConfig {
     @Bean
     CommandLineRunner userConf(AuthService authService, UserRepository userRepository, RoleRepository roleRepository) {
         return args -> {
-            if (!userRepository.existsUserByRole_RoleName("Admin")) {
-                User admin = new User();
-                admin.setUsername("admin");
-                admin.setPassword(rndString(20));
-                System.out.printf(
-                        "##############################\nadmin pw : %s\n##############################%n",
-                        admin.getPassword());
-
-                Role adminRole = new Role();
+            Role adminRole;
+            if (!roleRepository.existsByRoleName("Admin")) {
+                adminRole = new Role();
                 adminRole.setRoleName("Admin");
                 adminRole = roleRepository.save(adminRole);
-
+            }
+            else {
+                adminRole = roleRepository.findRoleByRoleName("Admin").get();
+            }
+            if (!roleRepository.existsByRoleName("Manager")) {
                 Role managerRole = new Role();
                 managerRole.setRoleName("Manager");
                 roleRepository.save(managerRole);
-
+            }
+            if (!roleRepository.existsByRoleName("Ingenieur")) {
                 Role ingRole = new Role();
                 ingRole.setRoleName("Ingenieur");
                 roleRepository.save(ingRole);
-
+            }
+            if (!roleRepository.existsByRoleName("Employee")) {
                 Role employeeRole = new Role();
                 employeeRole.setRoleName("Employee");
                 roleRepository.save(employeeRole);
-
+            }
+            if (!userRepository.existsUserByRole_RoleName("Admin")) {
+                User admin = new User();
+                admin.setUsername("admin");
+                admin.setPassword("12345678");
                 admin.setRole(adminRole);
                 authService.registerUser(admin);
             }
-
         };
-
-
     }
 
-    static String rndString(int n) {
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz";
-        StringBuilder stringBuilder = new StringBuilder(n);
-        for (int i = 0; i < n; i++) {
-            int index = (int) (chars.length() * Math.random());
-            stringBuilder.append(chars.charAt(index));
-        }
-        return stringBuilder.toString();
-    }
 }
