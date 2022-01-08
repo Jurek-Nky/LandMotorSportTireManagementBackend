@@ -1,5 +1,6 @@
 package com.dev.user;
 
+import com.dev.role.Role;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/role")
-    public String getRole(@RequestParam(name = "u") String username) {
+    public Role getRole(@RequestParam(name = "u") String username) {
         return authService.getRole(username);
     }
 

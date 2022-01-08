@@ -23,7 +23,7 @@ public class Race {
     @Column(nullable = false)
     String location;
     @Column()
-    double length;
+    double length = 0;
 
     @OneToMany(mappedBy = "race", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -32,9 +32,9 @@ public class Race {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn
     @JsonIgnore
-    tireMixturePrefixes prefixes;
+    TireMixturePrefixes prefixes;
 
-    @OneToMany(mappedBy = "race", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "race", cascade = CascadeType.ALL)
     @JsonIgnore
     List<TireSet> tireSets;
 
@@ -140,11 +140,11 @@ public class Race {
         this.pressureVar4 = pressureVars[3];
     }
 
-    public tireMixturePrefixes getPrefixes() {
+    public TireMixturePrefixes getPrefixes() {
         return prefixes;
     }
 
-    public void setPrefixes(tireMixturePrefixes prefixes) {
+    public void setPrefixes(TireMixturePrefixes prefixes) {
         this.prefixes = prefixes;
     }
 

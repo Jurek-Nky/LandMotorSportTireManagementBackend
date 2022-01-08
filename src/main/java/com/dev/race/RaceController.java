@@ -62,7 +62,7 @@ public class RaceController {
 
     @PutMapping("/prefixes")
     @ApiOperation(value = "changes the prefixes for a give race. Its important that the correct order is used(hot,medium,cold,intermediate,dry_wet,heavy_wet).")
-    public tireMixturePrefixes changePrefixes(@RequestParam(name = "id", required = false) Long raceid,
+    public TireMixturePrefixes changePrefixes(@RequestParam(name = "id", required = false) Long raceid,
                                               @RequestBody int[] ints) {
         return raceService.changePrefixes(raceid, ints);
     }
