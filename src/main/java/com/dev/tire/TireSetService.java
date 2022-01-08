@@ -27,7 +27,7 @@ public class TireSetService {
     }
 
     public List<TireSet> getTireSetByStatus(String status) {
-        List<TireSet> tireSets = tireSetRepository.findByTires_TireSet_Status(status);
+        List<TireSet> tireSets = tireSetRepository.findByStatus(status);
         if (tireSets.isEmpty()) {
             throw new IllegalStateException(String.format("No tiresets with status %s were found.", status));
         }
