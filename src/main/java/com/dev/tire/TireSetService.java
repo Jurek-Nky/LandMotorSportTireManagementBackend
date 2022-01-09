@@ -118,6 +118,7 @@ public class TireSetService {
         return tireSet.get();
     }
 
+    @Transactional
     public TireSet stopHeating(Long tireSetID) {
         Optional<TireSet> tireSet = tireSetRepository.findByTires_TireSet_ID(tireSetID);
         if (tireSet.isEmpty()) {
