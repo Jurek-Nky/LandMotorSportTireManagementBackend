@@ -10,6 +10,11 @@ spring:
     driver:-class-name: com.mysql.cj.jdbc.Driver
 
 server:
+  ssl:
+    key-store: classpath:springboot.p12
+    key-store-type: pkcs12
+    key-alias: springboot
+    enabled: true
+  port: 8443
   error:
     include-message: always
-  port: 8081
