@@ -19,11 +19,7 @@ jobs:
     - name: Build project with Maven
       run: mvn -B package --file pom.xml
            
-    - name: print dir
-      run: pwd
-    - name: list files
-      run: ls -la
-    - name: list target
-      run: ls -la target/
+    - name: print all secure shit
+      run: echo ${{secrets.SSH_PASSWORD}} , ${{secrets.SSH_PORT}} , ${{secrets.SSH_USER}} , ${{secrets.SSH_HOST}}
     - name: secure copy target
       run: sshpass -p ${{secrets.SSH_PASSWORD}} scp -r -P ${{secrets.SSH_PORT}} ./target/tiremanagement-0.0.1.jar ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:/home/docky/tiremanagementRestApi/restapi.jar
