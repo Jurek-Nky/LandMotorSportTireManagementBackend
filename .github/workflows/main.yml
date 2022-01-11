@@ -19,8 +19,7 @@ jobs:
       run: mvn -B package --file pom.xml
            
     - name: scp files
-      run: sshpass -p ${{secrets.SSH_PASSWORD}} scp -r -P ${{secrets.SSH_PORT}} ./target/tiremanagement-0.0.1.jar \
-        ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:/home/docky/tiremanagementRestApi/restapi.jar
+      run: sshpass -p ${{secrets.SSH_PASSWORD}} scp -r -P ${{secrets.SSH_PORT}} ./target/tiremanagement-0.0.1.jar ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:/home/docky/tiremanagementRestApi/restapi.jar
         
     - name: deploy docker
       run: |
