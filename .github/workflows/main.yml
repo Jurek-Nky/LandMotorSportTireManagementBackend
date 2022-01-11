@@ -1,4 +1,4 @@
-name: Maven CI/CD
+name: Maven Build and Docker deploy on Remote
 
 on:
   workflow_dispatch:
