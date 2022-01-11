@@ -1,6 +1,6 @@
 /src/main/resources/springboot.jks
-/src/main/resources/private.yml
-/src/main/resources/springboot.p12
+/private.yml
+/springboot.p12
 /Notes
 /src/test/resources/private.yml
 /target/
