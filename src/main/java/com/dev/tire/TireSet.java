@@ -14,16 +14,25 @@ public class TireSet {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long ID;
+    @Column(nullable = false)
+    String status;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @ManyToOne
     @JoinColumn(name = "raceID")
     Race race;
 
     @Column(nullable = false)
     int tireSetNr;
 
-    @OneToMany(mappedBy = "tireSet")
-    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
     List<Tire> tires;
 
     public Race getRace() {
@@ -35,16 +44,8 @@ public class TireSet {
         return tires;
     }
 
-    public TireSet(Race race, Tire FL, Tire FR, Tire RL, Tire RR, int tireSetNr) {
-        this.race = race;
-        tires.add(FL);
-        tires.add(FR);
-        tires.add(RL);
-        tires.add(RR);
-        this.tireSetNr = tireSetNr;
-    }
 
-    public TireSet(int tireSetNr){
+    public TireSet(int tireSetNr) {
         this.tireSetNr = tireSetNr;
     }
 

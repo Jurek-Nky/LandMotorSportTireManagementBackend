@@ -38,11 +38,6 @@ public class TireController {
         return tireService.findTireBySerialnumber(serialnumber);
     }
 
-    @GetMapping("/status")
-    @ApiOperation(value = "find tires filtered by status")
-    public List<Tire> getTiresByStatus(@RequestParam(name = "status") String status) {
-        return tireService.findTiresByStatus(status);
-    }
 
     @GetMapping("/all")
     @ApiOperation(value = "returns all tires that are stored in the system.")
@@ -62,13 +57,15 @@ public class TireController {
         return tireService.getOrderTimer();
     }
 
-    @PostMapping(value = "/newset")
+
+    @PostMapping("/newset")
     @ApiOperation(value = "inset new set of four tires.")
-    public void addNewTireSet(@RequestParam(required = false) Long raceid, @RequestBody(required = true) TireDto tireDto) {
+    public void addNewTireSet(@RequestParam(required = false) Long raceid, @RequestBody() TireDto tireDto) {
         tireService.addNewTireSet(raceid, tireDto);
     }
 
-    @PostMapping(value = "/ordertimer")
+
+    @PostMapping("/ordertimer")
     public Time setOrderTimer(@RequestParam(name = "time") int minutes) {
         return tireService.setOrderTimer(minutes);
     }
@@ -102,10 +99,4 @@ public class TireController {
                 heatingStart, heatingStop);
     }
 
-    @PutMapping(path = "/update/{tireID}/status")
-    @ApiOperation(value = "update status of a tire. Availiable statuses are: \"bestellt\", \"auf lager\" and \"benutzt\"")
-    public Tire updateTireStatus(@PathVariable("tireID") Long tireID,
-                                 @RequestParam(required = true, name = "status") String status) {
-        return tireService.changeStatus(tireID, status);
-    }
 }

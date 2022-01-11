@@ -70,13 +70,6 @@ public class TireService {
         return tires;
     }
 
-    public List<Tire> findTiresByStatus(String status) {
-        List<Tire> tires = tireRepository.findTiresByStatus(status);
-        if (tires.isEmpty()) {
-            throw new IllegalStateException(String.format("No tires with status %s were found.", status));
-        }
-        return tires;
-    }
 
     /*##########################################################################################################
      *  methodes for POST requests
@@ -112,6 +105,7 @@ public class TireService {
 
         TireSet tireSet = new TireSet(nr);
         tireSet.setRace(race.get());
+        tireSet.setStatus("bestellt");
         tireSet = tireSetRepository.save(tireSet);
 
         for (int i = 0; i < 2; i++) {
@@ -160,26 +154,6 @@ public class TireService {
     /*##########################################################################################################
      *  methodes for PUT requests
      */
-
-    @Transactional
-    public Tire changeStatus(Long tireid, String newStatus) {
-        Optional<Tire> tire = tireRepository.findTireByTireID(tireid);
-        if (tire.isEmpty()) {
-            throw new IllegalStateException(String.format("No tire with ID %s was found.", tireid));
-        }
-        switch (newStatus) {
-            case "auf lager" -> {
-                tire.get().setHeatingStart(Time.valueOf(LocalTime.now()));
-                tire.get().setStatus(newStatus);
-            }
-            case "benutzt" -> {
-                tire.get().setHeatingStop(Time.valueOf(LocalTime.now()));
-                tire.get().setStatus(newStatus);
-            }
-            default -> throw new IllegalStateException(String.format("%s must be one of [auf lager, benutzt]", newStatus));
-        }
-        return tire.get();
-    }
 
     @Transactional
     // This methode checks every given argument for existence and equality to the tire field and replaces the tire field if necessary

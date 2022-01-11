@@ -103,11 +103,11 @@ public class AuthService {
         return password.length() >= 8;
     }
 
-    public String getRole(String username) {
+    public Role getRole(String username) {
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isEmpty()) {
             throw new IllegalStateException(String.format("No user with username: %s was found", username));
         }
-        return user.get().getRole().getRoleName();
+        return user.get().getRole();
     }
 }

@@ -22,6 +22,8 @@ public class Race {
     String name;
     @Column(nullable = false)
     String location;
+    @Column()
+    double length = 0;
 
     @OneToMany(mappedBy = "race", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -30,9 +32,9 @@ public class Race {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn
     @JsonIgnore
-    tireMixturePrefixes prefixes;
+    TireMixturePrefixes prefixes;
 
-    @OneToMany(mappedBy = "race", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "race", cascade = CascadeType.ALL)
     @JsonIgnore
     List<TireSet> tireSets;
 
@@ -48,20 +50,43 @@ public class Race {
     @Column(nullable = false)
     @JsonIgnore
     double pressureVar4;
-    @Column(nullable = true)
+  
+    @Column()
     @JsonIgnore
     Time orderReady;
-    @Column(nullable = true)
+    @Column()
     int tireContingent;
 
     public Race() {
 
     }
 
-    public Race(LocalDate date, String name, String location) {
-        this.date = date;
-        this.name = name;
-        this.location = location;
+    public double getLength() {
+        return length;
+    }
+
+    public void setLength(double length) {
+        this.length = length;
+    }
+
+    public Time getOrderReady() {
+        return orderReady;
+    }
+
+    public int getTireContingent() {
+        return tireContingent;
+    }
+
+    public void setTireContingent(int tireContingent) {
+        this.tireContingent = tireContingent;
+    }
+
+    public void decreaseTireContingent() {
+        tireContingent = tireContingent - 1;
+    }
+
+    public void setOrderReady(Time orderReady) {
+        this.orderReady = orderReady;
     }
 
     public Time getOrderReady() {
@@ -94,10 +119,6 @@ public class Race {
 
     public Long getRaceID() {
         return raceID;
-    }
-
-    public void setRaceID(Long raceID) {
-        this.raceID = raceID;
     }
 
     public void setDate(LocalDate date) {
@@ -140,11 +161,11 @@ public class Race {
         this.pressureVar4 = pressureVars[3];
     }
 
-    public tireMixturePrefixes getPrefixes() {
+    public TireMixturePrefixes getPrefixes() {
         return prefixes;
     }
 
-    public void setPrefixes(tireMixturePrefixes prefixes) {
+    public void setPrefixes(TireMixturePrefixes prefixes) {
         this.prefixes = prefixes;
     }
 

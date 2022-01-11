@@ -13,39 +13,37 @@ public class Tire {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long tireID;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "tire_set_id")
+    @ManyToOne
     @JsonIgnore
     TireSet tireSet;
     //@Column(unique = true, nullable = false)
     // just for testing purposes. in a normal usecase serialnumber should always be unique
-    @Column(nullable = true)
+    @Column()
     String serialNumber;
-    @Column(nullable = false)
-    String status;
-    @Column(nullable = true)
+
+    @Column()
     String bezeichnung;
-    @Column(nullable = true)
+    @Column()
     Time bestelltUm;
-    @Column(nullable = true)
+    @Column()
     Time erhaltenUm;
     @Column(nullable = false)
     String mischung;
     @Column(nullable = false)
     String art;
-    @Column(nullable = true)
+    @Column()
     String session;
-    @Column(nullable = true)
+    @Column()
     double kaltdruck;
-    @Column(nullable = true)
+    @Column()
     int kaltdruckTemp;
-    @Column(nullable = true)
+    @Column()
     int heatingTemp;
-    @Column(nullable = true)
+    @Column()
     int heatingTime;
-    @Column(nullable = true)
+    @Column()
     Time heatingStart;
-    @Column(nullable = true)
+    @Column()
     Time heatingStop;
 
     public TireSet getTireSet() {
@@ -82,11 +80,20 @@ public class Tire {
         this.heatingTime = heatingTime;
         this.heatingStart = heatingStart;
         this.heatingStop = heatingStop;
-        this.status = "bestellt";
     }
 
     public Time getBestelltUm() {
         return bestelltUm;
+
+    }
+
+    public void setBestelltUm(Time bestelltUm) {
+        this.bestelltUm = bestelltUm;
+    }
+
+    public void setTireSet(TireSet tireSet) {
+        this.tireSet = tireSet;
+
     }
 
     public void setBestelltUm(Time bestelltUm) {
@@ -98,14 +105,6 @@ public class Tire {
     }
 
     public Tire() {
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public Long getTireID() {

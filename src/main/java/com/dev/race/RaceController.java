@@ -43,33 +43,52 @@ public class RaceController {
 
     }
 
+
+    @GetMapping(path = "/id")
+    @ApiOperation(value = "returns the race by id")
+    public Race getRaceById(@RequestParam(name = "id") Long raceid) {
+        return raceService.getRaceById(raceid);
+    }
+
     @GetMapping(path = "/contingent")
-    public int getCont() {
-        return raceService.getContingent();
+    public int getCont(@RequestParam(name = "id", required = false) Long raceid) {
+        return raceService.getContingent(raceid);
+
     }
 
     @PostMapping("/new")
     @ApiOperation(value = "insert new race.")
-    public Race addNewRace(@RequestBody(required = true) Race race) {
+    public Race addNewRace(@RequestBody() Race race) {
         return raceService.addNewRace(race);
     }
 
     @PutMapping("/prefixes")
     @ApiOperation(value = "changes the prefixes for a give race. Its important that the correct order is used(hot,medium,cold,intermediate,dry_wet,heavy_wet).")
-    public tireMixturePrefixes changePrefixes(@RequestParam(required = false) Long raceid,
+    public TireMixturePrefixes changePrefixes(@RequestParam(name = "id", required = false) Long raceid,
                                               @RequestBody int[] ints) {
         return raceService.changePrefixes(raceid, ints);
     }
 
     @PutMapping("/contingent")
-    public void setTireContingent(@RequestParam(name = "cont") int cont) {
-        raceService.setContingent(cont);
+
+    @ApiOperation(value = "Change contingent for the selected/newest race")
+    public void setTireContingent(@RequestParam(name = "cont") int cont,
+                                  @RequestParam(name = "raceid") Long raceid) {
+        raceService.setContingent(cont, raceid);
     }
 
     @PutMapping("/pressure")
     @ApiOperation(value = "change all variables for calculating the tire pressure.")
-    public Race changePressureVars(@RequestParam(required = false) Long raceid, @RequestBody double[] pressureVars) {
+    public Race changePressureVars(@RequestParam(name = "id", required = false) Long raceid,
+                                   @RequestBody double[] pressureVars) {
         return raceService.changePressureVariables(raceid, pressureVars);
+    }
+
+    @PutMapping("/length")
+    @ApiOperation(value = "change the lentgh of a given race")
+    public void changeLength(@RequestParam(name = "id", required = false) Long raceid,
+                             @RequestParam(name = "len") double length) {
+        raceService.changeLength(raceid, length);
     }
 
     @DeleteMapping("/delete/{id}")

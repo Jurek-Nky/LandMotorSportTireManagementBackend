@@ -20,6 +20,4 @@ public interface TireRepository extends CrudRepository<Tire, Long> {
     Optional<Tire> findTireBySerialNumber(String serialnumber);
 
     List<Tire> findTiresByErhaltenUm(Time time);
-
-    List<Tire> findTiresByStatus(String status);
 }
