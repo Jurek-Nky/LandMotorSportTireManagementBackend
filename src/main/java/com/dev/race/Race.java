@@ -50,7 +50,7 @@ public class Race {
     @Column(nullable = false)
     @JsonIgnore
     double pressureVar4;
-  
+
     @Column()
     @JsonIgnore
     Time orderReady;
@@ -67,26 +67,6 @@ public class Race {
 
     public void setLength(double length) {
         this.length = length;
-    }
-
-    public Time getOrderReady() {
-        return orderReady;
-    }
-
-    public int getTireContingent() {
-        return tireContingent;
-    }
-
-    public void setTireContingent(int tireContingent) {
-        this.tireContingent = tireContingent;
-    }
-
-    public void decreaseTireContingent() {
-        tireContingent = tireContingent - 1;
-    }
-
-    public void setOrderReady(Time orderReady) {
-        this.orderReady = orderReady;
     }
 
     public Time getOrderReady() {

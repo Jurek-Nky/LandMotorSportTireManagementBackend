@@ -92,14 +92,6 @@ public class RaceService {
         return race;
     }
 
-
-    public void deleteRaceById(Long raceid) {
-        if (raceRepository.findRaceByRaceID(raceid).isEmpty()) {
-            throw new IllegalStateException(String.format("No race with ID %s was found.", raceid));
-        }
-        raceRepository.deleteById(raceid);
-    }
-
     @Transactional
     public void setContingent(int cont, Long raceid) {
         Race race = getRace(raceid);

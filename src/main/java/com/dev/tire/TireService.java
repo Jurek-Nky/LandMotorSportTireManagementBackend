@@ -79,67 +79,6 @@ public class TireService {
     }
 
 
-    public void addNewTireSet(Long raceid, TireDto tireDto) {
-        Optional<Race> race;
-        if (raceid != null) {
-            race = raceRepository.findRaceByRaceID(raceid);
-            if (race.isEmpty()) {
-                throw new IllegalStateException(String.format("No race with ID %s was found.", raceid));
-            }
-        } else {
-            race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
-            if (race.isEmpty()) {
-                throw new IllegalStateException("No race available.");
-            }
-        }
-        if (race.get().getTireContingent() == 0 ){
-            throw new IllegalStateException("Tire contingent is empty.");
-        }
-        Optional<TireSet> lastSet = tireSetRepository.findFirstByRace_RaceIDEqualsOrderByTireSetNrDesc(race.get().getRaceID());
-        int nr;
-        if (lastSet.isEmpty()) {
-            nr = 1;
-        } else {
-            nr = lastSet.get().getTireSetNr() + 1;
-        }
-
-        TireSet tireSet = new TireSet(nr);
-        tireSet.setRace(race.get());
-        tireSet.setStatus("bestellt");
-        tireSet = tireSetRepository.save(tireSet);
-
-        for (int i = 0; i < 2; i++) {
-            Tire front = new Tire(tireDto.getFrontMischung(), tireDto.getFrontArt());
-            front.setBezeichnung(String.format("%s%02d", race.get().getPrefixes().getprefix(front.getMischung()), nr));
-            front.setStatus("bestellt");
-            front.setBestelltUm(Time.valueOf(LocalTime.now()));
-            front.setTireSet(tireSet);
-            if (tireDto.getFrontMischung().equals("Heavy_wet") || tireDto.getFrontMischung().equals("Dry_wet")) {
-                front.setHeatingTemp(40);
-            } else {
-                front.setHeatingTemp(90);
-            }
-            tireRepository.save(front);
-        }
-        for (int i = 0; i < 2; i++) {
-            Tire rear = new Tire(tireDto.getRearMischung(), tireDto.getRearArt());
-            rear.setBezeichnung(String.format("%s%02d", race.get().getPrefixes().getprefix(rear.getMischung()), nr));
-            rear.setStatus("bestellt");
-            rear.setBestelltUm(Time.valueOf(LocalTime.now()));
-            rear.setTireSet(tireSet);
-            if (tireDto.getRearMischung().equals("Heavy_wet") || tireDto.getRearMischung().equals("Dry_wet")) {
-                rear.setHeatingTemp(40);
-            } else {
-                rear.setHeatingTemp(90);
-            }
-            tireRepository.save(rear);
-        }
-
-        race.get().decreaseTireContingent();
-
-
-    }
-
     /*##########################################################################################################
      *  methodes for DELETE requests
      */
