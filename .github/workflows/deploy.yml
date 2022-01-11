@@ -18,5 +18,9 @@ jobs:
     - name: Build project with Maven
       run: mvn -B package --file pom.xml
            
-    - name: scp files
-        run: pwd
+    - name: print dir
+      run: pwd
+    - name: list files
+      run: ls -la
+    - name: list target
+      run: ls -la target/
