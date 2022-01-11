@@ -47,6 +47,7 @@ public class RaceService {
 
 
     public double[] getPressureVars(Long raceid) {
+ 
         Race race = getRace(raceid);
         return race.getPressureVars();
     }
@@ -55,6 +56,7 @@ public class RaceService {
         Race race = getRace(raceid);
         if (race.getTireContingent() != 0) {
             return race.getTireContingent();
+ 
         } else {
             throw new IllegalStateException("Contingent empty.");
         }
@@ -130,5 +132,19 @@ public class RaceService {
         }
         return race.get();
     }
+    public void deleteRaceById(Long raceid) {
+        if (raceRepository.findRaceByRaceID(raceid).isEmpty()) {
+            throw new IllegalStateException(String.format("No race with ID %s was found.", raceid));
+        }
+        raceRepository.deleteById(raceid);
+    }
 
+    @Transactional
+    public void setContingent(int cont) {
+        Optional<Race> race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
+        if (race.isEmpty()) {
+            throw new IllegalStateException("No race available");
+        }
+        race.get().setTireContingent(cont);
+    }
 }

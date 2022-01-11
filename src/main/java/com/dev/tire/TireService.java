@@ -111,6 +111,7 @@ public class TireService {
         for (int i = 0; i < 2; i++) {
             Tire front = new Tire(tireDto.getFrontMischung(), tireDto.getFrontArt());
             front.setBezeichnung(String.format("%s%02d", race.get().getPrefixes().getprefix(front.getMischung()), nr));
+            front.setStatus("bestellt");
             front.setBestelltUm(Time.valueOf(LocalTime.now()));
             front.setTireSet(tireSet);
             if (tireDto.getFrontMischung().equals("Heavy_wet") || tireDto.getFrontMischung().equals("Dry_wet")) {
@@ -123,6 +124,7 @@ public class TireService {
         for (int i = 0; i < 2; i++) {
             Tire rear = new Tire(tireDto.getRearMischung(), tireDto.getRearArt());
             rear.setBezeichnung(String.format("%s%02d", race.get().getPrefixes().getprefix(rear.getMischung()), nr));
+            rear.setStatus("bestellt");
             rear.setBestelltUm(Time.valueOf(LocalTime.now()));
             rear.setTireSet(tireSet);
             if (tireDto.getRearMischung().equals("Heavy_wet") || tireDto.getRearMischung().equals("Dry_wet")) {
@@ -152,7 +154,6 @@ public class TireService {
     /*##########################################################################################################
      *  methodes for PUT requests
      */
-
 
     @Transactional
     // This methode checks every given argument for existence and equality to the tire field and replaces the tire field if necessary

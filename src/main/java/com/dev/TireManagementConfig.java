@@ -1,6 +1,7 @@
 package com.dev;
 
 
+
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
@@ -89,6 +90,4 @@ public class TireManagementConfig {
         connector.setSecure(false);
         connector.setRedirectPort(8443);
         return connector;
-    }
-
 }

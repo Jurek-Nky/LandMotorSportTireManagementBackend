@@ -57,11 +57,13 @@ public class TireController {
         return tireService.getOrderTimer();
     }
 
+
     @PostMapping("/newset")
     @ApiOperation(value = "inset new set of four tires.")
     public void addNewTireSet(@RequestParam(required = false) Long raceid, @RequestBody() TireDto tireDto) {
         tireService.addNewTireSet(raceid, tireDto);
     }
+
 
     @PostMapping("/ordertimer")
     public Time setOrderTimer(@RequestParam(name = "time") int minutes) {

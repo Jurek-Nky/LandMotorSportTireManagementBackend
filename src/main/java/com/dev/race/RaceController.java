@@ -43,6 +43,7 @@ public class RaceController {
 
     }
 
+
     @GetMapping(path = "/id")
     @ApiOperation(value = "returns the race by id")
     public Race getRaceById(@RequestParam(name = "id") Long raceid) {
@@ -52,6 +53,7 @@ public class RaceController {
     @GetMapping(path = "/contingent")
     public int getCont(@RequestParam(name = "id", required = false) Long raceid) {
         return raceService.getContingent(raceid);
+
     }
 
     @PostMapping("/new")
@@ -68,6 +70,7 @@ public class RaceController {
     }
 
     @PutMapping("/contingent")
+
     @ApiOperation(value = "Change contingent for the selected/newest race")
     public void setTireContingent(@RequestParam(name = "cont") int cont,
                                   @RequestParam(name = "raceid") Long raceid) {

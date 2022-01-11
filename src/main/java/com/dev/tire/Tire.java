@@ -84,6 +84,16 @@ public class Tire {
 
     public Time getBestelltUm() {
         return bestelltUm;
+
+    }
+
+    public void setBestelltUm(Time bestelltUm) {
+        this.bestelltUm = bestelltUm;
+    }
+
+    public void setTireSet(TireSet tireSet) {
+        this.tireSet = tireSet;
+
     }
 
     public void setBestelltUm(Time bestelltUm) {
