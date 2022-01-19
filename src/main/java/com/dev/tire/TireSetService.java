@@ -36,7 +36,7 @@ public class TireSetService {
 
     @Transactional
     public TireSet changeStatus(Long tireSetId, String status) {
-        Optional<TireSet> tireSet = tireSetRepository.findByTires_TireSet_ID(tireSetId);
+        Optional<TireSet> tireSet = tireSetRepository.findById(tireSetId);
         if (tireSet.isEmpty()) {
             throw new IllegalStateException(String.format("No Tireset with ID %s was found.", tireSetId));
         }
