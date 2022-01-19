@@ -45,6 +45,8 @@ public class Tire {
     Time heatingStart;
     @Column()
     Time heatingStop;
+    @Column()
+    String modification;
 
     public TireSet getTireSet() {
         return tireSet;
@@ -201,5 +203,13 @@ public class Tire {
 
     public void setHeatingStop(Time heatingStop) {
         this.heatingStop = heatingStop;
+    }
+
+    public String getModification() {
+        return modification;
+    }
+
+    public void setModification(String modification) {
+        this.modification = modification;
     }
 }

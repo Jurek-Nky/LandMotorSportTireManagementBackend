@@ -3,6 +3,7 @@ package com.dev.tire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
 import java.util.List;
 
 @RestController
@@ -49,5 +50,16 @@ public class TireSetController {
     @DeleteMapping("/delete/{tireSetID}")
     public void deleteTireSet(@PathVariable("tireSetID") Long tireSetId) {
         tireSetService.deleteTireSet(tireSetId);
+    }
+
+    @PutMapping("/update/{tireSetID}/orderTimer")
+    public void updateOrderTimer(@PathVariable("tireSetID") Long tireSetID,
+                                 @RequestParam("orderTimer") Time orderTimer) {
+        tireSetService.updateOrderTimer(tireSetID, orderTimer);
+    }
+
+    @GetMapping("/orderTimer/{tireSetID}")
+    public Time getTireSetOrderTimer(@PathVariable("tireSetID") Long tireSetID){
+        return tireSetService.getOrderTimerByID(tireSetID);
     }
 }
