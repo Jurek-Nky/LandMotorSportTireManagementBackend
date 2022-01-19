@@ -26,14 +26,6 @@ public class TireSet {
     int tireSetNr;
     @OneToMany(cascade = CascadeType.ALL)
     List<Tire> tires;
-    @OneToOne(cascade = CascadeType.ALL)
-    Tire FL;
-    @OneToOne(cascade = CascadeType.ALL)
-    Tire FR;
-    @OneToOne(cascade = CascadeType.ALL)
-    Tire RL;
-    @OneToOne(cascade = CascadeType.ALL)
-    Tire RR;
 
     public TireSet() {
 
@@ -91,35 +83,4 @@ public class TireSet {
         this.orderTimer = orderTimer;
     }
 
-    public Tire getFL() {
-        return FL;
-    }
-
-    public void setFL(Tire FL) {
-        this.FL = FL;
-    }
-
-    public Tire getFR() {
-        return FR;
-    }
-
-    public void setFR(Tire FR) {
-        this.FR = FR;
-    }
-
-    public Tire getRL() {
-        return RL;
-    }
-
-    public void setRL(Tire RL) {
-        this.RL = RL;
-    }
-
-    public Tire getRR() {
-        return RR;
-    }
-
-    public void setRR(Tire RR) {
-        this.RR = RR;
-    }
 }
