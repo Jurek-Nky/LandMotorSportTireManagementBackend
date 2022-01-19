@@ -85,20 +85,25 @@ public class TireSetService {
         } else {
             nr = lastSet.get().getTireSetNr() + 1;
         }
-        List<Tire> tires = new ArrayList<>();
-        for (Tire tire : tireSet.tires) {
-            Tire t = new Tire(tire.mischung, tire.art);
-            t.setBestelltUm(Time.valueOf(LocalTime.now()));
-            t.setTireSet(tireSet);
+        Tire[] tires = new Tire[4];
+        tires[0] = new Tire(tireSet.FL.mischung, tireSet.FL.art);
+        tires[1] = new Tire(tireSet.FR.mischung, tireSet.FR.art);
+        tires[2] = new Tire(tireSet.RL.mischung, tireSet.RL.art);
+        tires[3] = new Tire(tireSet.RR.mischung, tireSet.RR.art);
+        for (Tire tire : tires) {
+            tire.setBestelltUm(Time.valueOf(LocalTime.now()));
+            tire.setTireSet(tireSet);
             if (tire.getMischung().equals("Heavy_wet") || tire.getMischung().equals("Dry_wet")) {
-                t.setHeatingTemp(40);
+                tire.setHeatingTemp(40);
             } else {
-                t.setHeatingTemp(90);
+                tire.setHeatingTemp(90);
             }
-            t.setBezeichnung(String.format("%s%02d", race.get().getPrefixes().getprefix(tire.getMischung()), nr));
-            tires.add(t);
+            tire.setBezeichnung(String.format("%s%02d", race.get().getPrefixes().getprefix(tire.getMischung()), nr));
         }
-        tireSet.setTires(tires);
+        tireSet.setFL(tires[0]);
+        tireSet.setFR(tires[1]);
+        tireSet.setRL(tires[2]);
+        tireSet.setRR(tires[3]);
         tireSet.setTireSetNr(nr);
         tireSet.setRace(race.get());
         tireSet.setStatus("bestellt");
