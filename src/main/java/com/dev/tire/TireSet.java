@@ -5,6 +5,7 @@ import com.dev.race.Race;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,41 +17,30 @@ public class TireSet {
     private Long ID;
     @Column(nullable = false)
     String status;
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
+    @Column()
+    Time orderTimer;
     @ManyToOne
     @JoinColumn(name = "raceID")
     Race race;
-
     @Column(nullable = false)
     int tireSetNr;
-
     @OneToMany(cascade = CascadeType.ALL)
     List<Tire> tires;
+
+    public TireSet() {
+
+    }
 
     public Race getRace() {
         return race;
     }
 
-
     public List<Tire> getTires() {
         return tires;
     }
 
-
     public TireSet(int tireSetNr) {
         this.tireSetNr = tireSetNr;
-    }
-
-    public TireSet() {
-
     }
 
     public Long getID() {
@@ -75,5 +65,21 @@ public class TireSet {
 
     public void setTires(List<Tire> tires) {
         this.tires = tires;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Time getOrderTimer() {
+        return orderTimer;
+    }
+
+    public void setOrderTimer(Time orderTimer) {
+        this.orderTimer = orderTimer;
     }
 }

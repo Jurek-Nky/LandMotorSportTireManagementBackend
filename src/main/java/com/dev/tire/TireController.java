@@ -68,7 +68,7 @@ public class TireController {
         tireService.deleteTire(reifenId);
     }
 
-    @PutMapping(path = "/update/{tireID}")
+    @PutMapping("/update/{tireID}")
     @ApiOperation(value = "update tire by id.")
     // request can look someting like this: PUT http://localhost:8080/api/v1/tire/id/1?tp_hot1=5.7&spez=foo&date=2021-11-20
     public Tire updateTire(@PathVariable("tireID") Long tireid,
@@ -89,6 +89,12 @@ public class TireController {
                 bezeichnung, mischung, art, time, session,
                 kaltdruck, kaltdruckTemp, heatingTemp, heatingTime,
                 heatingStart, heatingStop);
+    }
+
+    @PutMapping("/update/{id}/modification")
+    public void updateModification(@PathVariable("id") Long tireID,
+                                   @RequestParam("mod") String modification) {
+        tireService.updateModification(tireID, modification);
     }
 
 }

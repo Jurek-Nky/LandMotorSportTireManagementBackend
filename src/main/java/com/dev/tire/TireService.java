@@ -152,5 +152,14 @@ public class TireService {
         }
         return race.get().getOrderReady();
     }
+
+    @Transactional
+    public void updateModification(Long tireID, String mod) {
+        Optional<Tire> tire = tireRepository.findTireByTireID(tireID);
+        if (tire.isEmpty()) {
+            throw new IllegalStateException(String.format("Tire with ID %s does not exist.", tireID));
+        }
+        tire.get().setModification(mod);
+    }
 }
 

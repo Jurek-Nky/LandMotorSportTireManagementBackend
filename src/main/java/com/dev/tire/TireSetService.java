@@ -129,4 +129,24 @@ public class TireSetService {
         }
         return tireSet.get();
     }
+
+    @Transactional
+    public void updateOrderTimer(Long tireSetID, Time orderTimer) {
+        Optional<TireSet> tireSet = tireSetRepository.findByTires_TireSet_ID(tireSetID);
+        if (tireSet.isEmpty()) {
+            throw new IllegalStateException(String.format("TireSet with ID %s does not exist.", tireSetID));
+        }
+        tireSet.get().setOrderTimer(orderTimer);
+    }
+
+    public Time getOrderTimerByID(Long tireSetID) {
+        Optional<TireSet> tireSet = tireSetRepository.findByTires_TireSet_ID(tireSetID);
+        if (tireSet.isEmpty()) {
+            throw new IllegalStateException(String.format("TireSet with ID %s does not exist.", tireSetID));
+        }
+        if (tireSet.get().getOrderTimer() != null) {
+            return tireSet.get().getOrderTimer();
+        }
+        throw new IllegalStateException("OrderTimer isn't available.");
+    }
 }
