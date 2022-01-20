@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  restapi: 
+    build:
+      context: .
+      dockerfile: DockerFile-RestApi
+    image: restapi
+    restart: always
+    ports:
+      - "8443:8443"
+      - "8081:8081"
+    environment:
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET} 
+      - JWT_EXPIRATION=${JWT_EXPIRATION}
+      - KEY_STORE_PASSWORD=${KEY_STORE_PASSWORD}
+    
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_USER: restapi
+      MYSQL_PASSWORD: x5foc7qRjYpHj35CMngCM94RRi3tba3shi5X96L8 
+    ports:
+      - "3306:3306"
+    volumes:
+      - data:/var/lib/mysql
+      - ./mariadb_init:/docker-entrypoint-initdb.d/
+        
+volumes:
+  data:

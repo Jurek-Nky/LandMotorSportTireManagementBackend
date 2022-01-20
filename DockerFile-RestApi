@@ -1,0 +1,6 @@
+FROM openjdk:17 
+MAINTAINER jurek
+WORKDIR /usr/src/app 
+ADD ./target/tiremanagement-0.0.1.jar /usr/src/app/restapi.jar
+ADD ./ssl/keystore.p12 /usr/src/app
+CMD ["java" ,"-jar","restapi.jar"]
