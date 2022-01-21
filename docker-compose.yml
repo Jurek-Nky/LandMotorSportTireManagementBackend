@@ -21,8 +21,8 @@ services:
     restart: always
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: 1
-      MYSQL_USER: restapi
-      MYSQL_PASSWORD: x5foc7qRjYpHj35CMngCM94RRi3tba3shi5X96L8 
+      MYSQL_USER: ${DATABASE_USERNAME}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
