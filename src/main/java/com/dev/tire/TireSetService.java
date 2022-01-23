@@ -89,7 +89,7 @@ public class TireSetService {
         for (Tire tire : tireSet.tires) {
             Tire t = new Tire(tire.mischung, tire.art);
             t.setPosition(tire.position);
-            if (tire.getModification() != null) {
+            if (!tire.getModification().isEmpty()) {
                 t.setModification(tire.modification);
             }
             t.setBestelltUm(Time.valueOf(LocalTime.now()));
