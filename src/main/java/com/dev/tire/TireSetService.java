@@ -36,7 +36,7 @@ public class TireSetService {
 
     @Transactional
     public TireSet changeStatus(Long tireSetId, String status) {
-        Optional<TireSet> tireSet = tireSetRepository.findByTires_TireSet_ID(tireSetId);
+        Optional<TireSet> tireSet = tireSetRepository.findById(tireSetId);
         if (tireSet.isEmpty()) {
             throw new IllegalStateException(String.format("No Tireset with ID %s was found.", tireSetId));
         }
@@ -88,14 +88,18 @@ public class TireSetService {
         List<Tire> tires = new ArrayList<>();
         for (Tire tire : tireSet.tires) {
             Tire t = new Tire(tire.mischung, tire.art);
+            t.setPosition(tire.position);
+            if (!tire.getModification().isEmpty()) {
+                t.setModification(tire.modification);
+            }
             t.setBestelltUm(Time.valueOf(LocalTime.now()));
             t.setTireSet(tireSet);
-            if (tire.getMischung().equals("Heavy_wet") || tire.getMischung().equals("Dry_wet")) {
+            if (t.getMischung().equals("Heavy_wet") || tire.getMischung().equals("Dry_wet")) {
                 t.setHeatingTemp(40);
             } else {
                 t.setHeatingTemp(90);
             }
-            t.setBezeichnung(String.format("%s%02d", race.get().getPrefixes().getprefix(tire.getMischung()), nr));
+            t.setBezeichnung(String.format("%s%02d", race.get().getPrefixes().getprefix(t.getMischung()), nr));
             tires.add(t);
         }
         tireSet.setTires(tires);

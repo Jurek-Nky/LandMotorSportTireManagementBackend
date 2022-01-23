@@ -20,7 +20,6 @@ public class Tire {
     // just for testing purposes. in a normal usecase serialnumber should always be unique
     @Column()
     String serialNumber;
-
     @Column()
     String bezeichnung;
     @Column()
@@ -47,6 +46,8 @@ public class Tire {
     Time heatingStop;
     @Column()
     String modification;
+    @Column()
+    String position;
 
     public TireSet getTireSet() {
         return tireSet;
@@ -211,5 +212,13 @@ public class Tire {
 
     public void setModification(String modification) {
         this.modification = modification;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 }
