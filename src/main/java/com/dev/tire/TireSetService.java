@@ -47,7 +47,12 @@ public class TireSetService {
                     tire.setErhaltenUm(Time.valueOf(LocalTime.now()));
                 }
             }
-            case "benutzt" -> tireSet.get().setStatus(status);
+            case "benutzt" -> {
+                tireSet.get().setStatus(status);
+                for (Tire tire : tireSet.get().tires){
+                    tire.setBenutztUm(Time.valueOf(LocalTime.now()));
+                }
+            }
             default -> throw new IllegalStateException(String.format("%s must be one of [auf lager, benutzt]", status));
         }
         return tireSet.get();
@@ -87,11 +92,7 @@ public class TireSetService {
         }
         List<Tire> tires = new ArrayList<>();
         for (Tire tire : tireSet.tires) {
-            Tire t = new Tire(tire.mischung, tire.art);
-            t.setPosition(tire.position);
-            if (!tire.getModification().isEmpty()) {
-                t.setModification(tire.modification);
-            }
+            Tire t = new Tire(tire.mischung, tire.art, tire.modification, tire.position);
             t.setBestelltUm(Time.valueOf(LocalTime.now()));
             t.setTireSet(tireSet);
             if (t.getMischung().equals("Heavy_wet") || tire.getMischung().equals("Dry_wet")) {

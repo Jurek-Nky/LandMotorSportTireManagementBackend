@@ -26,6 +26,8 @@ public class Tire {
     Time bestelltUm;
     @Column()
     Time erhaltenUm;
+    @Column()
+    Time benutztUm;
     @Column(nullable = false)
     String mischung;
     @Column(nullable = false)
@@ -49,77 +51,14 @@ public class Tire {
     @Column()
     String position;
 
-    public TireSet getTireSet() {
-        return tireSet;
+    public Tire() {
     }
 
-    public Tire(String mischung,
-                String art) {
+    public Tire(String mischung, String art, String modification, String position) {
         this.mischung = mischung;
         this.art = art;
-    }
-
-    public Tire(String serialNumber,
-                String bezeichnung,
-                String mischung,
-                String art,
-                Time erhalten_um,
-                String session,
-                double kaltdruck,
-                int kaltdruckTemp,
-                int heatingTemp,
-                int heatingTime,
-                Time heatingStart,
-                Time heatingStop) {
-        this.serialNumber = serialNumber;
-        this.bezeichnung = bezeichnung;
-        this.erhaltenUm = erhalten_um;
-        this.mischung = mischung;
-        this.art = art;
-        this.session = session;
-        this.kaltdruck = kaltdruck;
-        this.kaltdruckTemp = kaltdruckTemp;
-        this.heatingTemp = heatingTemp;
-        this.heatingTime = heatingTime;
-        this.heatingStart = heatingStart;
-        this.heatingStop = heatingStop;
-    }
-
-    public Tire(Long tireID, TireSet tireSet, String serialNumber, String bezeichnung, Time bestelltUm, Time erhaltenUm, String mischung, String art, String session, double kaltdruck, int kaltdruckTemp, int heatingTemp, int heatingTime, Time heatingStart, Time heatingStop, String modification, String position) {
-        this.tireID = tireID;
-        this.tireSet = tireSet;
-        this.serialNumber = serialNumber;
-        this.bezeichnung = bezeichnung;
-        this.bestelltUm = bestelltUm;
-        this.erhaltenUm = erhaltenUm;
-        this.mischung = mischung;
-        this.art = art;
-        this.session = session;
-        this.kaltdruck = kaltdruck;
-        this.kaltdruckTemp = kaltdruckTemp;
-        this.heatingTemp = heatingTemp;
-        this.heatingTime = heatingTime;
-        this.heatingStart = heatingStart;
-        this.heatingStop = heatingStop;
         this.modification = modification;
         this.position = position;
-    }
-
-    public Time getBestelltUm() {
-        return bestelltUm;
-
-    }
-
-    public void setBestelltUm(Time bestelltUm) {
-        this.bestelltUm = bestelltUm;
-    }
-
-    public void setTireSet(TireSet tireSet) {
-        this.tireSet = tireSet;
-
-    }
-
-    public Tire() {
     }
 
     public Long getTireID() {
@@ -128,6 +67,14 @@ public class Tire {
 
     public void setTireID(Long tireID) {
         this.tireID = tireID;
+    }
+
+    public TireSet getTireSet() {
+        return tireSet;
+    }
+
+    public void setTireSet(TireSet tireSet) {
+        this.tireSet = tireSet;
     }
 
     public String getSerialNumber() {
@@ -146,12 +93,28 @@ public class Tire {
         this.bezeichnung = bezeichnung;
     }
 
+    public Time getBestelltUm() {
+        return bestelltUm;
+    }
+
+    public void setBestelltUm(Time bestelltUm) {
+        this.bestelltUm = bestelltUm;
+    }
+
     public Time getErhaltenUm() {
         return erhaltenUm;
     }
 
-    public void setErhaltenUm(Time erhalten_um) {
-        this.erhaltenUm = erhalten_um;
+    public void setErhaltenUm(Time erhaltenUm) {
+        this.erhaltenUm = erhaltenUm;
+    }
+
+    public Time getBenutztUm() {
+        return benutztUm;
+    }
+
+    public void setBenutztUm(Time benutztUm) {
+        this.benutztUm = benutztUm;
     }
 
     public String getMischung() {
