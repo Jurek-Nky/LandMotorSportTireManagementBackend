@@ -85,6 +85,26 @@ public class Tire {
         this.heatingStop = heatingStop;
     }
 
+    public Tire(Long tireID, TireSet tireSet, String serialNumber, String bezeichnung, Time bestelltUm, Time erhaltenUm, String mischung, String art, String session, double kaltdruck, int kaltdruckTemp, int heatingTemp, int heatingTime, Time heatingStart, Time heatingStop, String modification, String position) {
+        this.tireID = tireID;
+        this.tireSet = tireSet;
+        this.serialNumber = serialNumber;
+        this.bezeichnung = bezeichnung;
+        this.bestelltUm = bestelltUm;
+        this.erhaltenUm = erhaltenUm;
+        this.mischung = mischung;
+        this.art = art;
+        this.session = session;
+        this.kaltdruck = kaltdruck;
+        this.kaltdruckTemp = kaltdruckTemp;
+        this.heatingTemp = heatingTemp;
+        this.heatingTime = heatingTime;
+        this.heatingStart = heatingStart;
+        this.heatingStop = heatingStop;
+        this.modification = modification;
+        this.position = position;
+    }
+
     public Time getBestelltUm() {
         return bestelltUm;
 
