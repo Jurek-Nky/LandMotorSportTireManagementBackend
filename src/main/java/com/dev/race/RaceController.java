@@ -62,6 +62,40 @@ public class RaceController {
         return raceService.addNewRace(race);
     }
 
+    @PostMapping("/new/note")
+    public Race addNewNote(@RequestParam(name = "id", required = false) Long raceId,
+                           @RequestBody() String note) {
+        return raceService.addNewNote(raceId, note);
+    }
+
+    @DeleteMapping("/note/done")
+    public void deleteNoteDone(@RequestParam(name = "id", required = false) Long raceID,
+                               @RequestBody() String note) {
+        raceService.deleteNoteDone(raceID, note);
+    }
+
+    @DeleteMapping("/note")
+    public void deleteNote(@RequestParam(name = "id", required = false) Long raceID,
+                           @RequestBody() String note) {
+        raceService.deleteNote(raceID, note);
+    }
+
+    @PutMapping("/note/done/")
+    public Race markNoteAsDone(@RequestParam(name = "id", required = false) Long raceId,
+                               @RequestBody() String note) {
+        return raceService.changeNoteToDone(raceId, note);
+    }
+
+    @GetMapping("/note/all")
+    public List<String> getAllNotes(@RequestParam(name = "id", required = false) Long raceID) {
+        return raceService.getAllNotes(raceID);
+    }
+
+    @GetMapping("/note/all/done")
+    public List<String> getAllNotesDone(@RequestParam(name = "id", required = false) Long raceID) {
+        return raceService.getAllNotesDone(raceID);
+    }
+
     @PutMapping("/prefixes")
     @ApiOperation(value = "changes the prefixes for a give race. Its important that the correct order is used(hot,medium,cold,intermediate,dry_wet,heavy_wet).")
     public TireMixturePrefixes changePrefixes(@RequestParam(name = "id", required = false) Long raceid,

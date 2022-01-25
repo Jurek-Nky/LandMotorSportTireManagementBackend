@@ -47,7 +47,7 @@ public class RaceService {
 
 
     public double[] getPressureVars(Long raceid) {
- 
+
         Race race = getRace(raceid);
         return race.getPressureVars();
     }
@@ -56,7 +56,7 @@ public class RaceService {
         Race race = getRace(raceid);
         if (race.getTireContingent() != 0) {
             return race.getTireContingent();
- 
+
         } else {
             throw new IllegalStateException("Contingent empty.");
         }
@@ -124,6 +124,7 @@ public class RaceService {
         }
         return race.get();
     }
+
     public void deleteRaceById(Long raceid) {
         if (raceRepository.findRaceByRaceID(raceid).isEmpty()) {
             throw new IllegalStateException(String.format("No race with ID %s was found.", raceid));
@@ -138,5 +139,61 @@ public class RaceService {
             throw new IllegalStateException("No race available");
         }
         race.get().setTireContingent(cont);
+    }
+
+    @Transactional
+    public Race addNewNote(Long raceID, String note) {
+        Race race = getRace(raceID);
+        race.getNotes().add(note);
+        return race;
+    }
+
+    @Transactional
+    public Race changeNoteToDone(Long raceID, String note) {
+        Race race = getRace(raceID);
+        if (race.getNotes().contains(note)) {
+            race.getNotes_done().add(note);
+            race.getNotes().remove(note);
+        } else {
+            throw new IllegalStateException(String.format("Notes does not containt note with Content: %s.", note));
+        }
+        return race;
+    }
+
+    public void deleteNoteDone(Long raceID, String note) {
+        Race race = getRace(raceID);
+        if (race.getNotes_done().contains(note)) {
+            race.getNotes_done().remove(note);
+        } else {
+            throw new IllegalStateException(
+                    String.format("notes_done does not contain note with content: %s.", note));
+        }
+    }
+
+    public void deleteNote(Long raceID, String note) {
+        Race race = getRace(raceID);
+        if (race.getNotes().contains(note)) {
+            race.getNotes().remove(note);
+        } else {
+            throw new IllegalStateException(
+                    String.format("notes does not contain note with content: %s.", note));
+        }
+    }
+
+    public List<String> getAllNotes(Long raceID) {
+        Race race = getRace(raceID);
+        if (race.getNotes().isEmpty()) {
+            throw new IllegalStateException("No notes available.");
+        }
+        return race.getNotes();
+    }
+
+
+    public List<String> getAllNotesDone(Long raceID) {
+        Race race = getRace(raceID);
+        if (race.getNotes_done().isEmpty()) {
+            throw new IllegalStateException("No Notes_done are available.");
+        }
+        return race.getNotes_done();
     }
 }

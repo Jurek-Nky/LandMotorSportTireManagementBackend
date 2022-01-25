@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.bind.annotation.XmlAttachmentRef;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;

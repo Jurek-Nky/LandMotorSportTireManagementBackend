@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -50,6 +51,14 @@ public class Race {
     @Column(nullable = false)
     @JsonIgnore
     double pressureVar4;
+    @ElementCollection
+    @Column(name = "note_done")
+    @CollectionTable(name = "note_note_done", joinColumns = {@JoinColumn(name = "race_raceID")})
+    List<String> notes_done;
+    @ElementCollection
+    @Column(name = "note")
+    @CollectionTable(name = "note_note", joinColumns = {@JoinColumn(name = "race_raceID")})
+    List<String> notes;
 
     @Column()
     @JsonIgnore
@@ -59,6 +68,22 @@ public class Race {
 
     public Race() {
 
+    }
+
+    public List<String> getNotes_done() {
+        return notes_done;
+    }
+
+    public void setNotes_done(List<String> notes_done) {
+        this.notes_done = notes_done;
+    }
+
+    public List<String> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<String> notes) {
+        this.notes = notes;
     }
 
     public double getLength() {
