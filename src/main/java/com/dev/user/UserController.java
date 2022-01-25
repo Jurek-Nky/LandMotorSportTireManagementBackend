@@ -50,6 +50,12 @@ public class UserController {
         return authService.resetUserPassword(username, pwOld, pwNew);
     }
 
+    @PutMapping("/update/userrole")
+    public User changeUserRole(@RequestParam(name = "id") Long id,
+                               @RequestParam(name = "role") String newRole) {
+        return userService.changeUserRole(id, newRole);
+    }
+
     @PutMapping("/admin/resetpw")
     public User resetPaswordWithAdmin(@RequestParam(name = "id") Long userid,
                                       @RequestParam(name = "pwnew") String pwNew) {
