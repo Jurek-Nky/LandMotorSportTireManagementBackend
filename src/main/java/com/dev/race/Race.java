@@ -1,6 +1,7 @@
 package com.dev.race;
 
 
+import com.dev.note.Note;
 import com.dev.tire.TireSet;
 import com.dev.weather.Weather;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -39,6 +40,10 @@ public class Race {
     @JsonIgnore
     List<TireSet> tireSets;
 
+    @OneToMany(mappedBy = "race", cascade = CascadeType.ALL)
+    @JsonIgnore
+    List<Note> notes;
+
     @Column(nullable = false)
     @JsonIgnore
     double pressureVar1;
@@ -51,14 +56,7 @@ public class Race {
     @Column(nullable = false)
     @JsonIgnore
     double pressureVar4;
-    @ElementCollection
-    @Column(name = "note_done")
-    @CollectionTable(name = "note_note_done", joinColumns = {@JoinColumn(name = "race_raceID")})
-    List<String> notes_done;
-    @ElementCollection
-    @Column(name = "note")
-    @CollectionTable(name = "note_note", joinColumns = {@JoinColumn(name = "race_raceID")})
-    List<String> notes;
+
 
     @Column()
     @JsonIgnore
@@ -70,19 +68,11 @@ public class Race {
 
     }
 
-    public List<String> getNotes_done() {
-        return notes_done;
-    }
-
-    public void setNotes_done(List<String> notes_done) {
-        this.notes_done = notes_done;
-    }
-
-    public List<String> getNotes() {
+    public List<Note> getNotes() {
         return notes;
     }
 
-    public void setNotes(List<String> notes) {
+    public void setNotes(List<Note> notes) {
         this.notes = notes;
     }
 
