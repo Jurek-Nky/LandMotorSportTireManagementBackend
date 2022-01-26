@@ -4,7 +4,7 @@ spring:
       ddl-auto: update
     show-sql: true
   datasource:
-    url: jdbc:mysql://limla.ml:3306/tiremanagement?createDatabaseIfNotExist=true&serverTimezone=CET
+    url: jdbc:mysql://${DATABASE_HOST}/tiremanagement?createDatabaseIfNotExist=true&serverTimezone=CET
     driver:-class-name: com.mysql.cj.jdbc.Driver
     username: ${DATABASE.USERNAME}
     password: ${DATABASE.PASSWORD}

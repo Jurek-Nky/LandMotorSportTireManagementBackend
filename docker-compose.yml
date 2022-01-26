@@ -10,6 +10,7 @@ services:
       - "8443:8443"
       - "8081:8081"
     environment:
+      - DATABASE_HOST=db
       - DATABASE_USERNAME=${DATABASE_USERNAME}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - JWT_SECRET=${JWT_SECRET} 
