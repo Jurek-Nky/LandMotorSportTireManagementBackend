@@ -80,7 +80,7 @@ public class RaceController {
         raceService.deleteNote(raceID, note);
     }
 
-    @PutMapping("/note/done/")
+    @PutMapping("/note/done")
     public Race markNoteAsDone(@RequestParam(name = "id", required = false) Long raceId,
                                @RequestBody() String note) {
         return raceService.changeNoteToDone(raceId, note);
