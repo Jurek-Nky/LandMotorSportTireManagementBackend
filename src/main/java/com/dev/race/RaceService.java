@@ -133,15 +133,6 @@ public class RaceService {
     }
 
     @Transactional
-    public void setContingent(int cont) {
-        Optional<Race> race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
-        if (race.isEmpty()) {
-            throw new IllegalStateException("No race available");
-        }
-        race.get().setTireContingent(cont);
-    }
-
-    @Transactional
     public Race addNewNote(Long raceID, String note) {
         Race race = getRace(raceID);
         race.getNotes().add(note);
@@ -160,6 +151,7 @@ public class RaceService {
         return race;
     }
 
+    @Transactional
     public void deleteNoteDone(Long raceID, String note) {
         Race race = getRace(raceID);
         if (race.getNotes_done().contains(note)) {
@@ -170,6 +162,7 @@ public class RaceService {
         }
     }
 
+    @Transactional
     public void deleteNote(Long raceID, String note) {
         Race race = getRace(raceID);
         if (race.getNotes().contains(note)) {

@@ -68,13 +68,13 @@ public class RaceController {
         return raceService.addNewNote(raceId, note);
     }
 
-    @DeleteMapping("/note/done")
+    @DeleteMapping("/delete/note/done")
     public void deleteNoteDone(@RequestParam(name = "id", required = false) Long raceID,
                                @RequestBody() String note) {
         raceService.deleteNoteDone(raceID, note);
     }
 
-    @DeleteMapping("/note")
+    @DeleteMapping("/delete/note")
     public void deleteNote(@RequestParam(name = "id", required = false) Long raceID,
                            @RequestBody() String note) {
         raceService.deleteNote(raceID, note);
@@ -104,7 +104,6 @@ public class RaceController {
     }
 
     @PutMapping("/contingent")
-
     @ApiOperation(value = "Change contingent for the selected/newest race")
     public void setTireContingent(@RequestParam(name = "cont") int cont,
                                   @RequestParam(name = "raceid") Long raceid) {
