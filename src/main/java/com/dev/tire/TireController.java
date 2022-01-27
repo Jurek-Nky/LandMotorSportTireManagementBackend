@@ -81,6 +81,7 @@ public class TireController {
                            @RequestParam(required = false, name = "kaltdruck") Optional<Double> kaltdruck,
                            @RequestParam(required = false, name = "kt") Optional<Integer> kaltdruckTemp,
                            @RequestParam(required = false, name = "ktm") Optional<Integer> kaltdruckTempMeasured,
+                           @RequestParam(required = false, name = "km") Optional<Double> kaltdruckModified,
                            @RequestParam(required = false, name = "bleed") boolean bleeded,
                            @RequestParam(required = false, name = "heatingTime") Optional<Integer> heatingTime,
                            @RequestParam(required = false, name = "heatingTemp") Optional<Integer> heatingTemp,
@@ -89,7 +90,7 @@ public class TireController {
 
         return tireService.updateTire(tireid, serialnumber,
                 bezeichnung, mischung, art, time, session,
-                kaltdruck, kaltdruckTemp, kaltdruckTempMeasured, bleeded, heatingTemp, heatingTime,
+                kaltdruck, kaltdruckTemp, kaltdruckTempMeasured, kaltdruckModified, bleeded, heatingTemp, heatingTime,
                 heatingStart, heatingStop);
     }
 

@@ -106,6 +106,7 @@ public class TireService {
                            Optional<Double> kaltdruck,
                            Optional<Integer> kaltdruckTemp,
                            Optional<Integer> kaltdruckTempMeasured,
+                           Optional<Double> kaltdruckModified,
                            boolean bleeded,
                            Optional<Integer> heatingTemp,
                            Optional<Integer> heatingTime,
@@ -134,6 +135,7 @@ public class TireService {
         kaltdruck.ifPresent(tire::setKaltdruck);
         kaltdruckTemp.ifPresent(tire::setKaltdruckTemp);
         kaltdruckTempMeasured.ifPresent(tire::setKaltdruckTempMeasured);
+        kaltdruckModified.ifPresent(tire::setKaltdruckModified);
         tire.setBleeded(bleeded);
         heatingTemp.ifPresent(tire::setHeatingTemp);
         heatingTime.ifPresent(tire::setHeatingTime);
