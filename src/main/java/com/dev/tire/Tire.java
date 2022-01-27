@@ -39,6 +39,12 @@ public class Tire {
     @Column()
     int kaltdruckTemp;
     @Column()
+    int kaltdruckTempMeasured;
+    @Column()
+    double kaltdruckModified;
+    @Column()
+    boolean bleeded = false;
+    @Column()
     int heatingTemp;
     @Column()
     int heatingTime;
@@ -59,6 +65,30 @@ public class Tire {
         this.art = art;
         this.modification = modification;
         this.position = position;
+    }
+
+    public int getKaltdruckTempMeasured() {
+        return kaltdruckTempMeasured;
+    }
+
+    public void setKaltdruckTempMeasured(int kaltdruckTempMeasured) {
+        this.kaltdruckTempMeasured = kaltdruckTempMeasured;
+    }
+
+    public double getKaltdruckModified() {
+        return kaltdruckModified;
+    }
+
+    public void setKaltdruckModified(double kaltdruckModified) {
+        this.kaltdruckModified = kaltdruckModified;
+    }
+
+    public boolean isBleeded() {
+        return bleeded;
+    }
+
+    public void setBleeded(boolean bleeded) {
+        this.bleeded = bleeded;
     }
 
     public Long getTireID() {

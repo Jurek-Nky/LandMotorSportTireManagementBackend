@@ -96,10 +96,20 @@ public class TireService {
 
     @Transactional
     // This methode checks every given argument for existence and equality to the tire field and replaces the tire field if necessary
-    public Tire updateTire(Long tireID, String serial, String bez,
-                           String mischung, String art, Time erhalten_um,
-                           String session, Optional<Double> kaltdruck, Optional<Integer> kaltdruckTemp,
-                           Optional<Integer> heatingTemp, Optional<Integer> heatingTime, Time heatingStart,
+    public Tire updateTire(Long tireID,
+                           String serial,
+                           String bez,
+                           String mischung,
+                           String art,
+                           Time erhalten_um,
+                           String session,
+                           Optional<Double> kaltdruck,
+                           Optional<Integer> kaltdruckTemp,
+                           Optional<Integer> kaltdruckTempMeasured,
+                           boolean bleeded,
+                           Optional<Integer> heatingTemp,
+                           Optional<Integer> heatingTime,
+                           Time heatingStart,
                            Time heatingStop) {
         Tire tire = tireRepository.findTireByTireID(tireID).orElseThrow(() ->
                 new IllegalStateException(String.format("Tire with id %s could not be found.", tireID)));
@@ -123,6 +133,8 @@ public class TireService {
         }
         kaltdruck.ifPresent(tire::setKaltdruck);
         kaltdruckTemp.ifPresent(tire::setKaltdruckTemp);
+        kaltdruckTempMeasured.ifPresent(tire::setKaltdruckTempMeasured);
+        tire.setBleeded(bleeded);
         heatingTemp.ifPresent(tire::setHeatingTemp);
         heatingTime.ifPresent(tire::setHeatingTime);
         if (heatingStart != null && tire.heatingStart != heatingStart) {
