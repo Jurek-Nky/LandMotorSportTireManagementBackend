@@ -62,14 +62,14 @@ public class UserController {
         return authService.adminResetUserPassword(userid, pwNew);
     }
 
-    @PutMapping("/update/{id}/userSettings")
-    public UserSettings updateUserSettings(@PathVariable(name = "id") Long userID,
-                                   @RequestBody() UserSettings userSettings) {
-        return userService.updateUserSettings(userID, userSettings);
+    @PutMapping("/update/userSettings")
+    public UserSettings updateUserSettings(@RequestParam(name = "u") String userName,
+                                           @RequestBody() UserSettings userSettings) {
+        return userService.updateUserSettings(userName, userSettings);
     }
 
-    @GetMapping("/userSettings/{id}")
-    public UserSettings getUserSettings(@PathVariable(name = "id" )Long userID){
-        return userService.getUserSettingsByID(userID);
+    @GetMapping("/userSettings")
+    public UserSettings getUserSettings(@RequestParam(name = "u") String userName) {
+        return userService.getUserSettingsByID(userName);
     }
 }

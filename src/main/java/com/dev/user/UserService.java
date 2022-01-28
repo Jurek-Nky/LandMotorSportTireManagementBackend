@@ -51,10 +51,10 @@ public class UserService {
     }
 
     @Transactional
-    public UserSettings updateUserSettings(Long userID, UserSettings userSettingsTemplate) {
-        Optional<User> user = userRepository.findById(userID);
+    public UserSettings updateUserSettings(String userName, UserSettings userSettingsTemplate) {
+        Optional<User> user = userRepository.findByUsername(userName);
         if (user.isEmpty()) {
-            throw new IllegalStateException(String.format("No user with ID %s was found.", userID));
+            throw new IllegalStateException(String.format("No user with name %s was found.", userName));
         }
         if (user.get().getUserSettings() == null) {
             UserSettings userSettings = new UserSettings();
@@ -72,10 +72,10 @@ public class UserService {
         return user.get().getUserSettings();
     }
 
-    public UserSettings getUserSettingsByID(Long userID) {
-        Optional<User> user = userRepository.findById(userID);
+    public UserSettings getUserSettingsByID(String userName) {
+        Optional<User> user = userRepository.findByUsername(userName);
         if (user.isEmpty()) {
-            throw new IllegalStateException(String.format("No user with ID %s was found.", userID));
+            throw new IllegalStateException(String.format("No user with name %s was found.", userName));
         }
         return user.get().getUserSettings();
     }
