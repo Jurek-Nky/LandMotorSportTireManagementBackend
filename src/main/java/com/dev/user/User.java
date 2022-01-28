@@ -23,11 +23,22 @@ public class User {
     @JsonIgnore
     Role role;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserSettings userSettings;
+
     public User(String username) {
         this.username = username;
     }
 
     public User() {
+    }
+
+    public UserSettings getUserSettings() {
+        return userSettings;
+    }
+
+    public void setUserSettings(UserSettings userSettings) {
+        this.userSettings = userSettings;
     }
 
     public Long getUserid() {
@@ -50,6 +61,10 @@ public class User {
         return role;
     }
 
+    public void setRolle(Role role) {
+        this.role = role;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -63,10 +78,6 @@ public class User {
     }
 
     public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public void setRolle(Role role) {
         this.role = role;
     }
 }

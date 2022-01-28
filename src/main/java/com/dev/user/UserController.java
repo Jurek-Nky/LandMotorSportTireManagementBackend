@@ -61,4 +61,15 @@ public class UserController {
                                       @RequestParam(name = "pwnew") String pwNew) {
         return authService.adminResetUserPassword(userid, pwNew);
     }
+
+    @PutMapping("/update/{id}/userSettings")
+    public UserSettings updateUserSettings(@PathVariable(name = "id") Long userID,
+                                   @RequestBody() UserSettings userSettings) {
+        return userService.updateUserSettings(userID, userSettings);
+    }
+
+    @GetMapping("/userSettings/{id}")
+    public UserSettings getUserSettings(@PathVariable(name = "id" )Long userID){
+        return userService.getUserSettingsByID(userID);
+    }
 }

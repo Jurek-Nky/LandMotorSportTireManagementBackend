@@ -49,4 +49,34 @@ public class UserService {
         user.get().setRole(role.get());
         return user.get();
     }
+
+    @Transactional
+    public UserSettings updateUserSettings(Long userID, UserSettings userSettingsTemplate) {
+        Optional<User> user = userRepository.findById(userID);
+        if (user.isEmpty()) {
+            throw new IllegalStateException(String.format("No user with ID %s was found.", userID));
+        }
+        if (user.get().getUserSettings() == null) {
+            UserSettings userSettings = new UserSettings();
+            userSettings.setDarkMode(userSettingsTemplate.isDarkMode());
+            userSettings.setGetOrderNotifications(userSettingsTemplate.isGetOrderNotifications());
+            userSettings.setGetWeatherNotifications(userSettingsTemplate.isGetWeatherNotifications());
+            userSettings.setUser(user.get());
+            user.get().setUserSettings(userSettings);
+        } else {
+            user.get().getUserSettings().setDarkMode(userSettingsTemplate.isDarkMode());
+            user.get().getUserSettings().setGetWeatherNotifications(userSettingsTemplate.isGetWeatherNotifications());
+            user.get().getUserSettings().setGetOrderNotifications(userSettingsTemplate.isGetOrderNotifications());
+        }
+
+        return user.get().getUserSettings();
+    }
+
+    public UserSettings getUserSettingsByID(Long userID) {
+        Optional<User> user = userRepository.findById(userID);
+        if (user.isEmpty()) {
+            throw new IllegalStateException(String.format("No user with ID %s was found.", userID));
+        }
+        return user.get().getUserSettings();
+    }
 }
