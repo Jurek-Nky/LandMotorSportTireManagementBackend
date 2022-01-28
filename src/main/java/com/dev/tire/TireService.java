@@ -103,6 +103,7 @@ public class TireService {
                            String art,
                            Time erhalten_um,
                            String session,
+                           Optional<Integer> laufleistung,
                            Optional<Double> kaltdruck,
                            Optional<Integer> kaltdruckTemp,
                            Optional<Integer> kaltdruckTempMeasured,
@@ -132,6 +133,7 @@ public class TireService {
         if (session != null && session.length() > 0 && !tire.session.equals(session)) {
             tire.setSession(session);
         }
+        laufleistung.ifPresent(tire::setLaufleistung);
         kaltdruck.ifPresent(tire::setKaltdruck);
         kaltdruckTemp.ifPresent(tire::setKaltdruckTemp);
         kaltdruckTempMeasured.ifPresent(tire::setKaltdruckTempMeasured);

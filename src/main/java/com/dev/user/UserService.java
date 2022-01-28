@@ -40,11 +40,11 @@ public class UserService {
     public User changeUserRole(Long userId, String newRole) {
         Optional<Role> role = roleRepository.findRoleByRoleName(newRole);
         if (role.isEmpty()) {
-            throw new IllegalStateException(String.format("Role with name $s could not be found.", role));
+            throw new IllegalStateException(String.format("Role with name %s could not be found.", newRole));
         }
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) {
-            throw new IllegalStateException(String.format("No User with ID $s was found.", userId));
+            throw new IllegalStateException(String.format("No User with ID %s was found.", userId));
         }
         user.get().setRole(role.get());
         return user.get();

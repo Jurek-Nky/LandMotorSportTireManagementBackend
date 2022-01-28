@@ -56,6 +56,8 @@ public class Tire {
     String modification;
     @Column()
     String position;
+    @Column()
+    int laufleistung;
 
     public Tire() {
     }
@@ -65,6 +67,14 @@ public class Tire {
         this.art = art;
         this.modification = modification;
         this.position = position;
+    }
+
+    public int getLaufleistung() {
+        return laufleistung;
+    }
+
+    public void setLaufleistung(int laufleistung) {
+        this.laufleistung = laufleistung;
     }
 
     public int getKaltdruckTempMeasured() {
