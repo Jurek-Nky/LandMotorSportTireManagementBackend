@@ -14,7 +14,7 @@ public class Weather {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long wetterid;
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne()
     @JoinColumn(name = "raceID")
     @JsonIgnoreProperties({"tireProRace", "weather"})
     @JsonIgnore
