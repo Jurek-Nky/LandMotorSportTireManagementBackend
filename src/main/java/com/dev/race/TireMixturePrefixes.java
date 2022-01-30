@@ -13,7 +13,7 @@ public class TireMixturePrefixes {
     private Long id;
     @Column
     int Hot, Medium, Cold, Intermediate, Dry_wet, Heavy_wet;
-    @OneToOne(mappedBy = "prefixes", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "prefixes")
     @JoinColumn(name = "raceID")
     @JsonIgnore
     Race race;
