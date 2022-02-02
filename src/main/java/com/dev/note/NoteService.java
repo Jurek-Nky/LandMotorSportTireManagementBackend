@@ -1,7 +1,5 @@
 package com.dev.note;
 
-import com.dev.race.Race;
-import com.dev.race.RaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,13 +9,11 @@ import java.util.Optional;
 
 @Service
 public class NoteService {
-    private NoteRepository noteRepository;
-    private RaceRepository raceRepository;
+    private final NoteRepository noteRepository;
 
     @Autowired
-    NoteService(NoteRepository noteRepository, RaceRepository raceRepository) {
+    NoteService(NoteRepository noteRepository) {
         this.noteRepository = noteRepository;
-        this.raceRepository = raceRepository;
     }
 
     public List<Note> getNotes() {
@@ -46,12 +42,7 @@ public class NoteService {
     }
 
     public Note insertNewNote(Note noteDTO) {
-        Optional<Race> race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
-        if (race.isEmpty()) {
-            throw new IllegalStateException("No race found.");
-        }
         Note note = new Note(noteDTO.getMessage());
-        note.setRace(race.get());
         note.setDone(false);
         return noteRepository.save(note);
     }

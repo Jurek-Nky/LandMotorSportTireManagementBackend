@@ -15,22 +15,10 @@ public class Note {
     @Column(nullable = false)
     boolean done;
 
-    @ManyToOne
-    @JoinColumn(name = "race_race_id")
-    @JsonIgnore
-    private Race race;
-
     public Note() {
 
     }
 
-    public Race getRace() {
-        return race;
-    }
-
-    public void setRace(Race race) {
-        this.race = race;
-    }
 
     public Note(String message) {
         this.message = message;
