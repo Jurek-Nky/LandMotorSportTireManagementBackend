@@ -27,25 +27,6 @@ public class TireService {
         this.tireSetRepository = tireSetRepository;
     }
 
-    /*##########################################################################################################
-     *  methodes for GET requests
-     */
-    public List<com.dev.tire.Tire> getTires() {
-        List<Tire> tires = (List<Tire>) tireRepository.findAll();
-        if (tires.isEmpty()) {
-            throw new IllegalStateException("No tires were found.");
-        }
-        return tires;
-    }
-
-    public List<Tire> findTiresByBezeichnung(String bezeichnung) {
-        List<Tire> tires = tireRepository.findTiresByBezeichnung(bezeichnung);
-        if (tires.isEmpty()) {
-            throw new IllegalStateException(String.format("No tires were found with Bezeichnung: %s", bezeichnung));
-        }
-        return tires;
-    }
-
     public Optional<Tire> findTireById(Long tireID) {
         Optional<Tire> tire = tireRepository.findTireByTireID(tireID);
         if (tire.isEmpty()) {
@@ -53,46 +34,6 @@ public class TireService {
         }
         return tire;
     }
-
-    public Optional<Tire> findTireBySerialnumber(String serialnumber) {
-        Optional<Tire> tire = tireRepository.findTireBySerialNumber(serialnumber);
-        if (tire.isEmpty()) {
-            throw new IllegalStateException(String.format("No tires were found with Serialnumber: %s", serialnumber));
-        }
-        return tire;
-    }
-
-    public List<Tire> findTiresByTime(Time time) {
-        List<Tire> tires = tireRepository.findTiresByErhaltenUm(time);
-        if (tires.isEmpty()) {
-            throw new IllegalStateException(String.format("No tires were found with time: %s", time));
-        }
-        return tires;
-    }
-
-
-    /*##########################################################################################################
-     *  methodes for POST requests
-     */
-    public Tire addNewTire(Tire tire) {
-        return tireRepository.save(tire);
-    }
-
-
-    /*##########################################################################################################
-     *  methodes for DELETE requests
-     */
-    public void deleteTire(Long tireID) {
-        if (!tireRepository.existsById(tireID)) {
-            throw new IllegalStateException(String.format("tire with id %s does not exist.", tireID));
-        } else {
-            tireRepository.deleteById(tireID);
-        }
-    }
-
-    /*##########################################################################################################
-     *  methodes for PUT requests
-     */
 
     @Transactional
     // This methode checks every given argument for existence and equality to the tire field and replaces the tire field if necessary
@@ -153,7 +94,7 @@ public class TireService {
 
     @Transactional
     public Timestamp setOrderTimer(int minutes) {
-        Optional<Race> race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
+        Optional<Race> race = raceRepository.findBySelected(true);
         if (race.isEmpty()) {
             throw new IllegalStateException("No race was found.");
         }
@@ -163,7 +104,7 @@ public class TireService {
     }
 
     public String getOrderTimer() {
-        Optional<Race> race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
+        Optional<Race> race = raceRepository.findBySelected(true);
         if (race.isEmpty()) {
             throw new IllegalStateException("No race was found.");
         }

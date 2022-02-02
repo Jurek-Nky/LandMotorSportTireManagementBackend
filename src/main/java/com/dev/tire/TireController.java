@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -27,32 +26,6 @@ public class TireController {
         return tireService.findTireById(reifenId);
     }
 
-    @GetMapping("/bez")
-    @ApiOperation(value = "find tires by bezeichnung.")
-    public List<Tire> gettireByBez(@RequestParam(name = "bez") String reifenBezeichnung) {
-        return tireService.findTiresByBezeichnung(reifenBezeichnung);
-    }
-
-    @GetMapping("/serial")
-    @ApiOperation(value = "find tire by serialnumber")
-    public Optional<Tire> gettireBySerial(@RequestParam(name = "serial") String serialnumber) {
-        return tireService.findTireBySerialnumber(serialnumber);
-    }
-
-
-    @GetMapping("/all")
-    @ApiOperation(value = "returns all tires that are stored in the system.")
-    public List<Tire> getAlltires() {
-        return tireService.getTires();
-    }
-
-
-    @GetMapping("/time")
-    @ApiOperation(value = "find all tires by time of order.")
-    public List<Tire> getTiresByTime(@RequestParam(name = "time") Time time) {
-        return tireService.findTiresByTime(time);
-    }
-
     @GetMapping("/ordertimer")
     public String getOrderTimer() {
         return tireService.getOrderTimer();
@@ -61,12 +34,6 @@ public class TireController {
     @PostMapping("/ordertimer")
     public Timestamp setOrderTimer(@RequestParam(name = "time") int minutes) {
         return tireService.setOrderTimer(minutes);
-    }
-
-    @DeleteMapping(path = "/delete/{tireID}")
-    @ApiOperation(value = "delete tire by id.")
-    public void deletetire(@PathVariable("tireID") Long reifenId) {
-        tireService.deleteTire(reifenId);
     }
 
     @PutMapping("/update/{tireID}")

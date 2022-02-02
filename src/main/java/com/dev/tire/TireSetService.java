@@ -48,7 +48,7 @@ public class TireSetService {
             }
             case "benutzt" -> {
                 tireSet.get().setStatus(status);
-                for (Tire tire : tireSet.get().tires){
+                for (Tire tire : tireSet.get().tires) {
                     tire.setBenutztUm(Time.valueOf(LocalTime.now()));
                 }
             }
@@ -65,7 +65,11 @@ public class TireSetService {
     }
 
     public List<TireSet> getAllTireSets() {
-        List<TireSet> tireSets = (List<TireSet>) tireSetRepository.findAll();
+        Optional<Race> race = raceRepository.findBySelected(true);
+        if (race.isEmpty()) {
+            throw new IllegalStateException("no race available");
+        }
+        List<TireSet> tireSets = (List<TireSet>) tireSetRepository.findByRace_RaceID(race.get().getRaceID());
         if (tireSets.isEmpty()) {
             throw new IllegalStateException("No tireSets were found.");
         }
@@ -77,7 +81,7 @@ public class TireSetService {
         if (raceid != null) {
             race = raceRepository.findRaceByRaceID(raceid);
         } else {
-            race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
+            race = raceRepository.findBySelected(true);
         }
         if (race.isEmpty()) {
             throw new IllegalStateException("No Race available");
@@ -112,7 +116,7 @@ public class TireSetService {
 
     @Transactional
     public TireSet startHeating(Long tireSetID) {
-        Optional<TireSet> tireSet = tireSetRepository.findByTires_TireSet_ID(tireSetID);
+        Optional<TireSet> tireSet = tireSetRepository.findByID(tireSetID);
         if (tireSet.isEmpty()) {
             throw new IllegalStateException(String.format("No Tireset with ID %s was found.", tireSetID));
         }
@@ -124,7 +128,7 @@ public class TireSetService {
 
     @Transactional
     public TireSet stopHeating(Long tireSetID) {
-        Optional<TireSet> tireSet = tireSetRepository.findByTires_TireSet_ID(tireSetID);
+        Optional<TireSet> tireSet = tireSetRepository.findByID(tireSetID);
         if (tireSet.isEmpty()) {
             throw new IllegalStateException(String.format("No Tireset with ID %s was found.", tireSetID));
         }
@@ -136,7 +140,7 @@ public class TireSetService {
 
     @Transactional
     public void updateOrderTimer(Long tireSetID, Time orderTimer) {
-        Optional<TireSet> tireSet = tireSetRepository.findByTires_TireSet_ID(tireSetID);
+        Optional<TireSet> tireSet = tireSetRepository.findByID(tireSetID);
         if (tireSet.isEmpty()) {
             throw new IllegalStateException(String.format("TireSet with ID %s does not exist.", tireSetID));
         }
@@ -144,7 +148,7 @@ public class TireSetService {
     }
 
     public Time getOrderTimerByID(Long tireSetID) {
-        Optional<TireSet> tireSet = tireSetRepository.findByTires_TireSet_ID(tireSetID);
+        Optional<TireSet> tireSet = tireSetRepository.findByID(tireSetID);
         if (tireSet.isEmpty()) {
             throw new IllegalStateException(String.format("TireSet with ID %s does not exist.", tireSetID));
         }

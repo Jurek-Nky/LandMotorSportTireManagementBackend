@@ -13,11 +13,11 @@ import java.util.Optional;
 public interface TireRepository extends CrudRepository<Tire, Long> {
     // Repostitory automatically implements SQL-Querys for the following functions
 
-    List<Tire> findTiresByBezeichnung(String bezeichnung);
+    List<Tire> findTiresByBezeichnungAndTireSet_Race_SelectedIsTrue(String bezeichnung);
 
     Optional<Tire> findTireByTireID(Long tireID);
 
-    Optional<Tire> findTireBySerialNumber(String serialnumber);
+    Optional<Tire> findTireBySerialNumberAndTireSet_Race_SelectedIsTrue(String serialnumber);
 
-    List<Tire> findTiresByErhaltenUm(Time time);
+    List<Tire> findByErhaltenUmAndTireSet_Race_SelectedIsTrue(Time erhaltenUm);
 }
