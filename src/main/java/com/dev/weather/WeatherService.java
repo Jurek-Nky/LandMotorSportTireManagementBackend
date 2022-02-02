@@ -124,7 +124,7 @@ public class WeatherService {
     }
 
     public Timestamp getTimer() {
-        Optional<Weather> latest = weatherRepository.findFirstByOrderByTimeDesc();
+        Optional<Weather> latest = weatherRepository.findFirstByRace_SelectedIsTrueOrderByTimeDesc();
         if (latest.isEmpty()) {
             return null;
         }

@@ -14,7 +14,7 @@ public interface WeatherRepository extends CrudRepository<Weather, Long> {
 
     Optional<Weather> findWeatherByWetterid(Long weatherid);
 
-    Optional<Weather> findFirstByOrderByTimeDesc();
+    Optional<Weather> findFirstByRace_SelectedIsTrueOrderByTimeDesc();
 
     List<Weather> findByRace_RaceID(Long raceID);
 
