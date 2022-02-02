@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TireSetRepository extends CrudRepository<TireSet, Long> {
-    List<TireSet> findByStatus(String status);
+
+    List<TireSet> findByStatusAndRace_SelectedIsTrue(String status);
 
     Optional<TireSet> findByTires_TireSet_ID(Long ID);
 
