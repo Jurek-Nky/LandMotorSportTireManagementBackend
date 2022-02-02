@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,12 +54,12 @@ public class TireController {
     }
 
     @GetMapping("/ordertimer")
-    public Time getOrderTimer() {
+    public String getOrderTimer() {
         return tireService.getOrderTimer();
     }
 
     @PostMapping("/ordertimer")
-    public Time setOrderTimer(@RequestParam(name = "time") int minutes) {
+    public Timestamp setOrderTimer(@RequestParam(name = "time") int minutes) {
         return tireService.setOrderTimer(minutes);
     }
 

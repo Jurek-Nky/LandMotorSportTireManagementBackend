@@ -7,9 +7,8 @@ import com.dev.weather.Weather;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -60,7 +59,7 @@ public class Race {
 
     @Column()
     @JsonIgnore
-    Time orderReady;
+    Timestamp orderReady;
     @Column()
     int tireContingent;
 
@@ -84,8 +83,12 @@ public class Race {
         this.length = length;
     }
 
-    public Time getOrderReady() {
+    public Timestamp getOrderReady() {
         return orderReady;
+    }
+
+    public void setOrderReady(Timestamp orderReady) {
+        this.orderReady = orderReady;
     }
 
     public int getTireContingent() {
@@ -100,10 +103,6 @@ public class Race {
         tireContingent = tireContingent - 1;
     }
 
-    public void setOrderReady(Time orderReady) {
-        this.orderReady = orderReady;
-    }
-
     public String getName() {
         return name;
     }
@@ -116,12 +115,12 @@ public class Race {
         return raceID;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
     public LocalDate getDate() {
         return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public String getLocation() {
@@ -144,6 +143,10 @@ public class Race {
         return weather;
     }
 
+    public void setWeather(List<Weather> weather) {
+        this.weather = weather;
+    }
+
     public double[] getPressureVars() {
         return new double[]{pressureVar1, pressureVar2, pressureVar3, pressureVar4};
     }
@@ -162,9 +165,5 @@ public class Race {
 
     public void setPrefixes(TireMixturePrefixes prefixes) {
         this.prefixes = prefixes;
-    }
-
-    public void setWeather(List<Weather> weather) {
-        this.weather = weather;
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Time;
-import java.time.LocalTime;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -152,21 +152,22 @@ public class TireService {
     }
 
     @Transactional
-    public Time setOrderTimer(int minutes) {
+    public Timestamp setOrderTimer(int minutes) {
         Optional<Race> race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
         if (race.isEmpty()) {
             throw new IllegalStateException("No race was found.");
         }
-        race.get().setOrderReady(Time.valueOf(LocalTime.now().plusMinutes(minutes)));
+        Timestamp ts = new Timestamp(System.currentTimeMillis() + minutes * 60000L);
+        race.get().setOrderReady(ts);
         return race.get().getOrderReady();
     }
 
-    public Time getOrderTimer() {
+    public String getOrderTimer() {
         Optional<Race> race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
         if (race.isEmpty()) {
             throw new IllegalStateException("No race was found.");
         }
-        return race.get().getOrderReady();
+        return race.get().getOrderReady().toString();
     }
 
     @Transactional
