@@ -65,7 +65,22 @@ public class RaceService {
     public Race addNewRace(Race race) {
         race.setPressureVars(new double[]{0, 0, 0, 0});
         race.setPrefixes(new TireMixturePrefixes(1, 2, 3, 4, 5, 6));
+        if (raceRepository.count() <= 0) {
+            race.setSelected(true);
+        }
         return raceRepository.save(race);
+    }
+
+    @Transactional
+    public Race selectRace(Long raceid) {
+        Optional<Race> raceOld = raceRepository.findBySelected(true);
+
+        Optional<Race> raceNew = raceRepository.findRaceByRaceID(raceid);
+        if (raceNew.isEmpty()) {
+            throw new IllegalStateException("no race with this id available.");
+        } else raceOld.ifPresent(race -> race.setSelected(false));
+        raceNew.get().setSelected(true);
+        return raceNew.get();
     }
 
     @Transactional
@@ -117,7 +132,7 @@ public class RaceService {
                 throw new IllegalStateException(String.format("No race with ID %s was found", raceid));
             }
         } else {
-            race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
+            race = raceRepository.findBySelected(true);
             if (race.isEmpty()) {
                 throw new IllegalStateException("No race available.");
             }

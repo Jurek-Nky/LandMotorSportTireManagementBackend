@@ -9,9 +9,14 @@ import java.util.Optional;
 
 @Repository
 public interface RaceRepository extends CrudRepository<Race, Long> {
-    Optional<Race> findFirstByOrderByDateDescRaceIDDesc();
+    Optional<Race> findBySelected(boolean selected);
+
 
     Optional<Race> findRaceByRaceID(Long raceID);
 
     List<Race> findRacesByDate(LocalDate date);
+
+    long countByRaceIDIsNotNull();
+
+
 }

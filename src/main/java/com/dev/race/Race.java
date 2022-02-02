@@ -25,7 +25,8 @@ public class Race {
     String location;
     @Column()
     double length = 0;
-
+    @Column
+    boolean selected = false;
     @OneToMany(mappedBy = "race", cascade = CascadeType.ALL)
     @JsonIgnore
     List<Weather> weather;
@@ -38,10 +39,6 @@ public class Race {
     @OneToMany(mappedBy = "race", cascade = CascadeType.ALL)
     @JsonIgnore
     List<TireSet> tireSets;
-
-    @OneToMany(mappedBy = "race", cascade = CascadeType.ALL)
-    @JsonIgnore
-    List<Note> notes;
 
     @Column(nullable = false)
     @JsonIgnore
@@ -67,12 +64,16 @@ public class Race {
 
     }
 
-    public List<Note> getNotes() {
-        return notes;
+    public boolean isSelected() {
+        return selected;
     }
 
-    public void setNotes(List<Note> notes) {
-        this.notes = notes;
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public void setRaceID(Long raceID) {
+        this.raceID = raceID;
     }
 
     public double getLength() {

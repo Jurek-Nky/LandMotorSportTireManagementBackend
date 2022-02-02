@@ -95,4 +95,10 @@ public class RaceController {
         raceService.deleteRaceById(raceid);
     }
 
+    @PutMapping("/select/{id}")
+    public Race selectRaceById(@PathVariable(name = "id") Long raceid) {
+        return raceService.selectRace(raceid);
+    }
+
+
 }
