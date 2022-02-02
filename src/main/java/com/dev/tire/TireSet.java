@@ -7,40 +7,48 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "tiresets")
 public class TireSet {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long ID;
     @Column(nullable = false)
     String status;
     @Column()
     Time orderTimer;
     @ManyToOne
     @JoinColumn(name = "raceID")
+    @JsonIgnore
     Race race;
     @Column(nullable = false)
     int tireSetNr;
     @OneToMany(cascade = CascadeType.ALL)
     List<Tire> tires;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long ID;
 
     public TireSet() {
 
+    }
+
+    public TireSet(int tireSetNr) {
+        this.tireSetNr = tireSetNr;
     }
 
     public Race getRace() {
         return race;
     }
 
+    public void setRace(Race race) {
+        this.race = race;
+    }
+
     public List<Tire> getTires() {
         return tires;
     }
 
-    public TireSet(int tireSetNr) {
-        this.tireSetNr = tireSetNr;
+    public void setTires(List<Tire> tires) {
+        this.tires = tires;
     }
 
     public Long getID() {
@@ -51,20 +59,12 @@ public class TireSet {
         this.ID = ID;
     }
 
-    public void setRace(Race race) {
-        this.race = race;
-    }
-
     public int getTireSetNr() {
         return tireSetNr;
     }
 
     public void setTireSetNr(int tireSetNr) {
         this.tireSetNr = tireSetNr;
-    }
-
-    public void setTires(List<Tire> tires) {
-        this.tires = tires;
     }
 
     public String getStatus() {

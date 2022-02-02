@@ -1,7 +1,6 @@
 package com.dev.race;
 
 
-import com.dev.note.Note;
 import com.dev.tire.TireSet;
 import com.dev.weather.Weather;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,16 +27,13 @@ public class Race {
     @Column
     boolean selected = false;
     @OneToMany(mappedBy = "race", cascade = CascadeType.ALL)
-    @JsonIgnore
     List<Weather> weather;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn
     @JsonIgnore
     TireMixturePrefixes prefixes;
 
     @OneToMany(mappedBy = "race", cascade = CascadeType.ALL)
-    @JsonIgnore
     List<TireSet> tireSets;
 
     @Column(nullable = false)
@@ -70,10 +66,6 @@ public class Race {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
-    }
-
-    public void setRaceID(Long raceID) {
-        this.raceID = raceID;
     }
 
     public double getLength() {
@@ -114,6 +106,10 @@ public class Race {
 
     public Long getRaceID() {
         return raceID;
+    }
+
+    public void setRaceID(Long raceID) {
+        this.raceID = raceID;
     }
 
     public LocalDate getDate() {
