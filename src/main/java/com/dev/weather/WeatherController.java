@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -22,11 +23,6 @@ public class WeatherController {
     @GetMapping("/all")
     List<Weather> getAllWeather() {
         return weatherService.getAllWeather();
-    }
-
-    @GetMapping("/date")
-    List<Weather> getAllWeatherByDate(@RequestParam(name = "date") LocalDate date) {
-        return weatherService.getWeathersByDate(date);
     }
 
     @GetMapping("/time")
@@ -47,22 +43,16 @@ public class WeatherController {
     @GetMapping("/filter")
     List<Weather> getWeatherByParams(@RequestParam(name = "race", required = false) Long raceid,
                                      @RequestParam(name = "condition", required = false) String condition,
-                                     @RequestParam(name = "date", required = false) LocalDate date,
-                                     @RequestParam(name = "time", required = false) Time time,
+                                     @RequestParam(name = "time", required = false) Timestamp time,
                                      @RequestParam(name = "airtemp", required = false) Optional<Integer> airtemp,
                                      @RequestParam(name = "tracktemp", required = false) Optional<Integer> tracktemp) {
-        return weatherService.getWeathersByFilter(raceid, date, time, airtemp, tracktemp, condition);
+        return weatherService.getWeathersByFilter(raceid, time, airtemp, tracktemp, condition);
     }
 
-    @GetMapping("/timeperiod")
-    List<Weather> getWeathersByTimePeriod(@RequestParam(name = "start", required = true) Time t1,
-                                          @RequestParam(name = "stop", required = true) Time t2) {
-        return weatherService.getWeatherByTimePeriod(t1, t2);
-    }
 
     @GetMapping("/timer")
     @ApiOperation(value = "returns the time, when the latest  weather was recorded.")
-    Time getTimer(){
+    Timestamp getTimer(){
         return weatherService.getTimer();
     }
 
@@ -80,13 +70,12 @@ public class WeatherController {
 
     @PutMapping("/update/{id}")
     Weather updateWeather(@PathVariable("id") Long id,
-                          @RequestParam(name = "time") Time time,
-                          @RequestParam(name = "date") LocalDate date,
+                          @RequestParam(name = "time") Timestamp time,
                           @RequestParam(name = "raceid") Long raceid,
                           @RequestParam(name = "airtemp") Optional<Integer> airTemp,
                           @RequestParam(name = "tracktemp") Optional<Integer> trackTemp,
                           @RequestParam(name = "condition") String condition) {
-        return weatherService.updateWeatherById(id, raceid, date, time, airTemp, trackTemp, condition);
+        return weatherService.updateWeatherById(id, raceid, time, airTemp, trackTemp, condition);
     }
 
 }

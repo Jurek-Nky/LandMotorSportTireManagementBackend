@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 @Entity
@@ -20,9 +21,7 @@ public class Weather {
     @JsonIgnore
     Race race;
     @Column(nullable = false)
-    LocalDate date;
-    @Column(nullable = false)
-    Time time;
+    Timestamp time;
     @Column(nullable = false)
     int airtemperatur;
     @Column(nullable = false)
@@ -33,9 +32,8 @@ public class Weather {
     public Weather() {
     }
 
-    public Weather(Race race, LocalDate date, Time time, int airtemperatur, int tracktemperatur, String condition) {
+    public Weather(Race race, Timestamp time, int airtemperatur, int tracktemperatur, String condition) {
         this.race = race;
-        this.date = date;
         this.time = time;
         this.airtemperatur = airtemperatur;
         this.tracktemperatur = tracktemperatur;
@@ -58,19 +56,11 @@ public class Weather {
         this.race = race;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public Time getTime() {
+    public Timestamp getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(Timestamp time) {
         this.time = time;
     }
 

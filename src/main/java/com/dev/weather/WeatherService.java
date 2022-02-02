@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,14 +37,6 @@ public class WeatherService {
         return weather.get();
     }
 
-    public List<Weather> getWeathersByDate(LocalDate localDate) {
-        List<Weather> weathers = weatherRepository.findWeathersByDate(localDate);
-        if (weathers.isEmpty()) {
-            throw new IllegalStateException(String.format("No weathers with date %s were found.", localDate));
-        }
-        return weathers;
-    }
-
     public List<Weather> getWeathersByRace(Long raceid) {
         Optional<Race> race = raceRepository.findRaceByRaceID(raceid);
         if (race.isEmpty()) {
@@ -67,8 +57,8 @@ public class WeatherService {
         return weathers;
     }
 
-    public List<Weather> getWeathersByFilter(Long raceid, LocalDate date, Time time, Optional<Integer> airtemp, Optional<Integer> tracktemp, String cond) {
-        if (raceid == null && cond == null && date == null && time == null && airtemp.isEmpty() && tracktemp.isEmpty()) {
+    public List<Weather> getWeathersByFilter(Long raceid, Timestamp time, Optional<Integer> airtemp, Optional<Integer> tracktemp, String cond) {
+        if (raceid == null && cond == null && time == null && airtemp.isEmpty() && tracktemp.isEmpty()) {
             throw new IllegalStateException("No parameter specified");
         }
         List<Weather> weathers = (List<Weather>) weatherRepository.findAll();
@@ -76,9 +66,7 @@ public class WeatherService {
         if (raceid != null) {
             weathers.removeIf(weather -> weather.getRace().getRaceID() != raceid);
         }
-        if (date != null) {
-            weathers.removeIf(weather -> weather.getDate() != date);
-        }
+
         if (time != null) {
             weathers.removeIf(weather -> weather.getTime() != time);
         }
@@ -97,15 +85,7 @@ public class WeatherService {
             throw new IllegalStateException(String.format("No weather found with raceid: %s" +
                             ", date: %s, time: %s,airtemperature: %s" +
                             ",trackTemperature: %s and condition: %s.",
-                    raceid, date, time, airtemp, tracktemp, cond));
-        }
-        return weathers;
-    }
-
-    public List<Weather> getWeatherByTimePeriod(Time t1, Time t2) {
-        List<Weather> weathers = weatherRepository.findWeathersByTimeBetween(t1, t2);
-        if (weathers.isEmpty()) {
-            throw new IllegalStateException(String.format("No weathers between %s and %s were foudn.", t1, t2));
+                    raceid, time, airtemp, tracktemp, cond));
         }
         return weathers;
     }
@@ -123,13 +103,12 @@ public class WeatherService {
                 throw new IllegalStateException("No race is availiable.");
             }
         }
-        Weather weather = new Weather(race.get(),
-                LocalDate.now(),
-                Time.valueOf(LocalTime.now()),
-                weatherDto.getAirtemp(),
-                weatherDto.getTracktemp(),
-                weatherDto.getCond());
-
+        Weather weather = new Weather();
+        weather.setTime(new Timestamp(System.currentTimeMillis()));
+        weather.setWeatherConditions(weatherDto.getCond());
+        weather.setRace(race.get());
+        weather.setAirtemperatur(weatherDto.getAirtemp());
+        weather.setTracktemperatur(weatherDto.getTracktemp());
         return weatherRepository.save(weather);
     }
 
@@ -141,7 +120,7 @@ public class WeatherService {
     }
 
     @Transactional
-    public Weather updateWeatherById(Long weatherid, Long raceid, LocalDate localDate, Time time, Optional<Integer> airTemp, Optional<Integer> trackTemp, String condition) {
+    public Weather updateWeatherById(Long weatherid, Long raceid, Timestamp time, Optional<Integer> airTemp, Optional<Integer> trackTemp, String condition) {
         Optional<Weather> weather = weatherRepository.findWeatherByWetterid(weatherid);
         if (weather.isEmpty()) {
             throw new IllegalStateException(String.format("No weather with id %s was found.", weatherid));
@@ -152,9 +131,6 @@ public class WeatherService {
         }
         if (weather.get().getRace() != weather.get().getRace()) {
             weather.get().setRace(race.get());
-        }
-        if (localDate != null && localDate != weather.get().getDate()) {
-            weather.get().setDate(localDate);
         }
         if (time != null && time != weather.get().getTime()) {
             weather.get().setTime(time);
@@ -172,8 +148,8 @@ public class WeatherService {
         return weather.get();
     }
 
-    public Time getTimer() {
-        Optional<Weather> latest = weatherRepository.findFirstByOrderByDateDescTimeDesc();
+    public Timestamp getTimer() {
+        Optional<Weather> latest = weatherRepository.findFirstByOrderByTimeDesc();
         if (latest.isEmpty()) {
             return null;
         }
