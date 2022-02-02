@@ -4,9 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,19 +38,9 @@ public class WeatherController {
         return weatherService.getWeathersByRace(raceid);
     }
 
-    @GetMapping("/filter")
-    List<Weather> getWeatherByParams(@RequestParam(name = "race", required = false) Long raceid,
-                                     @RequestParam(name = "condition", required = false) String condition,
-                                     @RequestParam(name = "time", required = false) Timestamp time,
-                                     @RequestParam(name = "airtemp", required = false) Optional<Integer> airtemp,
-                                     @RequestParam(name = "tracktemp", required = false) Optional<Integer> tracktemp) {
-        return weatherService.getWeathersByFilter(raceid, time, airtemp, tracktemp, condition);
-    }
-
-
     @GetMapping("/timer")
     @ApiOperation(value = "returns the time, when the latest  weather was recorded.")
-    Timestamp getTimer(){
+    Timestamp getTimer() {
         return weatherService.getTimer();
     }
 

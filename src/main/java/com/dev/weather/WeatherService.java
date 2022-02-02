@@ -22,7 +22,11 @@ public class WeatherService {
     }
 
     public List<Weather> getAllWeather() {
-        List<Weather> weathers = (List<Weather>) weatherRepository.findAll();
+        Optional<Race> race = raceRepository.findBySelected(true);
+        if (race.isEmpty()) {
+            throw new IllegalStateException("no race selected");
+        }
+        List<Weather> weathers = weatherRepository.findByRace_RaceID(race.get().getRaceID());
         if (weathers.isEmpty()) {
             throw new IllegalStateException("No weathers were found.");
         }
@@ -42,7 +46,7 @@ public class WeatherService {
         if (race.isEmpty()) {
             throw new IllegalStateException(String.format("Race with raceid %s could not be found.", raceid));
         }
-        List<Weather> weathers = weatherRepository.findWeathersByRace_RaceID(raceid);
+        List<Weather> weathers = weatherRepository.findByRace_RaceID(raceid);
         if (weathers.isEmpty()) {
             throw new IllegalStateException(String.format("No Weathers were found with RaceId %s", raceid));
         }
@@ -50,42 +54,13 @@ public class WeatherService {
     }
 
     public List<Weather> getWeathersByCondition(String condition) {
-        List<Weather> weathers = weatherRepository.findWeathersByWeatherConditions(condition);
+        Optional<Race> race = raceRepository.findBySelected(true);
+        if (race.isEmpty()) {
+            throw new IllegalStateException("no race selected.");
+        }
+        List<Weather> weathers = weatherRepository.findByWeatherConditionsAndRace_SelectedIsTrue(condition);
         if (weathers.isEmpty()) {
             throw new IllegalStateException(String.format("No weather with condition %s was found.", condition));
-        }
-        return weathers;
-    }
-
-    public List<Weather> getWeathersByFilter(Long raceid, Timestamp time, Optional<Integer> airtemp, Optional<Integer> tracktemp, String cond) {
-        if (raceid == null && cond == null && time == null && airtemp.isEmpty() && tracktemp.isEmpty()) {
-            throw new IllegalStateException("No parameter specified");
-        }
-        List<Weather> weathers = (List<Weather>) weatherRepository.findAll();
-
-        if (raceid != null) {
-            weathers.removeIf(weather -> weather.getRace().getRaceID() != raceid);
-        }
-
-        if (time != null) {
-            weathers.removeIf(weather -> weather.getTime() != time);
-        }
-        if (airtemp.isPresent()) {
-            weathers.removeIf(weather -> weather.getAirtemperatur() != airtemp.get());
-        }
-        if (tracktemp.isPresent()) {
-            weathers.removeIf(weather -> weather.getTracktemperatur() != tracktemp.get());
-        }
-        if (cond != null && cond.length() > 0) {
-            weathers.removeIf(weather -> !weather.getWeatherConditions().equals(cond));
-        }
-
-
-        if (weathers.isEmpty()) {
-            throw new IllegalStateException(String.format("No weather found with raceid: %s" +
-                            ", date: %s, time: %s,airtemperature: %s" +
-                            ",trackTemperature: %s and condition: %s.",
-                    raceid, time, airtemp, tracktemp, cond));
         }
         return weathers;
     }
@@ -98,7 +73,7 @@ public class WeatherService {
                 throw new IllegalStateException(String.format("No race with id %s was found.", raceid));
             }
         } else {
-            race = raceRepository.findFirstByOrderByDateDescRaceIDDesc();
+            race = raceRepository.findBySelected(true);
             if (race.isEmpty()) {
                 throw new IllegalStateException("No race is availiable.");
             }
