@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -24,6 +25,11 @@ public class TireController {
     @ApiOperation(value = "find tire by id.")
     public Optional<Tire> gettireById(@RequestParam(name = "id") Long reifenId) {
         return tireService.findTireById(reifenId);
+    }
+
+    @GetMapping("/all")
+    public List<Tire> getAllTires() {
+        return tireService.getAllTires();
     }
 
     @GetMapping("/ordertimer")

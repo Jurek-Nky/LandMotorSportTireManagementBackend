@@ -119,5 +119,13 @@ public class TireService {
         }
         tire.get().setModification(mod);
     }
+
+    public List<Tire> getAllTires() {
+        List<Tire> tires = (List<Tire>) tireRepository.findAll();
+        if (tires.isEmpty()) {
+            throw new IllegalStateException("no tires found.");
+        }
+        return tires;
+    }
 }
 
